@@ -1,0 +1,1269 @@
+/* ==========================================
+   VARIÁVEIS GLOBAIS
+========================================== */
+
+:root {
+    /* Cores principais - Verde Musgo */
+    --cor-fundo: #2d3a1f;
+    --cor-fundo-escuro: #1f2a13;
+    --cor-destaque: #d4c98a;
+    --cor-verde-medio: #5a6e3a;
+    --cor-verde-profundo: #263700;
+
+    /* Cores do rodapé */
+    --cor-rodape-fundo: #1a2410;
+    --cor-rodape-texto: #c9d3b0;
+    --cor-rodape-texto-suave: #8a9670;
+
+    /* Cores do menu */
+    --cor-menu-fundo: #eef1e0;
+    --cor-menu-texto: #3d5220;
+    --cor-menu-texto-escuro: #2a3a15;
+    --cor-menu-hover-bg: #3d5220;
+    --cor-menu-hover-texto: #e8e4c0;
+    --cor-botao-menu: #1f2a13;
+    --cor-botao-menu-hover: #a8c47a;
+    --cor-icone-menu: #d4e0b8;
+
+    /* Fontes */
+    --fonte-principal: Georgia, "Times New Roman", serif;
+    --fonte-secundaria: Arial, Helvetica, sans-serif;
+
+    /* Transições */
+    --transicao-rapida: 0.2s ease;
+    --transicao-media: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ==========================================
+   RESET E CONFIGURAÇÕES GERAIS
+========================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+
+    background-color: var(--cor-verde-profundo);
+    color: #ffffff;
+
+    font-family: var(--fonte-principal);
+    line-height: 1.4;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style-position: inside;
+}
+
+:focus-visible {
+    outline: 3px solid var(--cor-destaque);
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   SEÇÃO 1
+   DESCARTE CORRETO (HERO)
+========================================== */
+
+.hero {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    position: relative;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.30),
+            rgba(0, 0, 0, 0.30)
+        ),
+        url("img/compostagem.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: #ffffff;
+}
+
+
+/* Frase superior */
+
+.frase {
+    position: absolute;
+
+    top: 36px;
+    left: 18%;
+
+    font-family: var(--fonte-secundaria);
+    font-size: 25px;
+    font-style: italic;
+    line-height: 1.35;
+}
+
+
+/* Botão */
+
+.botao-dicas {
+    position: absolute;
+
+    top: 38px;
+    right: 18%;
+
+    width: 195px;
+    height: 40px;
+
+    border: 2px solid #ffffff;
+    border-radius: 25px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: #ffffff;
+
+    font-family: var(--fonte-secundaria);
+    font-size: 25px;
+
+    transition: background-color var(--transicao-media);
+}
+
+.botao-dicas:hover,
+.botao-dicas:focus-visible {
+    background-color: rgba(255, 255, 255, 0.20);
+}
+
+
+/* Título principal */
+
+.hero h1 {
+    position: absolute;
+
+    top: 39%;
+    left: 50%;
+
+    transform: translate(-50%, -50%);
+
+    width: 100%;
+
+    text-align: center;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(70px, 8vw, 140px);
+    font-weight: 400;
+    letter-spacing: -5px;
+
+    text-shadow: 0 2px 20px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Texto inferior */
+
+.texto-hero {
+    position: absolute;
+
+    left: 50%;
+    bottom: 42px;
+
+    transform: translateX(-50%);
+
+    width: 55%;
+
+    text-align: center;
+
+    font-family: var(--fonte-principal);
+    font-size: 20px;
+    line-height: 1.4;
+
+    color: #ffffff;
+}
+
+
+/* ==========================================
+   SEÇÃO 2
+   COLETA SELETIVA
+========================================== */
+
+.coleta {
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image:
+        linear-gradient(
+            rgba(20, 45, 5, 0.55),
+            rgba(20, 45, 5, 0.55)
+        ),
+        url("img/compostagem.png");
+
+    background-size: cover;
+    background-position: center;
+
+    color: #ffffff;
+
+    padding: 70px 0;
+}
+
+
+/* Conteúdo da seção */
+
+.coleta-conteudo {
+    width: 71%;
+    min-height: 80vh;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+}
+
+.coleta-texto {
+    padding-left: 5%;
+}
+
+
+/* Número */
+
+.numero {
+    display: block;
+
+    font-family: var(--fonte-secundaria);
+    font-size: 64px;
+    font-weight: 500;
+    line-height: 1;
+
+    margin-bottom: 28px;
+
+    color: var(--cor-destaque);
+}
+
+
+/* Título */
+
+.coleta-texto h2 {
+    margin-bottom: 20px;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(50px, 5vw, 72px);
+    font-weight: 400;
+    line-height: 1.05;
+}
+
+
+/* Parágrafo */
+
+.coleta-texto p {
+    max-width: 650px;
+    margin-bottom: 30px;
+
+    font-family: var(--fonte-principal);
+    font-size: clamp(20px, 1.5vw, 25px);
+    line-height: 1.4;
+
+    text-align: justify;
+    hyphens: auto;
+}
+
+
+/* Lista */
+
+.coleta-texto ul {
+    padding-left: 40px;
+}
+
+.coleta-texto li {
+    margin-bottom: 8px;
+
+    font-family: var(--fonte-principal);
+    font-size: clamp(19px, 1.4vw, 24px);
+    line-height: 1.4;
+}
+
+
+/* Imagem */
+
+.coleta-imagem {
+    width: 100%;
+}
+
+.coleta-imagem img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   SEÇÃO 3
+   ECOPONTOS
+========================================== */
+
+.ecopontos {
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url("img/folhas2.png");
+    background-size: cover;
+    background-position: center;
+
+    color: #ffffff;
+
+    padding: 55px 0;
+}
+
+
+/* Retângulo verde da composição */
+
+.ecopontos::before {
+    content: "";
+
+    position: absolute;
+
+    top: 7.5%;
+    left: 16.4%;
+
+    width: 66%;
+    height: 84%;
+
+    background-color: var(--cor-verde-profundo);
+
+    z-index: 1;
+}
+
+
+/* Conteúdo */
+
+.ecopontos-conteudo {
+    position: relative;
+    z-index: 2;
+
+    width: 61%;
+    min-height: 78vh;
+
+    display: grid;
+    grid-template-columns: 0.92fr 1.08fr;
+    align-items: center;
+    gap: 60px;
+}
+
+
+/* Texto dos Ecopontos */
+
+.ecopontos-texto {
+    font-family: var(--fonte-principal);
+}
+
+.ecopontos-numero {
+    font-family: var(--fonte-secundaria);
+    font-size: 64px;
+
+    margin-bottom: 27px;
+
+    color: var(--cor-destaque);
+}
+
+.ecopontos-texto h2 {
+    margin-bottom: 18px;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(47px, 4vw, 63px);
+    font-weight: 400;
+    line-height: 1;
+}
+
+.ecopontos-texto p {
+    margin-bottom: 2px;
+
+    font-size: 19px;
+    line-height: 1.35;
+
+    text-align: justify;
+    hyphens: auto;
+}
+
+.ecopontos-texto .titulo-menor {
+    margin-top: 0;
+    font-weight: bold;
+    color: var(--cor-destaque);
+}
+
+.ecopontos-texto ul {
+    margin: 0 0 3px 30px;
+    padding: 0;
+}
+
+.ecopontos-texto li {
+    margin-bottom: 2px;
+
+    font-size: 19px;
+    line-height: 1.3;
+}
+
+.ecopontos-texto strong {
+    font-weight: bold;
+    color: var(--cor-destaque);
+}
+
+
+/* Imagem Ecoponto */
+
+.ecopontos-imagem {
+    width: 100%;
+}
+
+.ecopontos-imagem img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   SEÇÃO 4
+   MÓVEIS, ENTULHOS E RESÍDUOS VOLUMOSOS
+========================================== */
+
+.volumosos {
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+    overflow: hidden;
+
+    background-color: var(--cor-verde-profundo);
+    color: #ffffff;
+
+    padding: 35px 0 0;
+}
+
+
+/* Conteúdo central */
+
+.volumosos-conteudo {
+    width: 71%;
+    min-height: 100vh;
+
+    margin: 0 auto;
+
+    position: relative;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+/* Número */
+
+.volumosos-numero {
+    font-family: var(--fonte-secundaria);
+    font-size: 62px;
+    line-height: 1;
+
+    margin-bottom: 25px;
+
+    color: var(--cor-destaque);
+}
+
+
+/* Título */
+
+.volumosos h2 {
+    width: 100%;
+    margin: 0 0 20px;
+
+    text-align: center;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(42px, 4vw, 62px);
+    font-weight: 400;
+    line-height: 1.05;
+
+    white-space: nowrap;
+}
+
+
+/* Textos */
+
+.volumosos-textos {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 70px;
+
+    margin-bottom: 50px;
+}
+
+.volumosos-coluna {
+    font-family: var(--fonte-principal);
+    font-size: 21px;
+    line-height: 1.35;
+}
+
+.volumosos-coluna p {
+    margin-bottom: 1px;
+}
+
+.volumosos-coluna strong {
+    font-weight: bold;
+    color: var(--cor-destaque);
+}
+
+.volumosos-coluna ul {
+    margin-top: 0;
+    padding-left: 40px;
+}
+
+.volumosos-coluna li {
+    margin-bottom: 0;
+}
+
+
+/* Imagens */
+
+.volumosos-imagens {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 22px;
+
+    margin-top: auto;
+}
+
+.volumosos-imagens img {
+    width: 100%;
+    height: 330px;
+
+    object-fit: cover;
+    display: block;
+
+    border-radius: 4px;
+}
+
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+
+.rodape {
+    width: 100%;
+
+    background-color: var(--cor-rodape-fundo);
+    color: var(--cor-destaque);
+
+    padding: 70px 8% 30px;
+
+    border-top: 3px solid var(--cor-verde-medio);
+
+    font-family: var(--fonte-principal);
+}
+
+.rodape-conteudo {
+    display: grid;
+
+    grid-template-columns: 1.4fr 1fr 1.3fr 1fr;
+    gap: 6%;
+
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.rodape-coluna {
+    display: flex;
+    flex-direction: column;
+}
+
+.rodape-logo {
+    font-size: clamp(28px, 2.2vw, 42px);
+    font-weight: bold;
+    color: var(--cor-destaque);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.rodape-slogan {
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1.5;
+    color: var(--cor-rodape-texto);
+    font-style: italic;
+    text-align: justify;
+    hyphens: auto;
+}
+
+.rodape-titulo {
+    font-size: clamp(15px, 1.15vw, 19px);
+    font-weight: bold;
+    color: var(--cor-destaque);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.rodape-titulo::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--cor-verde-medio);
+}
+
+.rodape-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rodape-links a {
+    display: inline-block;
+
+    color: var(--cor-rodape-texto);
+    font-size: clamp(14px, 1.05vw, 17px);
+
+    transition: color var(--transicao-rapida),
+                padding-left var(--transicao-rapida);
+}
+
+.rodape-links a::before {
+    content: "→";
+    display: inline-block;
+    margin-right: 6px;
+    color: var(--cor-verde-medio);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all var(--transicao-rapida);
+}
+
+.rodape-links a:hover,
+.rodape-links a:focus-visible {
+    color: var(--cor-destaque);
+    padding-left: 6px;
+}
+
+.rodape-links a:hover::before,
+.rodape-links a:focus-visible::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.rodape-texto {
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1.6;
+    color: var(--cor-rodape-texto);
+    text-align: justify;
+    hyphens: auto;
+}
+
+.rodape-divisor {
+    width: 100%;
+    max-width: 1400px;
+    height: 1px;
+
+    margin: 50px auto 25px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--cor-verde-medio),
+        transparent
+    );
+}
+
+.rodape-base {
+    max-width: 1400px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+.rodape-copyright,
+.rodape-creditos {
+    font-size: clamp(12px, 0.95vw, 15px);
+    color: var(--cor-rodape-texto-suave);
+    text-align: center;
+}
+
+.rodape-copyright time {
+    color: var(--cor-destaque);
+    font-weight: bold;
+}
+
+.rodape-creditos strong {
+    color: var(--cor-destaque);
+    font-weight: bold;
+}
+
+
+/* ==========================================
+   MENU LATERAL (SIDEBAR)
+========================================== */
+
+.sidebar-checkbox {
+    display: none;
+}
+
+.open-sidebar-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+
+    height: 45px;
+    width: 45px;
+
+    background-color: var(--cor-botao-menu);
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 10;
+
+    transition: background-color var(--transicao-rapida);
+}
+
+.open-sidebar-button:hover {
+    background-color: var(--cor-botao-menu-hover);
+}
+
+.burger-line {
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background-color: var(--cor-icone-menu);
+    position: relative;
+}
+
+.burger-line::before,
+.burger-line::after {
+    content: "";
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background-color: var(--cor-icone-menu);
+
+    position: absolute;
+    transition: var(--transicao-rapida);
+}
+
+.burger-line::before { top: -7px; }
+.burger-line::after  { top:  7px; }
+
+
+/* Menu lateral */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+
+    width: 300px;
+    height: 100vh;
+    height: 100svh;
+
+    background-color: var(--cor-menu-fundo);
+    z-index: 100;
+
+    transition: transform var(--transicao-media);
+    box-shadow: 10px 0 30px rgba(30, 50, 15, 0.25);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px;
+    border-bottom: 1px solid #a8b380;
+}
+
+.sidebar-header .logo {
+    color: var(--cor-menu-texto);
+    font-size: 20px;
+    font-weight: bold;
+    width: auto;
+    margin: 0;
+}
+
+.close-sidebar-button {
+    color: var(--cor-menu-texto-escuro);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color var(--transicao-rapida);
+    line-height: 1;
+}
+
+.close-sidebar-button:hover {
+    color: #1a2410;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar-links a {
+    display: block;
+    padding: 15px 25px;
+
+    color: var(--cor-menu-texto);
+
+    font-size: 16px;
+    transition: all var(--transicao-rapida);
+}
+
+.sidebar-links a:hover,
+.sidebar-links a:focus-visible {
+    background-color: var(--cor-menu-hover-bg);
+    color: var(--cor-menu-hover-texto);
+    padding-left: 35px;
+}
+
+#sidebar-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(20, 35, 10, 0.55);
+    z-index: 99;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transicao-media);
+}
+
+.sidebar-checkbox:checked ~ .sidebar {
+    transform: translateX(300px);
+}
+
+.sidebar-checkbox:checked ~ #sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - 1400px
+========================================== */
+
+@media (max-width: 1400px) {
+
+    .frase {
+        left: 12%;
+    }
+
+    .botao-dicas {
+        right: 12%;
+    }
+
+    .texto-hero {
+        width: 70%;
+    }
+
+    .coleta-conteudo {
+        width: 80%;
+    }
+
+    .ecopontos-conteudo {
+        width: 64%;
+    }
+
+    .ecopontos::before {
+        left: 13%;
+        width: 74%;
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - 1200px (VOLUMOSOS)
+========================================== */
+
+@media (max-width: 1200px) {
+
+    .volumosos-conteudo {
+        width: 82%;
+    }
+
+    .volumosos h2 {
+        font-size: 45px;
+    }
+
+    .volumosos-coluna {
+        font-size: 18px;
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - 1000px
+========================================== */
+
+@media (max-width: 1000px) {
+
+    .hero {
+        min-height: 800px;
+    }
+
+    .frase {
+        left: 7%;
+        top: 28px;
+        font-size: 20px;
+    }
+
+    .botao-dicas {
+        right: 7%;
+        top: 28px;
+        width: 150px;
+        font-size: 20px;
+    }
+
+    .hero h1 {
+        font-size: 80px;
+    }
+
+    .texto-hero {
+        width: 85%;
+        font-size: 18px;
+    }
+
+
+    /* Coleta */
+
+    .coleta-conteudo {
+        width: 85%;
+        grid-template-columns: 1fr;
+        gap: 45px;
+    }
+
+    .coleta-texto {
+        padding-left: 0;
+    }
+
+
+    /* Ecopontos */
+
+    .ecopontos {
+        padding: 80px 0;
+    }
+
+    .ecopontos::before {
+        top: 5%;
+        left: 5%;
+        width: 90%;
+        height: 90%;
+    }
+
+    .ecopontos-conteudo {
+        width: 82%;
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .ecopontos-imagem {
+        order: -1;
+    }
+
+
+    /* Rodapé */
+
+    .rodape {
+        padding: 50px 6% 25px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 8%;
+    }
+
+    .rodape-marca {
+        grid-column: 1 / 3;
+        text-align: center;
+    }
+
+    .rodape-slogan {
+        text-align: center;
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - 850px (VOLUMOSOS)
+========================================== */
+
+@media (max-width: 850px) {
+
+    .volumosos {
+        padding: 45px 0 0;
+    }
+
+    .volumosos-conteudo {
+        width: 86%;
+    }
+
+    .volumosos-numero {
+        font-size: 50px;
+    }
+
+    .volumosos h2 {
+        white-space: normal;
+        font-size: 40px;
+    }
+
+    .volumosos-textos {
+        grid-template-columns: 1fr;
+        gap: 25px;
+        margin-bottom: 35px;
+    }
+
+    .volumosos-imagens {
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+    }
+
+    .volumosos-imagens img {
+        height: 240px;
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - 600px
+========================================== */
+
+@media (max-width: 600px) {
+
+    /* Hero */
+
+    .hero {
+        min-height: 750px;
+    }
+
+    .frase {
+        top: 22px;
+        left: 6%;
+        font-size: 15px;
+    }
+
+    .botao-dicas {
+        top: 22px;
+        right: 6%;
+
+        width: 110px;
+        height: 34px;
+
+        font-size: 17px;
+    }
+
+    .hero h1 {
+        font-size: 48px;
+        letter-spacing: -2px;
+    }
+
+    .texto-hero {
+        width: 88%;
+        bottom: 25px;
+        font-size: 15px;
+    }
+
+
+    /* Coleta */
+
+    .coleta-conteudo {
+        width: 88%;
+    }
+
+    .numero,
+    .ecopontos-numero {
+        font-size: 48px;
+    }
+
+    .coleta-texto h2,
+    .ecopontos-texto h2 {
+        font-size: 42px;
+    }
+
+    .coleta-texto p,
+    .coleta-texto li {
+        font-size: 17px;
+    }
+
+
+    /* Ecopontos */
+
+    .ecopontos::before {
+        top: 3%;
+        left: 3%;
+        width: 94%;
+        height: 94%;
+    }
+
+    .ecopontos-conteudo {
+        width: 84%;
+    }
+
+    .ecopontos-texto p,
+    .ecopontos-texto li {
+        font-size: 16px;
+    }
+
+    .ecopontos-texto ul {
+        margin-left: 24px;
+    }
+
+
+    /* Rodapé */
+
+    .rodape {
+        padding: 40px 7% 20px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .rodape-marca {
+        grid-column: auto;
+    }
+
+    .rodape-titulo {
+        text-align: center;
+    }
+
+    .rodape-titulo::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .rodape-links {
+        align-items: center;
+    }
+
+    .rodape-texto {
+        text-align: center;
+    }
+
+    .rodape-base {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .rodape-divisor {
+        margin: 35px auto 20px;
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE - 550px (VOLUMOSOS)
+========================================== */
+
+@media (max-width: 550px) {
+
+    .volumosos-conteudo {
+        width: 88%;
+    }
+
+    .volumosos-numero {
+        font-size: 42px;
+        margin-bottom: 18px;
+    }
+
+    .volumosos h2 {
+        font-size: 31px;
+    }
+
+    .volumosos-coluna {
+        font-size: 16px;
+    }
+
+    .volumosos-coluna ul {
+        padding-left: 25px;
+    }
+
+    .volumosos-imagens {
+        grid-template-columns: 1fr;
+    }
+
+    .volumosos-imagens img {
+        height: 220px;
+    }
+}
+
+
+/* ==========================================
+   PREFERÊNCIAS DO USUÁRIO
+========================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

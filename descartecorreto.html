@@ -1,0 +1,1560 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Descarte correto: aprenda a separar resíduos, encontrar Ecopontos em Lages e destinar corretamente móveis, entulhos e materiais volumosos.">
+    <meta name="author" content="Larissa Silva, Brenda Peixer">
+    <meta name="theme-color" content="#2d3a1f">
+
+    <title>Descarte Correto | Econexa</title>
+
+    <link rel="icon" type="image/png" href="img/Titulo.png">
+
+    <style>
+/* ==========================================
+   VARIÁVEIS GLOBAIS
+========================================== */
+:root {
+    --cor-fundo: #2d3a1f;
+    --cor-fundo-escuro: #1f2a13;
+    --cor-destaque: #d4c98a;
+    --cor-verde-medio: #5a6e3a;
+    --cor-verde-profundo: #263700;
+
+    --cor-rodape-fundo: #1a2410;
+    --cor-rodape-texto: #c9d3b0;
+    --cor-rodape-texto-suave: #8a9670;
+
+    --cor-menu-fundo: #eef1e0;
+    --cor-menu-texto: #3d5220;
+    --cor-menu-texto-escuro: #2a3a15;
+    --cor-menu-hover-bg: #3d5220;
+    --cor-menu-hover-texto: #e8e4c0;
+    --cor-botao-menu: #1f2a13;
+    --cor-botao-menu-hover: #a8c47a;
+    --cor-icone-menu: #d4e0b8;
+
+    --fonte-principal: Georgia, "Times New Roman", serif;
+    --fonte-secundaria: Arial, Helvetica, sans-serif;
+
+    --transicao-rapida: 0.2s ease;
+    --transicao-media: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ==========================================
+   RESET E CONFIGURAÇÕES GERAIS
+========================================== */
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    overflow-x: hidden;
+
+    background-color: var(--cor-verde-profundo);
+    color: #ffffff;
+
+    font-family: var(--fonte-principal);
+    line-height: 1.6;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+}
+
+ul, ol {
+    list-style-position: inside;
+}
+
+:focus-visible {
+    outline: 3px solid var(--cor-destaque);
+    outline-offset: 3px;
+}
+
+
+/* ==========================================
+   HERO — DESCARTE CORRETO
+========================================== */
+.hero {
+    width: 100%;
+    min-height: 100vh;
+    min-height: 100svh;
+
+    position: relative;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 0, 0, 0.45),
+            rgba(0, 0, 0, 0.55)
+        ),
+        url("img/folhas2.png");
+
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+
+    color: #ffffff;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    padding: 120px 8%;
+}
+
+
+/* Frase superior */
+
+.frase {
+    position: absolute;
+
+    top: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 90%;
+    max-width: 800px;
+
+    text-align: center;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(16px, 1.6vw, 24px);
+    font-style: italic;
+    line-height: 1.4;
+
+    color: #f0f5e0;
+
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.6);
+}
+
+
+/* Botão */
+
+.botao-dicas {
+    position: absolute;
+
+    top: 42px;
+    right: 6%;
+
+    padding: 12px 32px;
+
+    border: 2px solid #ffffff;
+    border-radius: 30px;
+
+    color: #ffffff;
+
+    font-family: var(--fonte-secundaria);
+    font-size: 18px;
+    font-weight: 600;
+    letter-spacing: 1px;
+
+    background-color: rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(6px);
+
+    transition: all var(--transicao-media);
+}
+
+.botao-dicas:hover,
+.botao-dicas:focus-visible {
+    background-color: rgba(255, 255, 255, 0.25);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Título principal */
+
+.hero h1 {
+    text-align: center;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(50px, 7vw, 120px);
+    font-weight: 400;
+    letter-spacing: -3px;
+    line-height: 1;
+
+    margin-bottom: 30px;
+
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.6);
+}
+
+
+/* Texto inferior */
+
+.texto-hero {
+    width: 100%;
+    max-width: 850px;
+
+    text-align: center;
+
+    font-family: var(--fonte-principal);
+    font-size: clamp(16px, 1.3vw, 20px);
+    line-height: 1.7;
+
+    color: #f0f5e0;
+
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+}
+
+
+/* ==========================================
+   SEÇÃO — COLETA SELETIVA
+========================================== */
+.coleta {
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image:
+        linear-gradient(
+            rgba(20, 45, 5, 0.75),
+            rgba(20, 45, 5, 0.85)
+        ),
+        url("img/folhas3.png");
+
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+
+    color: #ffffff;
+
+    padding: 80px 0;
+}
+
+
+/* Conteúdo da seção */
+
+.coleta-conteudo {
+    width: 80%;
+    max-width: 1200px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 70px;
+}
+
+.coleta-texto {
+    text-align: center;
+}
+
+
+/* Número */
+
+.numero {
+    display: block;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(48px, 4vw, 64px);
+    font-weight: 300;
+    line-height: 1;
+
+    margin-bottom: 20px;
+
+    color: var(--cor-destaque);
+
+    letter-spacing: 2px;
+}
+
+
+/* Título */
+
+.coleta-texto h2 {
+    margin-bottom: 24px;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(38px, 4vw, 58px);
+    font-weight: 400;
+    line-height: 1.1;
+
+    letter-spacing: 1px;
+}
+
+
+/* Parágrafo */
+
+.coleta-texto p {
+    margin: 0 auto 30px;
+
+    max-width: 550px;
+
+    font-family: var(--fonte-principal);
+    font-size: clamp(16px, 1.3vw, 20px);
+    line-height: 1.7;
+
+    text-align: center;
+
+    color: #e8eedd;
+}
+
+
+/* Lista */
+
+.coleta-texto ul {
+    list-style: none;
+    padding: 0;
+
+    max-width: 550px;
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.coleta-texto li {
+    padding: 16px 20px;
+
+    background-color: rgba(0, 0, 0, 0.25);
+    border-left: 3px solid var(--cor-destaque);
+    border-radius: 6px;
+
+    font-family: var(--fonte-principal);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.6;
+
+    text-align: left;
+
+    backdrop-filter: blur(6px);
+
+    transition: all var(--transicao-rapida);
+}
+
+.coleta-texto li:hover {
+    background-color: rgba(0, 0, 0, 0.35);
+    transform: translateX(4px);
+}
+
+.coleta-texto li strong {
+    color: var(--cor-destaque);
+}
+
+
+/* Imagem */
+
+.coleta-imagem {
+    width: 100%;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+
+    transition: transform var(--transicao-media);
+}
+
+.coleta-imagem:hover {
+    transform: scale(1.02);
+}
+
+.coleta-imagem img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   SEÇÃO — ECOPONTOS
+========================================== */
+.ecopontos {
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-image: url("img/folhas2.png");
+    background-size: cover;
+    background-position: center;
+
+    color: #ffffff;
+
+    padding: 80px 0;
+}
+
+
+/* Retângulo verde da composição */
+
+.ecopontos::before {
+    content: "";
+
+    position: absolute;
+
+    top: 8%;
+    left: 50%;
+    transform: translateX(-50%);
+
+    width: 72%;
+    max-width: 1200px;
+    height: 84%;
+
+    background-color: rgba(31, 42, 19, 0.92);
+
+    z-index: 1;
+
+    border-radius: 16px;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+
+/* Conteúdo */
+
+.ecopontos-conteudo {
+    position: relative;
+    z-index: 2;
+
+    width: 80%;
+    max-width: 1100px;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+
+    padding: 60px 40px;
+}
+
+
+/* Texto dos Ecopontos */
+
+.ecopontos-texto {
+    text-align: center;
+
+    font-family: var(--fonte-principal);
+}
+
+.ecopontos-numero {
+    display: block;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(48px, 4vw, 64px);
+    font-weight: 300;
+    line-height: 1;
+
+    margin-bottom: 20px;
+
+    color: var(--cor-destaque);
+
+    letter-spacing: 2px;
+}
+
+.ecopontos-texto h2 {
+    margin-bottom: 26px;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(34px, 3.6vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: 3px;
+}
+
+.ecopontos-texto p {
+    margin: 0 auto 16px;
+
+    max-width: 480px;
+
+    font-size: clamp(15px, 1.15vw, 18px);
+    line-height: 1.65;
+
+    text-align: center;
+
+    color: #e8eedd;
+}
+
+.ecopontos-texto .titulo-menor {
+    margin-top: 22px;
+    margin-bottom: 10px;
+
+    font-family: var(--fonte-secundaria);
+    font-weight: bold;
+    font-size: clamp(16px, 1.2vw, 19px);
+    letter-spacing: 1px;
+
+    color: var(--cor-destaque);
+
+    text-transform: uppercase;
+}
+
+.ecopontos-texto ul {
+    list-style: none;
+    padding: 0;
+
+    max-width: 480px;
+    margin: 0 auto 8px;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ecopontos-texto li {
+    padding: 6px 0;
+
+    font-size: clamp(15px, 1.15vw, 18px);
+    line-height: 1.5;
+
+    color: #e8eedd;
+}
+
+.ecopontos-texto strong {
+    font-weight: bold;
+    color: var(--cor-destaque);
+}
+
+
+/* Imagem Ecoponto */
+
+.ecopontos-imagem {
+    width: 100%;
+
+    border-radius: 12px;
+    overflow: hidden;
+
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+}
+
+.ecopontos-imagem img {
+    display: block;
+    width: 100%;
+    height: auto;
+    object-fit: cover;
+}
+
+
+/* ==========================================
+   SEÇÃO — MÓVEIS E VOLUMOSOS
+========================================== */
+.volumosos {
+    width: 100%;
+    min-height: 100vh;
+
+    position: relative;
+    overflow: hidden;
+
+    background-color: var(--cor-verde-profundo);
+    color: #ffffff;
+
+    padding: 80px 0;
+}
+
+
+/* Conteúdo central */
+
+.volumosos-conteudo {
+    width: 80%;
+    max-width: 1200px;
+
+    margin: 0 auto;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    text-align: center;
+}
+
+
+/* Número */
+
+.volumosos-numero {
+    display: block;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(48px, 4vw, 64px);
+    font-weight: 300;
+    line-height: 1;
+
+    margin-bottom: 20px;
+
+    color: var(--cor-destaque);
+
+    letter-spacing: 2px;
+}
+
+
+/* Título */
+
+.volumosos h2 {
+    width: 100%;
+    margin: 0 auto 40px;
+
+    text-align: center;
+
+    font-family: var(--fonte-secundaria);
+    font-size: clamp(28px, 3.6vw, 52px);
+    font-weight: 400;
+    line-height: 1.15;
+
+    letter-spacing: 2px;
+}
+
+
+/* Textos */
+
+.volumosos-textos {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 50px;
+
+    margin-bottom: 60px;
+
+    text-align: center;
+}
+
+.volumosos-coluna {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    font-family: var(--fonte-principal);
+    font-size: clamp(15px, 1.2vw, 18px);
+    line-height: 1.7;
+
+    color: #e8eedd;
+}
+
+.volumosos-coluna p {
+    margin-bottom: 12px;
+
+    max-width: 420px;
+}
+
+.volumosos-coluna strong {
+    font-weight: bold;
+    color: var(--cor-destaque);
+}
+
+.volumosos-coluna ul {
+    list-style: none;
+    padding: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+
+    margin-top: 8px;
+}
+
+.volumosos-coluna li {
+    padding: 4px 0;
+
+    font-size: clamp(14px, 1.1vw, 17px);
+
+    color: #e8eedd;
+}
+
+
+/* Imagens */
+
+.volumosos-imagens {
+    width: 100%;
+
+    display: grid;
+    grid-template-columns: 1.55fr 1fr;
+    gap: 22px;
+}
+
+.volumosos-imagens img {
+    width: 100%;
+    height: 340px;
+
+    object-fit: cover;
+    display: block;
+
+    border-radius: 12px;
+
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.4);
+
+    transition: transform var(--transicao-media);
+}
+
+.volumosos-imagens img:hover {
+    transform: scale(1.02);
+}
+
+
+/* ==========================================
+   RODAPÉ
+========================================== */
+.rodape {
+    width: 100%;
+
+    background-color: var(--cor-rodape-fundo);
+    color: var(--cor-destaque);
+
+    padding: 70px 8% 30px;
+
+    border-top: 3px solid var(--cor-verde-medio);
+
+    font-family: var(--fonte-principal);
+}
+
+.rodape-conteudo {
+    display: grid;
+
+    grid-template-columns: 1.4fr 1fr 1.3fr 1fr;
+    gap: 6%;
+
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.rodape-coluna {
+    display: flex;
+    flex-direction: column;
+}
+
+.rodape-logo {
+    font-size: clamp(28px, 2.2vw, 42px);
+    font-weight: bold;
+    color: var(--cor-destaque);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.rodape-slogan {
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1.5;
+    color: var(--cor-rodape-texto);
+    font-style: italic;
+    text-align: justify;
+    hyphens: auto;
+}
+
+.rodape-titulo {
+    font-size: clamp(15px, 1.15vw, 19px);
+    font-weight: bold;
+    color: var(--cor-destaque);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.rodape-titulo::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--cor-verde-medio);
+}
+
+.rodape-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rodape-links a {
+    display: inline-block;
+
+    color: var(--cor-rodape-texto);
+    font-size: clamp(14px, 1.05vw, 17px);
+
+    transition: color var(--transicao-rapida),
+                padding-left var(--transicao-rapida);
+}
+
+.rodape-links a::before {
+    content: "→";
+    display: inline-block;
+    margin-right: 6px;
+    color: var(--cor-verde-medio);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all var(--transicao-rapida);
+}
+
+.rodape-links a:hover,
+.rodape-links a:focus-visible {
+    color: var(--cor-destaque);
+    padding-left: 6px;
+}
+
+.rodape-links a:hover::before,
+.rodape-links a:focus-visible::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.rodape-texto {
+    font-size: clamp(14px, 1.05vw, 17px);
+    line-height: 1.6;
+    color: var(--cor-rodape-texto);
+    text-align: justify;
+    hyphens: auto;
+}
+
+.rodape-divisor {
+    width: 100%;
+    max-width: 1400px;
+    height: 1px;
+
+    margin: 50px auto 25px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--cor-verde-medio),
+        transparent
+    );
+}
+
+.rodape-base {
+    max-width: 1400px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+.rodape-copyright,
+.rodape-creditos {
+    font-size: clamp(12px, 0.95vw, 15px);
+    color: var(--cor-rodape-texto-suave);
+    text-align: center;
+}
+
+.rodape-copyright time {
+    color: var(--cor-destaque);
+    font-weight: bold;
+}
+
+.rodape-creditos strong {
+    color: var(--cor-destaque);
+    font-weight: bold;
+}
+
+
+/* ==========================================
+   MENU LATERAL
+========================================== */
+.sidebar-checkbox {
+    display: none;
+}
+
+.open-sidebar-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+
+    height: 45px;
+    width: 45px;
+
+    background-color: var(--cor-botao-menu);
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 10;
+
+    transition: background-color var(--transicao-rapida);
+}
+
+.open-sidebar-button:hover {
+    background-color: var(--cor-botao-menu-hover);
+}
+
+.burger-line {
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background-color: var(--cor-icone-menu);
+    position: relative;
+}
+
+.burger-line::before,
+.burger-line::after {
+    content: "";
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background-color: var(--cor-icone-menu);
+
+    position: absolute;
+    transition: var(--transicao-rapida);
+}
+
+.burger-line::before { top: -7px; }
+.burger-line::after  { top:  7px; }
+
+
+/* Menu lateral */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+
+    width: 300px;
+    height: 100vh;
+    height: 100svh;
+
+    background-color: var(--cor-menu-fundo);
+    z-index: 100;
+
+    transition: transform var(--transicao-media);
+    box-shadow: 10px 0 30px rgba(30, 50, 15, 0.25);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px;
+    border-bottom: 1px solid #a8b380;
+}
+
+.sidebar-header .logo {
+    color: var(--cor-menu-texto);
+    font-size: 20px;
+    font-weight: bold;
+    width: auto;
+    margin: 0;
+}
+
+.close-sidebar-button {
+    color: var(--cor-menu-texto-escuro);
+    font-size: 24px;
+    cursor: pointer;
+    transition: color var(--transicao-rapida);
+    line-height: 1;
+}
+
+.close-sidebar-button:hover {
+    color: #1a2410;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar-links a {
+    display: block;
+    padding: 15px 25px;
+
+    color: var(--cor-menu-texto);
+
+    font-size: 16px;
+    transition: all var(--transicao-rapida);
+}
+
+.sidebar-links a:hover,
+.sidebar-links a:focus-visible {
+    background-color: var(--cor-menu-hover-bg);
+    color: var(--cor-menu-hover-texto);
+    padding-left: 35px;
+}
+
+#sidebar-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(20, 35, 10, 0.55);
+    z-index: 99;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transicao-media);
+}
+
+.sidebar-checkbox:checked ~ .sidebar {
+    transform: translateX(300px);
+}
+
+.sidebar-checkbox:checked ~ #sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE — 1000px
+========================================== */
+@media (max-width: 1000px) {
+
+    .hero {
+        min-height: 800px;
+        padding: 100px 6% 60px;
+    }
+
+    .frase {
+        font-size: 18px;
+        top: 90px;
+    }
+
+    .botao-dicas {
+        top: 30px;
+        right: 6%;
+        padding: 10px 24px;
+        font-size: 16px;
+    }
+
+    .coleta-conteudo,
+    .ecopontos-conteudo {
+        grid-template-columns: 1fr;
+        gap: 50px;
+        width: 88%;
+    }
+
+    .ecopontos::before {
+        width: 90%;
+        height: 92%;
+        top: 4%;
+    }
+
+    .ecopontos-imagem,
+    .coleta-imagem {
+        order: -1;
+    }
+
+    .volumosos-textos {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .rodape {
+        padding: 50px 6% 25px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 8%;
+    }
+
+    .rodape-marca {
+        grid-column: 1 / 3;
+        text-align: center;
+    }
+
+    .rodape-slogan {
+        text-align: center;
+    }
+}
+
+
+/* ==========================================
+   RESPONSIVIDADE — 700px
+========================================== */
+@media (max-width: 700px) {
+
+    .hero {
+        min-height: 750px;
+        padding: 90px 6% 60px;
+    }
+
+    .frase {
+        top: 80px;
+        font-size: 15px;
+        padding: 0 10px;
+    }
+
+    .botao-dicas {
+        top: 22px;
+        padding: 8px 20px;
+        font-size: 14px;
+    }
+
+    .hero h1 {
+        font-size: 42px;
+        letter-spacing: -2px;
+    }
+
+    .texto-hero {
+        font-size: 15px;
+    }
+
+    .coleta-conteudo,
+    .ecopontos-conteudo {
+        width: 90%;
+        padding: 40px 20px;
+    }
+
+    .numero,
+    .ecopontos-numero,
+    .volumosos-numero {
+        font-size: 40px;
+    }
+
+    .coleta-texto h2,
+    .ecopontos-texto h2,
+    .volumosos h2 {
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+    .coleta-texto p,
+    .coleta-texto li,
+    .ecopontos-texto p,
+    .ecopontos-texto li,
+    .volumosos-coluna,
+    .volumosos-coluna li {
+        font-size: 14.5px;
+    }
+
+    .volumosos-imagens {
+        grid-template-columns: 1fr;
+        gap: 14px;
+    }
+
+    .volumosos-imagens img {
+        height: 220px;
+    }
+
+    .rodape {
+        padding: 45px 7% 22px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .rodape-marca {
+        grid-column: auto;
+    }
+
+    .rodape-titulo {
+        text-align: center;
+    }
+
+    .rodape-titulo::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .rodape-links {
+        align-items: center;
+    }
+
+    .rodape-texto {
+        text-align: center;
+    }
+
+    .rodape-base {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .rodape-divisor {
+        margin: 35px auto 20px;
+    }
+}
+
+
+/* ==========================================
+   PREFERÊNCIAS DO USUÁRIO
+========================================== */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+    </style>
+</head>
+
+<body>
+
+    <!-- ==========================================
+         MENU LATERAL
+    =========================================== -->
+
+    <input
+        type="checkbox"
+        id="sidebar-active"
+        class="sidebar-checkbox"
+        aria-hidden="true"
+    >
+
+    <label
+        for="sidebar-active"
+        class="open-sidebar-button"
+        aria-label="Abrir menu de navegação"
+    >
+        <span class="burger-line" aria-hidden="true"></span>
+    </label>
+
+    <label
+        for="sidebar-active"
+        id="sidebar-overlay"
+        aria-hidden="true"
+    ></label>
+
+    <nav class="sidebar" aria-label="Menu principal">
+        <div class="sidebar-header">
+            <span class="logo">Econexa</span>
+            <label
+                for="sidebar-active"
+                class="close-sidebar-button"
+                aria-label="Fechar menu"
+            >✕</label>
+        </div>
+
+        <ul class="sidebar-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="compostagem.html">Compostagem</a></li>
+            <li><a href="descarte.html" aria-current="page">Descarte Correto</a></li>
+            <li><a href="ia.html">IA</a></li>
+            <li><a href="tamar.html">Projeto Tamar</a></li>
+            <li><a href="contato.html">Contato</a></li>
+        </ul>
+    </nav>
+
+
+    <main>
+
+        <!-- ==========================================
+             SEÇÃO 1 — HERO
+        =========================================== -->
+        <section class="hero" aria-labelledby="titulo-descarte">
+
+            <p class="frase">
+                "O descarte consciente hoje garante um<br>
+                futuro mais sustentável"
+            </p>
+
+            <a href="#dicas" class="botao-dicas">
+                Dicas
+            </a>
+
+            <h1 id="titulo-descarte">
+                Descarte correto
+            </h1>
+
+            <p class="texto-hero">
+                Separar cada resíduo e destiná-lo ao lugar certo é um gesto simples
+                que transforma o futuro. O descarte correto evita a contaminação
+                do meio ambiente, protege a saúde de todos e devolve à natureza
+                o que pode ser reaproveitado.
+            </p>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             SEÇÃO 2 — COLETA SELETIVA
+        =========================================== -->
+        <section class="coleta" aria-labelledby="titulo-coleta">
+
+            <div class="coleta-conteudo">
+
+                <div class="coleta-texto">
+
+                    <span class="numero" aria-hidden="true">01</span>
+
+                    <h2 id="titulo-coleta">
+                        Coleta Seletiva
+                    </h2>
+
+                    <p>
+                        Em Lages, o descarte correto acontece por meio de
+                        contentores específicos e dos Ecopontos administrados
+                        pela Semasa, espalhados por toda a cidade.
+                    </p>
+
+                    <ul>
+                        <li>
+                            <strong>Contentores Azuis</strong> —
+                            recicláveis limpos, como papel, plástico e caixas de leite.
+                        </li>
+
+                        <li>
+                            <strong>Contentores Pretos</strong> —
+                            rejeitos orgânicos e materiais não recicláveis,
+                            como fraldas, papel higiênico e isopor sujo.
+                        </li>
+                    </ul>
+
+                </div>
+
+                <div class="coleta-imagem">
+                    <img
+                        src="img/reciclagem2.png"
+                        alt="Contentores azul e preto para coleta seletiva"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             SEÇÃO 3 — ECOPONTOS
+        =========================================== -->
+        <section class="ecopontos" aria-labelledby="titulo-ecopontos">
+
+            <div class="ecopontos-conteudo">
+
+                <div class="ecopontos-texto">
+
+                    <span class="numero ecopontos-numero" aria-hidden="true">02</span>
+
+                    <h2 id="titulo-ecopontos">
+                        Ecopontos
+                    </h2>
+
+                    <p>
+                        Lages conta com <strong>8 Ecopontos</strong> distribuídos
+                        pela cidade para o descarte voluntário de materiais recicláveis.
+                    </p>
+
+                    <p class="titulo-menor">
+                        Materiais aceitos
+                    </p>
+
+                    <ul>
+                        <li>Vidro</li>
+                        <li>Metal</li>
+                        <li>Papelão</li>
+                    </ul>
+
+                    <p>
+                        <strong>Importante:</strong>
+                        não descarte lixo orgânico nos Ecopontos.
+                    </p>
+
+                    <p class="titulo-menor">
+                        Materiais cortantes
+                    </p>
+
+                    <p>
+                        Objetos cortantes devem ser embalados em caixas
+                        de papelão ou jornal antes do descarte, garantindo
+                        a segurança dos coletores.
+                    </p>
+
+                    <p class="titulo-menor">
+                        Alguns locais
+                    </p>
+
+                    <ul>
+                        <li>Bairro Popular (em frente à Semasa)</li>
+                        <li>Bairro Guarujá</li>
+                        <li>Bairro Coral</li>
+                        <li>Bairro Araucária</li>
+                    </ul>
+
+                </div>
+
+                <div class="ecopontos-imagem">
+                    <img
+                        src="img/reciclagem3.png"
+                        alt="Ecoponto para descarte de materiais recicláveis"
+                    >
+                </div>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- ==========================================
+             SEÇÃO 4 — MÓVEIS E VOLUMOSOS
+        =========================================== -->
+        <section class="volumosos" aria-labelledby="titulo-volumosos">
+
+            <div class="volumosos-conteudo">
+
+                <span class="volumosos-numero" aria-hidden="true">03</span>
+
+                <h2 id="titulo-volumosos">
+                    Móveis, Entulhos e Resíduos Volumosos
+                </h2>
+
+                <div class="volumosos-textos">
+
+                    <div class="volumosos-coluna">
+
+                        <p>
+                            Normalmente, o contentor fica no estacionamento do
+                            Terminal Rodoviário Dom Honorato Piazera, podendo
+                            ser transferido para outros bairros.
+                        </p>
+
+                        <p>
+                            <strong>Coleta Gratuita</strong>
+                        </p>
+
+                        <p>
+                            A Semasa também realiza a coleta de materiais
+                            volumosos diretamente nas residências.
+                        </p>
+
+                        <ul>
+                            <li>Dias: quartas e quintas-feiras.</li>
+                        </ul>
+
+                    </div>
+
+                    <div class="volumosos-coluna">
+
+                        <p>
+                            Existe um contentor de grande porte para descarte
+                            gratuito de:
+                        </p>
+
+                        <ul>
+                            <li>Sofás</li>
+                            <li>Colchões</li>
+                            <li>Restos de madeira</li>
+                            <li>Outros materiais volumosos</li>
+                        </ul>
+
+                    </div>
+
+                </div>
+
+                <div class="volumosos-imagens">
+
+                    <img
+                        src="img/folhas2.png"
+                        alt="Folhagem verde em plano de fundo"
+                    >
+
+                    <img
+                        src="img/folhas3.png"
+                        alt="Folhas grandes vistas de perto"
+                    >
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+
+    <!-- ==========================================
+         RODAPÉ
+    =========================================== -->
+    <footer class="rodape">
+
+        <div class="rodape-conteudo">
+
+            <div class="rodape-coluna rodape-marca">
+                <h2 class="rodape-logo">Econexa</h2>
+                <p class="rodape-slogan">
+                    Pequenas atitudes fazem grandes mudanças.
+                    Recicle hoje e cuide do futuro do planeta.
+                </p>
+            </div>
+
+            <nav class="rodape-coluna" aria-label="Links do rodapé">
+                <h3 class="rodape-titulo">Navegação</h3>
+                <ul class="rodape-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="compostagem.html">Compostagem</a></li>
+                    <li><a href="descarte.html">Descarte Correto</a></li>
+                    <li><a href="ia.html">IA</a></li>
+                    <li><a href="tamar.html">Projeto Tamar</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+
+            <div class="rodape-coluna">
+                <h3 class="rodape-titulo">O Projeto</h3>
+                <p class="rodape-texto">
+                    Plataforma criada para incentivar a sustentabilidade
+                    e conectar pessoas, empresas e instituições em ações
+                    ambientais.
+                </p>
+            </div>
+
+            <div class="rodape-coluna">
+                <h3 class="rodape-titulo">Instituição</h3>
+                <p class="rodape-texto">
+                    E.E.B. Godolfin Nunes de Souza<br>
+                    2ª série 02
+                </p>
+            </div>
+
+        </div>
+
+        <div class="rodape-divisor" aria-hidden="true"></div>
+
+        <div class="rodape-base">
+            <p class="rodape-copyright">
+                &copy; <time datetime="2026">2026</time> Econexa — Todos os direitos reservados.
+            </p>
+
+            <p class="rodape-creditos">
+                Desenvolvido por <strong>Larissa Silva</strong> e <strong>Brenda Peixer</strong>
+            </p>
+        </div>
+
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,1516 @@
+/* ========================================
+   VARIÁVEIS GLOBAIS
+======================================== */
+
+:root {
+    /* Cores principais - Oceano profundo */
+    --cor-fundo: #04121c;
+    --cor-oceano: #055a9e;
+    --cor-azul-medio: #0f3a63;
+    --cor-azul-barra-1: rgba(20, 100, 190, 0.90);
+    --cor-azul-barra-2: rgba(40, 65, 140, 0.90);
+    --cor-caixa-azul: rgba(15, 55, 100, 0.85);
+    --cor-caixa-azul-2: rgba(8, 45, 85, 0.80);
+    --cor-escurecimento: rgba(0, 12, 22, 0.78);
+
+    /* Cores do rodapé - Verde musgo */
+    --cor-destaque: #d4c98a;
+    --cor-rodape-fundo: #1a2410;
+    --cor-rodape-texto: #c9d3b0;
+    --cor-rodape-texto-suave: #8a9670;
+    --cor-verde-medio: #5a6e3a;
+
+    /* Cores do menu */
+    --cor-menu-fundo: #eef1e0;
+    --cor-menu-texto: #3d5220;
+    --cor-menu-texto-escuro: #2a3a15;
+    --cor-menu-hover-bg: #3d5220;
+    --cor-menu-hover-texto: #e8e4c0;
+    --cor-botao-menu: #1f2a13;
+    --cor-botao-menu-hover: #a8c47a;
+    --cor-icone-menu: #d4e0b8;
+
+    /* Fontes */
+    --fonte-principal: Arial, Helvetica, sans-serif;
+
+    /* Transições */
+    --transicao-rapida: 0.2s ease;
+    --transicao-media: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+
+/* ========================================
+   RESET E CONFIGURAÇÕES GERAIS
+======================================== */
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    width: 100%;
+    min-height: 100%;
+
+    font-family: var(--fonte-principal);
+    background-color: var(--cor-fundo);
+
+    overflow-x: hidden;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+    height: auto;
+}
+
+a {
+    color: inherit;
+}
+
+:focus-visible {
+    outline: 3px solid var(--cor-destaque);
+    outline-offset: 3px;
+}
+
+
+/* ========================================
+   PRIMEIRA PÁGINA — CAPA
+======================================== */
+
+.pagina {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+    height: 100svh;
+
+    min-height: 600px;
+
+    overflow: hidden;
+
+    background-color: var(--cor-oceano);
+}
+
+.fundo {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    z-index: 1;
+}
+
+
+/* Barra superior */
+
+.barra {
+    position: absolute;
+
+    top: 4.5%;
+    left: 0;
+
+    width: 100%;
+    height: 11%;
+    min-height: 75px;
+
+    z-index: 5;
+
+    background: linear-gradient(
+        90deg,
+        var(--cor-azul-barra-1),
+        var(--cor-azul-barra-2)
+    );
+
+    display: flex;
+    align-items: center;
+}
+
+
+/* Nome Projeto Tamar */
+
+.nome-projeto {
+    position: absolute;
+
+    left: 15%;
+
+    color: #ffffff;
+
+    font-size: 17px;
+    font-weight: bold;
+    line-height: 1.05;
+}
+
+
+/* Título da primeira página */
+
+.titulo {
+    position: absolute;
+
+    z-index: 4;
+
+    right: 18%;
+    top: 23%;
+
+    width: 45%;
+
+    color: #ffffff;
+    text-align: center;
+}
+
+.titulo h1 {
+    font-size: clamp(30px, 3vw, 55px);
+    font-weight: 300;
+    line-height: 1;
+
+    margin-bottom: 8px;
+}
+
+.titulo h2 {
+    font-size: clamp(50px, 5.5vw, 95px);
+    font-weight: 800;
+    line-height: 0.9;
+    letter-spacing: -3px;
+}
+
+
+/* Tartaruga da primeira página */
+
+.tartaruga {
+    position: absolute;
+
+    z-index: 3;
+
+    width: 23%;
+    max-width: 430px;
+    min-width: 220px;
+    height: auto;
+
+    right: 18%;
+    top: 43%;
+
+    transform: translateY(-50%);
+}
+
+
+/* ==================================================
+   SEGUNDA PÁGINA — IMPORTÂNCIA DAS TARTARUGAS
+================================================== */
+
+.importancia {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+    min-height: 700px;
+
+    overflow: hidden;
+
+    background-color: var(--cor-fundo);
+}
+
+.fundo-importancia {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    z-index: 1;
+}
+
+.escuro {
+    position: absolute;
+    inset: 0;
+
+    z-index: 2;
+
+    background-color: var(--cor-escurecimento);
+}
+
+.conteudo-importancia {
+    position: relative;
+    z-index: 3;
+
+    width: 100%;
+    height: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+/* Título */
+
+.titulo-importancia {
+    position: absolute;
+
+    left: 5%;
+    top: 7%;
+
+    width: 48%;
+}
+
+.titulo-importancia h2 {
+    color: #ffffff;
+
+    font-size: clamp(34px, 3.2vw, 56px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 1px;
+
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+
+/* Imagem da tartaruga 2 */
+
+.imagem-importancia {
+    position: absolute;
+
+    left: 4.5%;
+    bottom: 5%;
+
+    width: 42%;
+    height: 35%;
+
+    overflow: hidden;
+
+    border-radius: 4px;
+}
+
+.imagem-importancia img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    display: block;
+}
+
+
+/* Caixa de texto */
+
+.texto-importancia {
+    position: absolute;
+
+    right: 8%;
+    top: 13%;
+
+    width: 31%;
+    min-height: 67%;
+
+    padding: 38px 45px;
+
+    background-color: var(--cor-caixa-azul);
+    color: #ffffff;
+
+    font-size: clamp(15px, 1.15vw, 21px);
+    line-height: 1.2;
+
+    border-radius: 4px;
+}
+
+.texto-importancia p {
+    margin-bottom: 8px;
+    text-align: left;
+}
+
+
+/* ==================================================
+   TERCEIRA PÁGINA — O PROBLEMA DO LIXO
+================================================== */
+
+.problema {
+    position: relative;
+
+    width: 100%;
+    height: 100vh;
+    min-height: 700px;
+
+    overflow: hidden;
+
+    background-color: var(--cor-fundo);
+}
+
+.fundo-problema {
+    position: absolute;
+    inset: 0;
+
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+    object-position: center;
+
+    z-index: 1;
+}
+
+.escuro-problema {
+    position: absolute;
+    inset: 0;
+
+    z-index: 2;
+
+    background-color: var(--cor-escurecimento);
+}
+
+.conteudo-problema {
+    position: relative;
+    z-index: 3;
+
+    width: 100%;
+    height: 100%;
+    max-width: 1500px;
+
+    margin: 0 auto;
+}
+
+
+/* Título + texto */
+
+.texto-problema {
+    position: absolute;
+
+    left: 5%;
+    top: 9%;
+
+    width: 29%;
+}
+
+.texto-problema h2 {
+    color: #ffffff;
+
+    font-size: clamp(34px, 3.3vw, 56px);
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 2px;
+
+    margin-bottom: 20px;
+
+    text-shadow: 2px 3px 5px rgba(0, 0, 0, 0.4);
+}
+
+.texto-problema p {
+    color: #ffffff;
+
+    font-size: clamp(15px, 1.2vw, 21px);
+    line-height: 1.2;
+    font-weight: 400;
+}
+
+
+/* Galeria */
+
+.galeria-lixo {
+    position: absolute;
+
+    top: 29%;
+    right: 7%;
+
+    width: 48%;
+
+    display: flex;
+    gap: 22px;
+    align-items: flex-start;
+}
+
+.galeria-lixo img {
+    width: calc((100% - 44px) / 3);
+    aspect-ratio: 1 / 1;
+
+    object-fit: cover;
+    display: block;
+
+    border-radius: 4px;
+}
+
+
+/* ==================================================
+   SEÇÃO — COMO PODEMOS AJUDAR
+================================================== */
+
+.ajudar {
+    width: 100%;
+    min-height: 690px;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 12, 22, 0.78),
+            rgba(0, 12, 22, 0.78)
+        ),
+        url("img/Tamar1.png");
+
+    background-size: cover;
+    background-position: center;
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+}
+
+.ajudar-conteudo {
+    width: 70%;
+    margin: 0 auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    gap: 55px;
+}
+
+
+/* Imagens */
+
+.ajudar-imagens {
+    width: 48%;
+
+    display: flex;
+    gap: 15px;
+}
+
+.ajudar-imagens img {
+    width: 50%;
+    height: 435px;
+
+    object-fit: cover;
+    display: block;
+
+    border-radius: 4px;
+}
+
+
+/* Texto */
+
+.ajudar-texto {
+    width: 48%;
+}
+
+.ajudar-texto h2 {
+    margin: 0 0 20px 0;
+
+    font-family: var(--fonte-principal);
+    font-size: 44px;
+    line-height: 1.05;
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+.ajudar-texto p {
+    margin: 0 0 5px 0;
+
+    font-size: 19px;
+    line-height: 1.35;
+
+    color: #ffffff;
+}
+
+.ajudar-texto ul {
+    margin-top: 5px;
+    padding-left: 38px;
+
+    font-size: 18px;
+    line-height: 1.3;
+
+    color: #ffffff;
+}
+
+.ajudar-texto li {
+    margin-bottom: 3px;
+}
+
+
+/* ==================================================
+   SEÇÃO — PROJETO TAMAR
+================================================== */
+
+.projeto-tamar {
+    width: 100%;
+    min-height: 750px;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 12, 22, 0.78),
+            rgba(0, 12, 22, 0.78)
+        ),
+        url("img/Tamar1.png");
+
+    background-size: cover;
+    background-position: center;
+
+    color: #ffffff;
+
+    padding: 50px 0;
+}
+
+
+/* Três imagens */
+
+.tamar-imagens {
+    width: 64%;
+    margin: 0 auto 28px auto;
+
+    display: flex;
+    gap: 13px;
+}
+
+.tamar-imagens img {
+    width: 33.333%;
+    height: 285px;
+
+    object-fit: cover;
+    display: block;
+
+    border-radius: 4px;
+}
+
+
+/* Área inferior */
+
+.tamar-conteudo {
+    width: 64%;
+    min-height: 220px;
+
+    margin: 0 auto;
+
+    display: flex;
+
+    background: var(--cor-caixa-azul-2);
+
+    border-radius: 4px;
+}
+
+
+/* Título */
+
+.tamar-titulo {
+    width: 45%;
+
+    display: flex;
+    align-items: center;
+
+    padding-left: 48px;
+}
+
+.tamar-titulo h2 {
+    margin: 0;
+
+    font-size: 48px;
+    line-height: 1.15;
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+
+/* Texto */
+
+.tamar-texto {
+    width: 55%;
+
+    display: flex;
+    align-items: center;
+
+    padding: 25px 45px 25px 10px;
+}
+
+.tamar-texto p {
+    margin: 0;
+
+    font-size: 18px;
+    line-height: 1.3;
+
+    color: #ffffff;
+}
+
+.tamar-texto a {
+    color: #ffffff;
+
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    transition: opacity var(--transicao-rapida);
+}
+
+.tamar-texto a:hover,
+.tamar-texto a:focus-visible {
+    opacity: 0.8;
+}
+
+
+/* ==================================================
+   SEÇÃO — LOCALIZAÇÃO
+================================================== */
+
+.localizacao {
+    width: 100%;
+    min-height: 660px;
+
+    background-image:
+        linear-gradient(
+            rgba(0, 12, 22, 0.78),
+            rgba(0, 12, 22, 0.78)
+        ),
+        url("img/Tamar1.png");
+
+    background-size: cover;
+    background-position: center;
+
+    color: #ffffff;
+
+    display: flex;
+    align-items: center;
+}
+
+.localizacao-conteudo {
+    width: 64%;
+    min-height: 550px;
+
+    margin: 0 auto;
+
+    display: flex;
+    align-items: stretch;
+
+    background: var(--cor-caixa-azul-2);
+
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+
+/* Mapa */
+
+.localizacao-imagem {
+    width: 50%;
+}
+
+.localizacao-imagem img {
+    width: 100%;
+    height: 100%;
+
+    display: block;
+    object-fit: cover;
+}
+
+
+/* Texto */
+
+.localizacao-texto {
+    width: 50%;
+
+    padding: 55px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.localizacao-texto h2 {
+    margin: 0 0 25px 0;
+
+    font-size: 38px;
+    line-height: 1.05;
+    font-weight: 800;
+
+    color: #ffffff;
+}
+
+.localizacao-texto p {
+    margin: 0;
+
+    font-size: 17px;
+    line-height: 1.4;
+
+    color: #ffffff;
+}
+
+
+/* ==================================================
+   RODAPÉ
+================================================== */
+
+.rodape {
+    width: 100%;
+
+    background-color: var(--cor-rodape-fundo);
+    color: var(--cor-destaque);
+
+    padding: 70px 8% 30px;
+
+    border-top: 3px solid var(--cor-verde-medio);
+
+    font-family: var(--fonte-principal);
+}
+
+.rodape-conteudo {
+    display: grid;
+
+    grid-template-columns: 1.4fr 1fr 1.3fr 1fr;
+    gap: 6%;
+
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.rodape-coluna {
+    display: flex;
+    flex-direction: column;
+}
+
+.rodape-logo {
+    font-size: clamp(24px, 1.9vw, 36px);
+    font-weight: bold;
+    color: var(--cor-destaque);
+    letter-spacing: 1px;
+    margin-bottom: 15px;
+}
+
+.rodape-slogan {
+    font-size: clamp(13px, 0.95vw, 15px);
+    line-height: 1.5;
+    color: var(--cor-rodape-texto);
+    font-style: italic;
+    text-align: justify;
+    hyphens: auto;
+}
+
+.rodape-titulo {
+    font-size: clamp(14px, 1.05vw, 17px);
+    font-weight: bold;
+    color: var(--cor-destaque);
+    margin-bottom: 18px;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+    position: relative;
+    padding-bottom: 8px;
+}
+
+.rodape-titulo::after {
+    content: "";
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 40px;
+    height: 2px;
+    background-color: var(--cor-verde-medio);
+}
+
+.rodape-links {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.rodape-links a {
+    display: inline-block;
+
+    color: var(--cor-rodape-texto);
+    font-size: clamp(13px, 0.95vw, 15px);
+
+    transition: color var(--transicao-rapida),
+                padding-left var(--transicao-rapida);
+}
+
+.rodape-links a::before {
+    content: "→";
+    display: inline-block;
+    margin-right: 6px;
+    color: var(--cor-verde-medio);
+    opacity: 0;
+    transform: translateX(-6px);
+    transition: all var(--transicao-rapida);
+}
+
+.rodape-links a:hover,
+.rodape-links a:focus-visible {
+    color: var(--cor-destaque);
+    padding-left: 6px;
+}
+
+.rodape-links a:hover::before,
+.rodape-links a:focus-visible::before {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.rodape-texto {
+    font-size: clamp(13px, 0.95vw, 15px);
+    line-height: 1.6;
+    color: var(--cor-rodape-texto);
+    text-align: justify;
+    hyphens: auto;
+}
+
+.rodape-divisor {
+    width: 100%;
+    max-width: 1400px;
+    height: 1px;
+
+    margin: 50px auto 25px;
+
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--cor-verde-medio),
+        transparent
+    );
+}
+
+.rodape-base {
+    max-width: 1400px;
+    margin: 0 auto;
+
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 20px;
+
+    flex-wrap: wrap;
+}
+
+.rodape-copyright,
+.rodape-creditos {
+    font-size: clamp(11px, 0.85vw, 13px);
+    color: var(--cor-rodape-texto-suave);
+    text-align: center;
+}
+
+.rodape-copyright time {
+    color: var(--cor-destaque);
+    font-weight: bold;
+}
+
+.rodape-creditos strong {
+    color: var(--cor-destaque);
+    font-weight: bold;
+}
+
+
+/* ==================================================
+   MENU LATERAL (SIDEBAR)
+================================================== */
+
+.sidebar-checkbox {
+    display: none;
+}
+
+.open-sidebar-button {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+
+    height: 45px;
+    width: 45px;
+
+    background-color: var(--cor-botao-menu);
+    border-radius: 8px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    cursor: pointer;
+    z-index: 10;
+
+    transition: background-color var(--transicao-rapida);
+}
+
+.open-sidebar-button:hover {
+    background-color: var(--cor-botao-menu-hover);
+}
+
+.burger-line {
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background-color: var(--cor-icone-menu);
+    position: relative;
+}
+
+.burger-line::before,
+.burger-line::after {
+    content: "";
+    display: block;
+
+    width: 22px;
+    height: 2px;
+
+    background-color: var(--cor-icone-menu);
+
+    position: absolute;
+    transition: var(--transicao-rapida);
+}
+
+.burger-line::before { top: -7px; }
+.burger-line::after  { top:  7px; }
+
+
+/* Menu lateral */
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -300px;
+
+    width: 300px;
+    height: 100vh;
+    height: 100svh;
+
+    background-color: var(--cor-menu-fundo);
+    z-index: 100;
+
+    transition: transform var(--transicao-media);
+    box-shadow: 10px 0 30px rgba(30, 50, 15, 0.25);
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    padding: 25px;
+    border-bottom: 1px solid #a8b380;
+}
+
+.sidebar-header .logo {
+    color: var(--cor-menu-texto);
+    font-size: 18px;
+    font-weight: bold;
+    width: auto;
+    margin: 0;
+}
+
+.close-sidebar-button {
+    color: var(--cor-menu-texto-escuro);
+    font-size: 22px;
+    cursor: pointer;
+    transition: color var(--transicao-rapida);
+    line-height: 1;
+}
+
+.close-sidebar-button:hover {
+    color: #1a2410;
+}
+
+.sidebar-links {
+    list-style: none;
+    padding: 20px 0;
+    margin: 0;
+}
+
+.sidebar-links a {
+    display: block;
+    padding: 15px 25px;
+
+    color: var(--cor-menu-texto);
+
+    font-size: 15px;
+    transition: all var(--transicao-rapida);
+}
+
+.sidebar-links a:hover,
+.sidebar-links a:focus-visible {
+    background-color: var(--cor-menu-hover-bg);
+    color: var(--cor-menu-hover-texto);
+    padding-left: 35px;
+}
+
+#sidebar-overlay {
+    position: fixed;
+    inset: 0;
+
+    width: 100vw;
+    height: 100vh;
+
+    background-color: rgba(20, 35, 10, 0.55);
+    z-index: 99;
+
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--transicao-media);
+}
+
+.sidebar-checkbox:checked ~ .sidebar {
+    transform: translateX(300px);
+}
+
+.sidebar-checkbox:checked ~ #sidebar-overlay {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE — 1100px
+================================================== */
+
+@media (max-width: 1100px) {
+
+    .titulo {
+        right: 8%;
+        width: 50%;
+        top: 24%;
+    }
+
+    .tartaruga {
+        right: 12%;
+        width: 26%;
+    }
+
+    .titulo-importancia {
+        left: 5%;
+        width: 48%;
+    }
+
+    .texto-importancia {
+        right: 5%;
+        width: 35%;
+        padding: 30px;
+    }
+
+    .imagem-importancia {
+        width: 45%;
+    }
+
+    .texto-problema {
+        left: 5%;
+        width: 32%;
+    }
+
+    .texto-problema h2 {
+        font-size: 38px;
+    }
+
+    .texto-problema p {
+        font-size: 16px;
+    }
+
+    .galeria-lixo {
+        right: 5%;
+        width: 48%;
+        gap: 15px;
+    }
+
+    .galeria-lixo img {
+        width: calc((100% - 30px) / 3);
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE — 800px
+================================================== */
+
+@media (max-width: 800px) {
+
+    .barra {
+        top: 3%;
+        height: 80px;
+    }
+
+    .nome-projeto {
+        left: 18%;
+        font-size: 16px;
+    }
+
+    .titulo {
+        right: 5%;
+        width: 55%;
+        top: 25%;
+    }
+
+    .titulo h1 {
+        font-size: 30px;
+    }
+
+    .titulo h2 {
+        font-size: 50px;
+    }
+
+    .tartaruga {
+        width: 30%;
+        right: 8%;
+        top: 48%;
+    }
+
+    .importancia {
+        height: auto;
+        min-height: 1000px;
+    }
+
+    .conteudo-importancia {
+        height: 1000px;
+    }
+
+    .titulo-importancia {
+        top: 5%;
+        left: 6%;
+        width: 88%;
+    }
+
+    .titulo-importancia h2 {
+        font-size: 36px;
+    }
+
+    .imagem-importancia {
+        left: 6%;
+        bottom: 5%;
+        width: 88%;
+        height: 30%;
+    }
+
+    .texto-importancia {
+        top: 42%;
+        left: 6%;
+        width: 88%;
+        min-height: auto;
+        font-size: 15px;
+        padding: 25px;
+    }
+
+    .problema {
+        height: auto;
+        min-height: 1000px;
+    }
+
+    .conteudo-problema {
+        height: 1000px;
+    }
+
+    .texto-problema {
+        top: 6%;
+        left: 7%;
+        width: 86%;
+    }
+
+    .texto-problema h2 {
+        font-size: 36px;
+    }
+
+    .texto-problema p {
+        font-size: 15px;
+        max-width: 650px;
+    }
+
+    .galeria-lixo {
+        top: 58%;
+        left: 7%;
+        right: auto;
+        width: 86%;
+        gap: 15px;
+    }
+
+    .galeria-lixo img {
+        width: calc((100% - 30px) / 3);
+    }
+
+    .rodape {
+        padding: 50px 6% 25px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr 1fr;
+        gap: 40px 8%;
+    }
+
+    .rodape-marca {
+        grid-column: 1 / 3;
+        text-align: center;
+    }
+
+    .rodape-slogan {
+        text-align: center;
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE — 600px
+================================================== */
+
+@media (max-width: 600px) {
+
+    .pagina {
+        min-height: 600px;
+    }
+
+    .barra {
+        top: 0;
+        height: 75px;
+    }
+
+    .nome-projeto {
+        left: 20%;
+        font-size: 15px;
+    }
+
+    .titulo {
+        top: 25%;
+        right: 4%;
+        width: 65%;
+    }
+
+    .titulo h1 {
+        font-size: 22px;
+    }
+
+    .titulo h2 {
+        font-size: 38px;
+        letter-spacing: -1px;
+    }
+
+    .tartaruga {
+        width: 38%;
+        right: 7%;
+        top: 50%;
+    }
+
+    .importancia {
+        min-height: 950px;
+    }
+
+    .conteudo-importancia {
+        height: 950px;
+    }
+
+    .titulo-importancia {
+        top: 5%;
+    }
+
+    .titulo-importancia h2 {
+        font-size: 28px;
+    }
+
+    .texto-importancia {
+        top: 35%;
+        font-size: 14px;
+        padding: 20px;
+    }
+
+    .imagem-importancia {
+        bottom: 5%;
+        height: 28%;
+    }
+
+    .problema {
+        min-height: 950px;
+    }
+
+    .conteudo-problema {
+        height: 950px;
+    }
+
+    .texto-problema {
+        top: 6%;
+        left: 7%;
+        width: 86%;
+    }
+
+    .texto-problema h2 {
+        font-size: 28px;
+        letter-spacing: 1px;
+    }
+
+    .texto-problema p {
+        font-size: 14px;
+        line-height: 1.3;
+    }
+
+    .galeria-lixo {
+        top: 60%;
+        left: 7%;
+        width: 86%;
+        gap: 8px;
+    }
+
+    .galeria-lixo img {
+        width: calc((100% - 16px) / 3);
+    }
+
+    .rodape {
+        padding: 40px 7% 20px;
+    }
+
+    .rodape-conteudo {
+        grid-template-columns: 1fr;
+        gap: 35px;
+    }
+
+    .rodape-marca {
+        grid-column: auto;
+    }
+
+    .rodape-titulo {
+        text-align: center;
+    }
+
+    .rodape-titulo::after {
+        left: 50%;
+        transform: translateX(-50%);
+    }
+
+    .rodape-links {
+        align-items: center;
+    }
+
+    .rodape-texto {
+        text-align: center;
+    }
+
+    .rodape-base {
+        flex-direction: column;
+        text-align: center;
+        gap: 10px;
+    }
+
+    .rodape-divisor {
+        margin: 35px auto 20px;
+    }
+}
+
+
+/* ==================================================
+   RESPONSIVIDADE — 500px
+================================================== */
+
+@media (max-width: 500px) {
+
+    .ajudar {
+        min-height: auto;
+        padding: 40px 0;
+    }
+
+    .ajudar-conteudo {
+        flex-direction: column;
+        width: 88%;
+        gap: 30px;
+    }
+
+    .ajudar-imagens,
+    .ajudar-texto {
+        width: 100%;
+    }
+
+    .ajudar-imagens img {
+        height: 220px;
+    }
+
+    .ajudar-texto h2 {
+        font-size: 28px;
+    }
+
+    .ajudar-texto p {
+        font-size: 15px;
+    }
+
+    .ajudar-texto ul {
+        font-size: 14px;
+        padding-left: 22px;
+    }
+
+    .projeto-tamar {
+        padding: 40px 0;
+    }
+
+    .tamar-imagens,
+    .tamar-conteudo {
+        width: 88%;
+    }
+
+    .tamar-imagens {
+        flex-direction: column;
+    }
+
+    .tamar-imagens img {
+        width: 100%;
+        height: 180px;
+    }
+
+    .tamar-conteudo {
+        flex-direction: column;
+    }
+
+    .tamar-titulo,
+    .tamar-texto {
+        width: 100%;
+        padding: 25px;
+    }
+
+    .tamar-titulo h2 {
+        font-size: 34px;
+    }
+
+    .tamar-texto p {
+        font-size: 15px;
+    }
+
+    .localizacao {
+        padding: 40px 0;
+        min-height: auto;
+    }
+
+    .localizacao-conteudo {
+        width: 88%;
+        flex-direction: column;
+        min-height: auto;
+    }
+
+    .localizacao-imagem {
+        width: 100%;
+        height: 250px;
+    }
+
+    .localizacao-texto {
+        width: 100%;
+        padding: 30px;
+    }
+
+    .localizacao-texto h2 {
+        font-size: 26px;
+        margin-bottom: 20px;
+    }
+
+    .localizacao-texto p {
+        font-size: 14px;
+    }
+}
+
+
+/* ==================================================
+   PREFERÊNCIAS DO USUÁRIO
+================================================== */
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+}

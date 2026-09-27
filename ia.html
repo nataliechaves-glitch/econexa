@@ -1,0 +1,2631 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes"/>
+    <meta name="referrer" content="strict-origin-when-cross-origin" />
+    <meta name="theme-color" content="#4A5D23"/>
+    <title>♻️ Econexa.IA - Reciclagem em Lages/SC</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+
+
+
+<!-- ============================================================
+     PWA — PROGRESSIVE WEB APP
+============================================================ -->
+<meta name="application-name" content="Econexa.IA">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Econexa.IA">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="format-detection" content="telephone=no">
+
+<!-- Manifest -->
+<link rel="manifest" href="manifest.json">
+
+<!-- Ícones (só 2) -->
+<link rel="icon" type="image/png" sizes="192x192" href="icons/icon-192.png">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+<link rel="apple-touch-icon" sizes="512x512" href="icons/icon-512.png">
+
+<!-- Tema -->
+<meta name="theme-color" content="#4A5D23">
+<meta name="msapplication-TileColor" content="#4A5D23">
+<meta name="msapplication-TileImage" content="icons/icon-192.png">
+
+<!-- Tema -->
+<meta name="theme-color" content="#4A5D23">
+<meta name="msapplication-TileColor" content="#4A5D23">
+<meta name="msapplication-TileImage" content="icons/icon-192.png">
+    <style>
+        :root {
+            --primary: #4A5D23;
+            --primary-dark: #3A4A1A;
+            --primary-light: #5C732E;
+            --secondary: #FFFFFF;
+            --secondary-dark: #E8E8E8;
+            --secondary-light: #FFFFFF;
+            --card-bg: #3D4F1E;
+            --sidebar-width: 260px;
+            --bg: #4A5D23;
+            --text: #FFFFFF;
+            --text-light: #F0F0F0;
+            --text-muted: #E0E0E0;
+            --border: #3A4A1A;
+            --shadow: 0 2px 12px rgba(0,0,0,0.3);
+            --radius: 12px;
+            --btn-text: #061206;
+        }
+
+        body:has(#mascote-medusa:checked) {
+            --primary: #7B5EA7; --primary-dark: #5E3D8A; --primary-light: #9B7EC7;
+            --secondary: #FFFFFF; --secondary-dark: #E8E8E8; --secondary-light: #FFFFFF;
+            --card-bg: #6B4E97; --bg: #7B5EA7; --text: #FFFFFF; --text-light: #F2EFF8;
+            --text-muted: #E5DEF0; --border: #5E3D8A; --btn-text: #1A0A35;
+        }
+
+        body:has(#mascote-abigail:checked) {
+            --primary: #6F4E37; --primary-dark: #573B29; --primary-light: #8A6349;
+            --secondary: #FFFFFF; --secondary-dark: #E8E8E8; --secondary-light: #FFFFFF;
+            --card-bg: #5D4030; --bg: #6F4E37; --text: #FFFFFF; --text-light: #F2ECE8;
+            --text-muted: #E0D5CC; --border: #573B29; --btn-text: #2A1810;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body { height: 100%; overflow: hidden; }
+        body { background: var(--bg); color: var(--text); font-size: 16px; line-height: 1.5; overscroll-behavior: none; transition: background 0.5s ease, color 0.5s ease; }
+
+        .sidebar, .main-content, .empresa-card, .salvo-card, .search-results,
+        .search-box input, .chat-body, .assistente-chat, .nav-btn, .topic-tag,
+        .toast, .assistente-balao, .tutorial-card, .menu-toggle, .chat-header,
+        .chat-sugestoes, .chat-sugestoes button, .chat-input-area,
+        .chat-input-area input, .chat-input-area button, .chat-msg,
+        .chat-msg.bot, .chat-msg.user, .btn-comecar, .btn-salvar, .btn-mapa,
+        .btn-remover, .balao-actions button, .mascote-seletor, .offline-badge,
+        .predict-card, .predict-tab-btn, .predict-stat, .foto-upload {
+            transition: background 0.5s ease, color 0.5s ease, border-color 0.5s ease, box-shadow 0.5s ease;
+        }
+
+        .app-container { display: flex; height: 100vh; height: 100dvh; position: relative; }
+
+        .menu-toggle {
+            display: none; position: fixed; top: 12px; left: 12px; z-index: 1001;
+            width: 48px; height: 48px; border-radius: 12px; background: var(--card-bg);
+            border: 2px solid var(--secondary); color: var(--secondary); font-size: 20px;
+            cursor: pointer; align-items: center; justify-content: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .menu-toggle:active { transform: scale(0.92); }
+        .menu-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.6); z-index: 999; backdrop-filter: blur(3px); opacity: 0; transition: opacity 0.3s; }
+        .menu-overlay.show { display: block; opacity: 1; }
+
+        .sidebar {
+            width: var(--sidebar-width); background: var(--primary-dark);
+            border-right: 2px solid var(--secondary); padding: 24px 16px;
+            display: flex; flex-direction: column; flex-shrink: 0; overflow-y: auto;
+            transition: transform 0.3s ease, background 0.5s ease, border-color 0.5s ease;
+            z-index: 1000;
+        }
+        .logo { display: flex; align-items: center; gap: 10px; padding-bottom: 20px; border-bottom: 3px solid var(--secondary); margin-bottom: 20px; }
+        .logo i { font-size: 28px; color: var(--secondary); }
+        .logo h2 { font-size: 22px; color: var(--secondary); font-weight: 800; letter-spacing: -0.5px; }
+        .logo h2 span { color: var(--secondary-light); font-size: 14px; font-weight: 400; letter-spacing: 1px; }
+        .logo .badge { font-size: 10px; background: var(--secondary); color: var(--primary-dark); padding: 2px 10px; border-radius: 20px; margin-left: auto; font-weight: 700; }
+        .nav-menu { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+        .nav-btn {
+            display: flex; align-items: center; gap: 12px; padding: 12px 16px;
+            border: none; background: transparent; border-radius: 10px; font-size: 15px;
+            color: var(--text-muted); cursor: pointer; width: 100%; text-align: left;
+        }
+        .nav-btn:hover { background: var(--primary-light); color: var(--secondary-light); }
+        .nav-btn.active { background: var(--primary-light); color: var(--secondary); font-weight: 600; border-left: 4px solid var(--secondary); }
+        .nav-btn i { width: 22px; font-size: 18px; color: var(--secondary); text-align: center; }
+        .sidebar-footer { padding-top: 16px; border-top: 1px solid var(--border); margin-top: auto; }
+        .coleta-info { display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--text-light); }
+        .coleta-info i { color: var(--secondary); font-size: 18px; }
+        .sidebar-footer small { display: block; margin-top: 8px; color: var(--text-muted); font-size: 11px; }
+        .offline-badge { display: flex; align-items: center; gap: 6px; font-size: 11px; color: #FFFFFF; margin-top: 8px; }
+
+        .main-content { flex: 1; padding: 24px 32px; overflow-y: auto; background: var(--bg); -webkit-overflow-scrolling: touch; }
+        .tab-content { display: none; animation: fadeIn 0.3s ease; }
+        .tab-content.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .tab-header { margin-bottom: 24px; }
+        .tab-header h2 { font-size: 24px; color: var(--secondary); }
+        .tab-header h2 i { color: var(--secondary); margin-right: 8px; }
+        .tab-header p { color: var(--text-light); margin-top: 4px; font-size: 14px; }
+
+        .predict-hero {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border: 2px solid var(--secondary);
+            border-radius: var(--radius);
+            padding: 32px 28px;
+            text-align: center;
+            margin-bottom: 24px;
+            box-shadow: var(--shadow);
+        }
+        .predict-hero h1 { font-size: 32px; font-weight: 900; color: var(--secondary); letter-spacing: 2px; margin-bottom: 8px; }
+        .predict-hero .slogan { font-size: 15px; color: var(--text-light); font-style: italic; margin-bottom: 18px; }
+        .predict-hero .fluxo { display: flex; justify-content: center; align-items: center; gap: 10px; flex-wrap: wrap; font-size: 13px; color: var(--secondary-light); }
+        .predict-hero .fluxo span { background: var(--card-bg); padding: 6px 12px; border-radius: 20px; border: 1px solid var(--secondary); }
+
+        .predict-tabs { display: flex; gap: 6px; margin-bottom: 20px; flex-wrap: wrap; }
+        .predict-tab-btn {
+            padding: 10px 16px; background: var(--card-bg); border: 2px solid var(--border);
+            border-radius: 20px; color: var(--text-light); font-size: 12.5px; cursor: pointer;
+            font-weight: 600; display: inline-flex; align-items: center; gap: 6px; white-space: nowrap;
+        }
+        .predict-tab-btn:hover { border-color: var(--secondary); color: var(--secondary); transform: translateY(-2px); }
+        .predict-tab-btn.active { background: var(--secondary); color: var(--btn-text); border-color: var(--secondary); }
+
+        .predict-panel { display: none; }
+        .predict-panel.active { display: block; animation: fadeIn 0.3s ease; }
+
+        .predict-card {
+            background: var(--card-bg); border-radius: var(--radius);
+            padding: 22px 24px; box-shadow: var(--shadow);
+            border-left: 4px solid var(--secondary); margin-bottom: 18px;
+        }
+        .predict-card h3 { color: var(--secondary); font-size: 18px; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .predict-card p.instrucao { color: var(--text-light); font-size: 14px; margin-bottom: 14px; }
+
+        .predict-stat {
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border: 2px solid var(--secondary); border-radius: var(--radius);
+            padding: 16px; text-align: center;
+        }
+        .predict-stat .valor { font-size: 28px; font-weight: 900; color: var(--secondary); line-height: 1.1; }
+        .predict-stat .unidade { font-size: 13px; color: var(--text-light); margin-top: 4px; }
+        .predict-stat .rotulo { font-size: 11px; color: var(--text-muted); margin-top: 6px; text-transform: uppercase; letter-spacing: 1px; }
+
+        .predict-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin-bottom: 20px; }
+
+        .btn-predict {
+            width: 100%; padding: 13px; background: var(--secondary); color: var(--btn-text);
+            border: none; border-radius: 10px; font-size: 15px; font-weight: 800;
+            cursor: pointer; margin-top: 14px; display: inline-flex;
+            align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-predict:hover { background: var(--secondary-dark); }
+        .btn-predict:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .predict-box {
+            display: flex; gap: 10px; margin-bottom: 16px; flex-wrap: wrap;
+        }
+        .predict-box input, .predict-box select {
+            flex: 1; min-width: 150px; padding: 12px 16px;
+            background: var(--primary-dark); border: 2px solid var(--border);
+            border-radius: 10px; color: var(--text); font-size: 14px; outline: none;
+        }
+        .predict-box input:focus, .predict-box select:focus { border-color: var(--secondary); }
+        .predict-box button {
+            padding: 12px 24px; background: var(--secondary); color: var(--btn-text);
+            border: none; border-radius: 10px; font-weight: 800; cursor: pointer;
+            font-size: 14px; white-space: nowrap;
+        }
+
+        .predict-lista { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; margin-top: 14px; }
+        .predict-item {
+            background: var(--primary-dark); border: 2px solid var(--border);
+            border-radius: 10px; padding: 14px; transition: all 0.2s;
+        }
+        .predict-item:hover { border-color: var(--secondary); transform: translateY(-3px); }
+        .predict-item .emoji { font-size: 28px; margin-bottom: 6px; display: block; }
+        .predict-item h5 { color: var(--secondary); font-size: 14px; margin-bottom: 4px; }
+        .predict-item p { color: var(--text-light); font-size: 12.5px; line-height: 1.5; }
+
+        .predict-grafico {
+            display: flex; align-items: flex-end; justify-content: space-around;
+            gap: 10px; height: 200px; padding: 16px;
+            background: var(--primary-dark); border-radius: var(--radius);
+            border: 1px solid var(--border); margin-top: 16px;
+        }
+        .predict-coluna {
+            flex: 1; display: flex; flex-direction: column;
+            align-items: center; gap: 6px; height: 100%; justify-content: flex-end;
+        }
+        .predict-bar {
+            width: 100%; max-width: 55px;
+            background: linear-gradient(180deg, var(--secondary), var(--secondary-dark));
+            border-radius: 8px 8px 0 0;
+            transition: height 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+            min-height: 4px; position: relative;
+        }
+        .predict-bar .bar-valor {
+            position: absolute; top: -22px; left: 50%; transform: translateX(-50%);
+            font-size: 12px; font-weight: 700; color: var(--secondary); white-space: nowrap;
+        }
+        .predict-coluna .bar-rotulo { font-size: 11px; color: var(--text-light); text-align: center; font-weight: 600; }
+
+        .predict-alerta {
+            padding: 14px; border-radius: 10px; margin-top: 14px;
+            background: rgba(243, 156, 18, 0.15);
+            border-left: 4px solid #f39c12;
+            color: var(--text-light); font-size: 13.5px; line-height: 1.6;
+        }
+        .predict-alerta strong { color: #f39c12; }
+
+        .predict-comparacao {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+            margin-top: 14px;
+        }
+        .predict-comparacao > div {
+            padding: 14px; border-radius: 10px; text-align: center;
+        }
+        .predict-comparacao .previsto { background: rgba(52, 152, 219, 0.2); border: 2px solid #3498db; }
+        .predict-comparacao .real { background: rgba(46, 204, 113, 0.2); border: 2px solid #2ecc71; }
+        .predict-comparacao h5 { font-size: 13px; color: var(--text-light); margin-bottom: 6px; }
+        .predict-comparacao .val { font-size: 28px; font-weight: 900; color: var(--secondary); }
+
+        .predict-etapas {
+            display: flex; align-items: center; justify-content: space-around;
+            flex-wrap: wrap; gap: 8px; padding: 20px;
+            background: var(--primary-dark); border-radius: var(--radius);
+            border: 1px solid var(--border); margin-top: 14px;
+        }
+        .predict-etapa {
+            display: flex; flex-direction: column; align-items: center;
+            gap: 4px; font-size: 12px; color: var(--text-light);
+        }
+        .predict-etapa .ico { font-size: 28px; }
+        .predict-seta { color: var(--secondary); font-size: 20px; }
+
+        .predict-ciano {
+            padding: 14px; border-radius: 10px; margin-top: 14px;
+            background: rgba(52, 152, 219, 0.15);
+            border-left: 4px solid #3498db;
+            color: var(--text-light); font-size: 13.5px; line-height: 1.6;
+        }
+        .predict-ciano strong { color: #3498db; }
+
+        .foto-upload {
+            border: 3px dashed var(--secondary);
+            border-radius: var(--radius);
+            padding: 36px 24px;
+            text-align: center;
+            cursor: pointer;
+            background: rgba(255,255,255,0.05);
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .foto-upload:hover, .foto-upload.drag-over {
+            background: rgba(255,255,255,0.12);
+            border-color: var(--secondary-light);
+        }
+        .foto-upload input[type="file"] {
+            position: absolute;
+            inset: 0;
+            opacity: 0;
+            cursor: pointer;
+        }
+        .foto-upload i { font-size: 56px; color: var(--secondary); margin-bottom: 12px; }
+        .foto-upload h4 { color: var(--secondary); font-size: 17px; margin-bottom: 6px; }
+        .foto-upload p { color: var(--text-muted); font-size: 13px; }
+
+        .foto-preview { margin-top: 16px; text-align: center; }
+        .foto-preview img { max-width: 100%; max-height: 320px; border-radius: var(--radius); border: 3px solid var(--secondary); box-shadow: var(--shadow); }
+
+        .foto-resultado {
+            margin-top: 18px;
+            padding: 22px;
+            background: linear-gradient(135deg, var(--primary-dark), var(--primary));
+            border: 2px solid var(--secondary);
+            border-radius: var(--radius);
+            animation: fadeIn 0.4s ease;
+        }
+        .foto-resultado .material-detectado {
+            font-size: 28px;
+            font-weight: 800;
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 6px;
+        }
+        .foto-resultado .confianca {
+            text-align: center;
+            font-size: 13px;
+            color: var(--text-light);
+            margin-bottom: 16px;
+        }
+        .foto-resultado .lixeira-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--card-bg);
+            border-radius: 12px;
+            margin-bottom: 14px;
+            border: 2px solid var(--secondary);
+        }
+        .foto-resultado .lixeira-info .cor-lixeira {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            border: 4px solid #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+        }
+        .foto-resultado .lixeira-info .lixeira-texto h5 {
+            color: var(--secondary);
+            font-size: 18px;
+            margin-bottom: 4px;
+        }
+        .foto-resultado .lixeira-info .lixeira-texto p {
+            color: var(--text-light);
+            font-size: 13.5px;
+            line-height: 1.5;
+        }
+        .foto-resultado .info-bloco {
+            padding: 14px 16px;
+            background: rgba(0,0,0,0.25);
+            border-radius: 10px;
+            font-size: 13.5px;
+            color: var(--text-light);
+            line-height: 1.6;
+            margin-bottom: 10px;
+            border-left: 3px solid var(--secondary);
+        }
+        .foto-resultado .info-bloco strong { color: var(--secondary); }
+        .foto-resultado .info-bloco.aviso { border-left-color: #f39c12; }
+        .foto-resultado .info-bloco.aviso strong { color: #f39c12; }
+
+        .foto-passos {
+            display: flex;
+            gap: 6px;
+            flex-wrap: wrap;
+            margin-top: 12px;
+        }
+        .foto-passos span {
+            background: var(--card-bg);
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            color: var(--text-light);
+            border: 1px solid var(--secondary);
+        }
+
+        .empresas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+        .empresa-card { background: var(--card-bg); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); border-left: 4px solid var(--secondary); transition: transform 0.2s; }
+        .empresa-card:hover { transform: translateY(-3px); box-shadow: 0 4px 20px rgba(0,0,0,0.4); }
+        .empresa-card h3 { font-size: 17px; color: var(--secondary); margin-bottom: 6px; }
+        .empresa-card .endereco { font-size: 14px; color: var(--text-light); margin-bottom: 8px; }
+        .empresa-card .tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+        .empresa-card .tag { background: var(--primary-dark); color: var(--secondary-light); font-size: 12px; padding: 2px 10px; border-radius: 20px; }
+        .empresa-card .card-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+        .empresa-card .card-actions button { padding: 6px 14px; border: none; border-radius: 6px; font-size: 13px; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-salvar { background: var(--primary-dark); color: var(--secondary); }
+        .btn-salvar.salvo { background: var(--secondary); color: var(--btn-text); }
+        .btn-salvar:hover { background: var(--secondary); color: var(--btn-text); }
+        .btn-mapa { background: var(--primary-dark); color: var(--secondary-light); }
+        .btn-mapa:hover { background: var(--secondary); color: var(--btn-text); }
+
+        #mapContainer { height: 450px; width: 100%; border-radius: var(--radius); box-shadow: var(--shadow); background: var(--primary-dark); border: 2px solid var(--secondary); z-index: 1; position: relative; }
+        #mapContainer .leaflet-container { height: 100%; width: 100%; border-radius: calc(var(--radius) - 2px); }
+        .map-fallback { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; color: var(--text-light); text-align: center; padding: 20px; }
+        .map-fallback i { font-size: 48px; color: var(--secondary); margin-bottom: 12px; }
+        .map-legend { display: flex; gap: 24px; margin-top: 12px; font-size: 14px; color: var(--text-light); flex-wrap: wrap; }
+        .legend-dot { display: inline-block; width: 14px; height: 14px; border-radius: 50%; margin-right: 6px; vertical-align: middle; }
+
+        .search-box { display: flex; gap: 12px; margin-bottom: 20px; flex-wrap: wrap; }
+        .search-box input { flex: 1; min-width: 200px; padding: 14px 18px; border: 2px solid var(--border); border-radius: 10px; font-size: 15px; outline: none; background: var(--card-bg); color: var(--text); }
+        .search-box input::placeholder { color: var(--text-muted); }
+        .search-box input:focus { border-color: var(--secondary); box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.15); }
+        .search-box button { padding: 14px 28px; background: var(--secondary); color: var(--btn-text); border: none; border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px; white-space: nowrap; }
+        .search-box button:hover { background: var(--secondary-dark); }
+        .search-results { background: var(--card-bg); border-radius: var(--radius); padding: 20px 24px; min-height: 200px; max-height: 500px; overflow-y: auto; box-shadow: var(--shadow); margin-bottom: 20px; border: 1px solid var(--border); }
+        .search-results .placeholder-msg { text-align: center; color: var(--text-muted); padding: 20px 0; }
+        .search-results .placeholder-msg i { font-size: 36px; color: var(--secondary); margin-bottom: 8px; }
+        .search-results .result-content { line-height: 1.7; color: var(--text); font-size: 15px; }
+        .search-results .result-content strong { color: var(--secondary); }
+        .quick-topics { display: flex; flex-wrap: wrap; gap: 10px; }
+        .topic-tag { padding: 8px 16px; background: var(--card-bg); border-radius: 20px; font-size: 14px; color: var(--text-light); cursor: pointer; box-shadow: var(--shadow); border: 1px solid var(--border); user-select: none; }
+        .topic-tag:hover, .topic-tag:active { background: var(--secondary); color: var(--btn-text); border-color: var(--secondary); }
+
+        #salvosContainer { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 18px; }
+        .salvo-card { background: var(--card-bg); border-radius: var(--radius); padding: 18px 20px; box-shadow: var(--shadow); border-left: 4px solid var(--secondary); }
+        .salvo-card h4 { color: var(--secondary); margin-bottom: 4px; font-size: 15px; word-break: break-word; }
+        .salvo-card p { color: var(--text-light); font-size: 14px; line-height: 1.5; max-height: 120px; overflow-y: auto; word-break: break-word; }
+        .salvo-card .salvo-tipo { font-size: 12px; color: var(--secondary); margin-top: 8px; display: flex; align-items: center; gap: 5px; }
+        .salvo-card .btn-remover { margin-top: 10px; padding: 6px 14px; border: none; border-radius: 6px; background: #7a1a1a; color: #ffb0b0; cursor: pointer; font-size: 13px; display: inline-flex; align-items: center; gap: 5px; }
+        .salvo-card .btn-remover:hover { background: #ffb0b0; color: #7a1a1a; }
+        .vazio-msg { text-align: center; color: var(--text-muted); padding: 40px 20px; grid-column: 1 / -1; }
+        .vazio-msg i { font-size: 48px; color: var(--secondary); margin-bottom: 12px; }
+
+        .loading-dots { display: inline-flex; gap: 4px; align-items: center; }
+        .loading-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--secondary); animation: bounce 1.4s infinite ease-in-out both; }
+        .loading-dots span:nth-child(1) { animation-delay: -0.32s; }
+        .loading-dots span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+
+        .toast { position: fixed; bottom: 100px; left: 50%; transform: translateX(-50%) translateY(100px); background: var(--card-bg); color: var(--text); padding: 12px 24px; border-radius: 10px; border: 2px solid var(--secondary); box-shadow: 0 4px 20px rgba(0,0,0,0.5); z-index: 5000; opacity: 0; font-size: 14px; max-width: 90%; text-align: center; }
+        .toast.show { transform: translateX(-50%) translateY(0); opacity: 1; }
+
+        .mascote-radio { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+
+        .assistente-wrapper {
+            position: fixed; bottom: 24px; right: 24px; z-index: 1500;
+            display: flex; flex-direction: column; align-items: flex-end; gap: 12px;
+            pointer-events: none;
+            --mascote-cor-primaria: #6B8E23;
+            --mascote-cor-secundaria: #556B1C;
+            --mascote-cor-escura: #2E3A0E;
+            --mascote-nome: "Susie";
+            --mascote-emoji: "🐢";
+        }
+        .assistente-wrapper > * { pointer-events: auto; }
+        .assistente-wrapper:has(#mascote-medusa:checked) { --mascote-cor-primaria: #9B7EC7; --mascote-cor-secundaria: #7B5EA7; --mascote-cor-escura: #3D1F5C; --mascote-nome: "Medusa"; --mascote-emoji: "🐍"; }
+        .assistente-wrapper:has(#mascote-abigail:checked) { --mascote-cor-primaria: #fbbf24; --mascote-cor-secundaria: #d97706; --mascote-cor-escura: #78350f; --mascote-nome: "Abigail"; --mascote-emoji: "🦉"; }
+
+        .assistente-avatar { width: 72px; height: 72px; border-radius: 50%; overflow: hidden; border: 3px solid var(--mascote-cor-primaria); box-shadow: 0 6px 24px rgba(0, 0, 0, 0.5), 0 0 0 0 var(--mascote-cor-primaria); cursor: pointer; position: relative; transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.4s ease, box-shadow 0.4s ease; animation: avatarFlutuar 3.5s ease-in-out infinite; background: #000; }
+        .assistente-avatar:hover { transform: scale(1.1) rotate(-5deg); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6), 0 0 0 6px color-mix(in srgb, var(--mascote-cor-primaria) 25%, transparent); }
+        .assistente-avatar:active { transform: scale(0.94); }
+        .assistente-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .assistente-wrapper:not(:has(#mascote-medusa:checked)):not(:has(#mascote-abigail:checked)) .assistente-avatar .avatar-susie { display: block; }
+        .assistente-wrapper:has(#mascote-medusa:checked) .assistente-avatar .avatar-medusa { display: block; }
+        .assistente-wrapper:has(#mascote-abigail:checked) .assistente-avatar .avatar-abigail { display: block; }
+        .assistente-avatar::after { content: ''; position: absolute; inset: -6px; border-radius: 50%; border: 3px solid var(--mascote-cor-primaria); opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+        .assistente-wrapper:has(#chat-aberto:checked) .assistente-avatar::after { opacity: 1; animation: avatarOnda 1.2s ease-out infinite; }
+
+        .mascote-seletor { display: flex; gap: 8px; padding: 8px; background: color-mix(in srgb, var(--primary-dark) 95%, transparent); border: 2px solid var(--mascote-cor-primaria); border-radius: 40px; backdrop-filter: blur(8px); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); opacity: 0; transform: translateY(10px) scale(0.9); pointer-events: none; transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .assistente-wrapper:hover .mascote-seletor, .assistente-wrapper:has(#chat-aberto:checked) .mascote-seletor { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .mascote-opcao { width: 44px; height: 44px; border-radius: 50%; overflow: hidden; cursor: pointer; border: 2px solid transparent; transition: all 0.25s; position: relative; background: #000; flex-shrink: 0; }
+        .mascote-opcao img { width: 100%; height: 100%; object-fit: cover; }
+        .mascote-opcao:hover { transform: scale(1.15); border-color: var(--secondary); }
+        .assistente-wrapper:not(:has(#mascote-medusa:checked)):not(:has(#mascote-abigail:checked)) .mascote-opcao.opcao-susie { border-color: #6B8E23; box-shadow: 0 0 12px rgba(107, 142, 35, 0.6); }
+        .assistente-wrapper:has(#mascote-medusa:checked) .mascote-opcao.opcao-medusa { border-color: #9B7EC7; box-shadow: 0 0 12px rgba(155, 126, 199, 0.6); }
+        .assistente-wrapper:has(#mascote-abigail:checked) .mascote-opcao.opcao-abigail { border-color: #fbbf24; box-shadow: 0 0 12px rgba(251, 191, 36, 0.6); }
+        .mascote-opcao::after { content: attr(data-nome); position: absolute; bottom: -22px; left: 50%; transform: translateX(-50%); font-size: 10px; color: var(--text); background: rgba(0,0,0,0.8); padding: 2px 6px; border-radius: 4px; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.2s; }
+        .mascote-opcao:hover::after { opacity: 1; }
+
+        .assistente-balao { background: linear-gradient(135deg, var(--card-bg), var(--bg)); border: 2px solid var(--mascote-cor-primaria); border-radius: 18px 18px 4px 18px; padding: 14px 18px; max-width: 320px; color: var(--text); font-size: 13.5px; line-height: 1.55; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); position: relative; opacity: 0; transform: translateY(12px) scale(0.9); transform-origin: bottom right; transition: all 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); pointer-events: none; }
+        .assistente-balao.show { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+        .balao-titulo { color: var(--mascote-cor-primaria); font-weight: 700; font-size: 12px; letter-spacing: 0.5px; margin-bottom: 6px; display: flex; align-items: center; gap: 6px; }
+        .balao-titulo::before { content: var(--mascote-emoji); font-size: 14px; }
+        .balao-actions { display: flex; gap: 6px; margin-top: 12px; flex-wrap: wrap; }
+        .balao-actions button { padding: 6px 12px; border: none; border-radius: 8px; font-size: 11.5px; cursor: pointer; background: var(--mascote-cor-primaria); color: var(--btn-text); font-weight: 700; }
+        .balao-actions button:hover { background: var(--mascote-cor-secundaria); transform: translateY(-1px); }
+
+        #chat-aberto { position: absolute; opacity: 0; pointer-events: none; width: 0; height: 0; }
+        .assistente-chat {
+            position: fixed; bottom: 118px; right: 24px; width: 400px;
+            max-width: calc(100vw - 32px); height: 580px; max-height: calc(100vh - 150px);
+            background: var(--primary-dark); border: 2px solid var(--mascote-cor-primaria);
+            border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+            display: flex; flex-direction: column; overflow: hidden; z-index: 1600;
+            opacity: 0; transform: translateY(30px) scale(0.92); pointer-events: none;
+            transition: opacity 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), border-color 0.4s ease, background 0.5s ease;
+            --mascote-cor-primaria: #6B8E23; --mascote-cor-secundaria: #556B1C; --mascote-cor-escura: #2E3A0E;
+            --mascote-nome: "Susie"; --mascote-emoji: "🐢";
+        }
+        .assistente-wrapper:has(#mascote-medusa:checked) ~ .assistente-chat { --mascote-cor-primaria: #9B7EC7; --mascote-cor-secundaria: #7B5EA7; --mascote-cor-escura: #3D1F5C; --mascote-nome: "Medusa"; --mascote-emoji: "🐍"; }
+        .assistente-wrapper:has(#mascote-abigail:checked) ~ .assistente-chat { --mascote-cor-primaria: #fbbf24; --mascote-cor-secundaria: #d97706; --mascote-cor-escura: #78350f; --mascote-nome: "Abigail"; --mascote-emoji: "🦉"; }
+        .assistente-wrapper:has(#chat-aberto:checked) ~ .assistente-chat { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+
+        .chat-header { background: linear-gradient(135deg, var(--mascote-cor-primaria), var(--mascote-cor-secundaria)); color: var(--btn-text); padding: 14px 18px; display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 14px; flex-shrink: 0; }
+        .chat-avatar-mini { width: 42px; height: 42px; border-radius: 50%; overflow: hidden; background: #000; border: 2px solid var(--primary-dark); flex-shrink: 0; position: relative; }
+        .chat-avatar-mini img { width: 100%; height: 100%; object-fit: cover; display: none; }
+        .assistente-wrapper:not(:has(#mascote-medusa:checked)):not(:has(#mascote-abigail:checked)) ~ .assistente-chat .chat-avatar-mini .avatar-susie { display: block; }
+        .assistente-wrapper:has(#mascote-medusa:checked) ~ .assistente-chat .chat-avatar-mini .avatar-medusa { display: block; }
+        .assistente-wrapper:has(#mascote-abigail:checked) ~ .assistente-chat .chat-avatar-mini .avatar-abigail { display: block; }
+        .chat-info { flex: 1; min-width: 0; }
+        .chat-nome { font-size: 15px; line-height: 1.2; }
+        .chat-nome::before { content: var(--mascote-nome); }
+        .chat-nome::after { content: " • Assistente"; font-weight: 400; opacity: 0.75; }
+        .chat-status { font-size: 11px; font-weight: 400; opacity: 0.9; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+        .chat-status::before { content: ''; width: 7px; height: 7px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 6px #4ade80; animation: statusPulse 2s infinite; }
+        .btn-fechar-chat { margin-left: auto; background: rgba(0, 0, 0, 0.15); border: none; color: var(--btn-text); font-size: 16px; cursor: pointer; width: 32px; height: 32px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .btn-fechar-chat:hover { background: rgba(0, 0, 0, 0.3); transform: rotate(90deg); }
+        .chat-body { flex: 1; overflow-y: auto; padding: 16px; display: flex; flex-direction: column; gap: 10px; background: var(--bg); scroll-behavior: smooth; }
+        .chat-msg { padding: 11px 15px; border-radius: 14px; font-size: 13.5px; line-height: 1.55; max-width: 88%; animation: msgEntrar 0.35s ease; word-wrap: break-word; }
+        .chat-msg.bot { background: var(--card-bg); color: var(--text); border: 1px solid var(--mascote-cor-escura); border-bottom-left-radius: 4px; align-self: flex-start; }
+        .chat-msg.bot strong { color: var(--mascote-cor-primaria); }
+        .chat-msg.user { background: linear-gradient(135deg, var(--mascote-cor-primaria), var(--mascote-cor-secundaria)); color: var(--btn-text); border-bottom-right-radius: 4px; align-self: flex-end; font-weight: 600; }
+        .chat-msg.digitando { display: flex; align-items: center; gap: 4px; padding: 14px 18px; }
+        .chat-msg.digitando span { display: inline-block; width: 8px; height: 8px; border-radius: 50%; background: var(--mascote-cor-primaria); animation: digitarPonto 1.4s infinite; }
+        .chat-msg.digitando span:nth-child(2) { animation-delay: 0.2s; }
+        .chat-msg.digitando span:nth-child(3) { animation-delay: 0.4s; }
+        .chat-sugestoes { padding: 10px 14px; background: var(--primary-dark); border-top: 1px solid var(--border); display: flex; gap: 6px; overflow-x: auto; scrollbar-width: none; flex-shrink: 0; }
+        .chat-sugestoes::-webkit-scrollbar { display: none; }
+        .chat-sugestoes button { padding: 7px 14px; background: var(--primary); color: var(--mascote-cor-primaria); border: 1px solid var(--mascote-cor-secundaria); border-radius: 20px; font-size: 11.5px; cursor: pointer; white-space: nowrap; flex-shrink: 0; font-weight: 500; }
+        .chat-sugestoes button:hover { background: var(--mascote-cor-primaria); color: var(--btn-text); transform: translateY(-2px); }
+        .chat-input-area { padding: 12px 14px; background: var(--primary-dark); border-top: 1px solid var(--border); display: flex; gap: 8px; align-items: center; flex-shrink: 0; }
+        .chat-input-area input { flex: 1; padding: 11px 16px; background: var(--card-bg); border: 2px solid var(--border); border-radius: 22px; color: var(--text); font-size: 13.5px; outline: none; min-width: 0; }
+        .chat-input-area input:focus { border-color: var(--mascote-cor-primaria); }
+        .chat-input-area button { width: 42px; height: 42px; border-radius: 50%; border: none; background: var(--mascote-cor-primaria); color: var(--btn-text); font-size: 15px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        .chat-input-area button:hover { background: var(--mascote-cor-secundaria); transform: scale(1.08); }
+        .chat-input-area button.voice-btn { background: var(--primary); color: var(--mascote-cor-primaria); border: 1px solid var(--mascote-cor-secundaria); width: 38px; height: 38px; font-size: 13px; }
+        .chat-input-area button.voice-btn.gravando { background: #e87070; color: white; animation: statusPulse 1s infinite; }
+
+        .tutorial-overlay { position: fixed; inset: 0; background: rgba(0, 0, 0, 0.85); z-index: 3000; display: none; align-items: center; justify-content: center; padding: 20px; backdrop-filter: blur(6px); }
+        .tutorial-overlay.show { display: flex; animation: fadeIn 0.4s ease; }
+        .tutorial-card { background: linear-gradient(135deg, var(--card-bg), var(--bg)); border: 2px solid var(--secondary); border-radius: 24px; padding: 28px 24px; max-width: 480px; width: 100%; text-align: center; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8); animation: tutorialEntrar 0.5s cubic-bezier(0.34, 1.56, 0.64, 1); }
+        .tutorial-card h3 { color: var(--secondary); font-size: 22px; margin-bottom: 8px; }
+        .tutorial-mascotes { display: flex; justify-content: center; gap: 16px; margin: 20px 0; }
+        .tutorial-mascotes .mascote-preview { width: 80px; height: 80px; border-radius: 50%; overflow: hidden; border: 3px solid var(--secondary); cursor: pointer; background: #000; }
+        .tutorial-mascotes .mascote-preview:hover { transform: scale(1.1) translateY(-6px); }
+        .tutorial-mascotes .mascote-preview img { width: 100%; height: 100%; object-fit: cover; }
+        .tutorial-card .subtitulo { color: var(--text-light); font-size: 14px; line-height: 1.6; margin-bottom: 18px; }
+        .tutorial-card ul { text-align: left; color: var(--text-light); font-size: 13.5px; line-height: 1.9; margin: 0 0 22px 0; padding: 16px 18px; background: rgba(255, 255, 255, 0.08); border-radius: 12px; border: 1px solid var(--border); list-style: none; }
+        .tutorial-card ul li { display: flex; align-items: center; gap: 8px; }
+        .tutorial-card ul li strong { color: var(--secondary); }
+        .btn-comecar { padding: 13px 36px; background: linear-gradient(135deg, var(--secondary), var(--secondary-dark)); color: var(--btn-text); border: none; border-radius: 12px; font-size: 15px; font-weight: 800; cursor: pointer; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-comecar:hover { transform: translateY(-2px); }
+        .btn-pular { display: block; margin: 14px auto 0; background: transparent; border: none; color: var(--text-muted); font-size: 12.5px; cursor: pointer; text-decoration: underline; }
+
+        @keyframes avatarFlutuar { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-8px); } }
+        @keyframes avatarOnda { 0% { transform: scale(1); opacity: 0.9; } 100% { transform: scale(1.5); opacity: 0; } }
+        @keyframes statusPulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+        @keyframes msgEntrar { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes digitarPonto { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-6px); opacity: 1; } }
+        @keyframes tutorialEntrar { from { opacity: 0; transform: scale(0.9) translateY(20px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+
+        @media (max-width: 900px) { .main-content { padding: 20px; } }
+        @media (max-width: 768px) {
+            .menu-toggle { display: flex; }
+            .sidebar { position: fixed; top: 0; left: 0; height: 100%; height: 100dvh; transform: translateX(-100%); border-right: 2px solid var(--secondary); padding-top: 70px; }
+            .sidebar.open { transform: translateX(0); }
+            .main-content { padding: 70px 16px 20px; height: 100vh; height: 100dvh; }
+            .tab-header h2 { font-size: 20px; }
+            .empresas-grid, #salvosContainer { grid-template-columns: 1fr; }
+            .search-box { flex-direction: column; }
+            .search-box input, .search-box button { width: 100%; justify-content: center; }
+            #mapContainer { height: 350px; }
+            .assistente-wrapper { bottom: 84px; right: 16px; }
+            .assistente-avatar { width: 62px; height: 62px; }
+            .assistente-chat { bottom: 84px; right: 12px; left: 12px; width: auto; height: 520px; max-height: calc(100vh - 120px); }
+            .predict-hero h1 { font-size: 24px; }
+            .predict-comparacao { grid-template-columns: 1fr; }
+            .foto-resultado .lixeira-info { flex-direction: column; text-align: center; }
+        }
+        @media (max-width: 480px) {
+            .main-content { padding: 66px 12px 16px; }
+            .tab-header h2 { font-size: 18px; }
+            #mapContainer { height: 280px; }
+            .assistente-avatar { width: 56px; height: 56px; }
+            .assistente-chat { bottom: 80px; height: 480px; }
+            .foto-upload { padding: 24px 16px; }
+            .foto-upload i { font-size: 40px; }
+            .foto-upload h4 { font-size: 15px; }
+        }
+
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--primary-dark); }
+        ::-webkit-scrollbar-thumb { background: var(--secondary); border-radius: 8px; }
+
+        .leaflet-control-zoom a { background: var(--card-bg) !important; color: var(--text) !important; }
+        .leaflet-popup-content-wrapper { background: var(--card-bg) !important; color: var(--text) !important; }
+        .leaflet-popup-tip { background: var(--card-bg) !important; }
+    </style>
+    <!-- ============================================================
+     BOTÃO INSTALAR APP (PWA)
+============================================================ -->
+<div class="install-prompt" id="installPrompt" style="display: none;">
+    <div class="install-content">
+        <div class="install-icon">
+            <i class="fas fa-leaf"></i>
+        </div>
+        <div class="install-text">
+            <strong>Instalar Econexa.IA</strong>
+            <span>Tenha o app na tela inicial</span>
+        </div>
+        <button class="install-btn" id="btnInstalar">
+            <i class="fas fa-download"></i> Instalar
+        </button>
+        <button class="install-close" id="btnFecharInstall" aria-label="Fechar">
+            <i class="fas fa-times"></i>
+        </button>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     BOTÃO ATUALIZAR APP
+============================================================ -->
+<div class="update-prompt" id="updatePrompt" style="display: none;">
+    <div class="update-content">
+        <i class="fas fa-sync-alt"></i>
+        <span>Nova versão disponível!</span>
+        <button id="btnAtualizar">Atualizar</button>
+    </div>
+</div>
+
+
+<!-- ============================================================
+     REGISTRO DO SERVICE WORKER
+============================================================ -->
+<script>
+    (function() {
+        'use strict';
+
+        // ============================================================
+        //  SERVICE WORKER
+        // ============================================================
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js')
+                    .then(registration => {
+                        console.log('[PWA] Service Worker registrado:', registration.scope);
+
+                        // Verificar atualizações a cada 1 hora
+                        setInterval(() => {
+                            registration.update();
+                        }, 60 * 60 * 1000);
+
+                        // Detectar atualização disponível
+                        registration.addEventListener('updatefound', () => {
+                            const newWorker = registration.installing;
+
+                            newWorker.addEventListener('statechange', () => {
+                                if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
+                                    mostrarPromptAtualizacao();
+                                }
+                            });
+                        });
+                    })
+                    .catch(err => {
+                        console.error('[PWA] Erro ao registrar Service Worker:', err);
+                    });
+            });
+        }
+
+        // ============================================================
+        //  INSTALAÇÃO DO APP (PWA)
+        // ============================================================
+        let deferredPrompt = null;
+        const installPrompt = document.getElementById('installPrompt');
+        const btnInstalar = document.getElementById('btnInstalar');
+        const btnFecharInstall = document.getElementById('btnFecharInstall');
+
+        // Verifica se já foi instalado / dispensado
+        const installDismissed = localStorage.getItem('ecolages_install_dismissed');
+
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            deferredPrompt = e;
+
+            // Só mostra se não foi dispensado recentemente
+            if (!installDismissed && installPrompt) {
+                setTimeout(() => {
+                    installPrompt.style.display = 'block';
+                }, 8000);
+            }
+        });
+
+        // Botão instalar
+        if (btnInstalar) {
+            btnInstalar.addEventListener('click', async () => {
+                if (!deferredPrompt) return;
+
+                deferredPrompt.prompt();
+                const { outcome } = await deferredPrompt.userChoice;
+
+                console.log('[PWA] Resultado da instalação:', outcome);
+
+                if (outcome === 'accepted') {
+                    mostrarToast('🎉 App instalado com sucesso!');
+                } else {
+                    mostrarToast('Você pode instalar depois pelo menu do navegador');
+                }
+
+                deferredPrompt = null;
+                installPrompt.style.display = 'none';
+            });
+        }
+
+        // Botão fechar
+        if (btnFecharInstall) {
+            btnFecharInstall.addEventListener('click', () => {
+                installPrompt.style.display = 'none';
+                // Não mostrar novamente por 7 dias
+                const expiry = Date.now() + (7 * 24 * 60 * 60 * 1000);
+                localStorage.setItem('ecolages_install_dismissed', expiry.toString());
+            });
+        }
+
+        // Detecta se foi instalado
+        window.addEventListener('appinstalled', () => {
+            console.log('[PWA] App instalado!');
+            mostrarToast('🎉 Econexa.IA instalado!');
+            installPrompt.style.display = 'none';
+            localStorage.removeItem('ecolages_install_dismissed');
+        });
+
+        // Detecta se está rodando como app
+        if (window.matchMedia('(display-mode: standalone)').matches ||
+            window.navigator.standalone === true) {
+            console.log('[PWA] Rodando como app instalado');
+            document.body.classList.add('pwa-mode');
+        }
+
+        // ============================================================
+        //  ATUALIZAÇÃO DO APP
+        // ============================================================
+        const updatePrompt = document.getElementById('updatePrompt');
+        const btnAtualizar = document.getElementById('btnAtualizar');
+
+        function mostrarPromptAtualizacao() {
+            if (updatePrompt) {
+                updatePrompt.style.display = 'block';
+            }
+        }
+
+        if (btnAtualizar) {
+            btnAtualizar.addEventListener('click', () => {
+                if (navigator.serviceWorker.controller) {
+                    navigator.serviceWorker.controller.postMessage({ action: 'skipWaiting' });
+                }
+                window.location.reload();
+            });
+        }
+
+        // Recarrega quando o SW mudar
+        let refreshing = false;
+        navigator.serviceWorker?.addEventListener('controllerchange', () => {
+            if (!refreshing) {
+                refreshing = true;
+                window.location.reload();
+            }
+        });
+
+        // ============================================================
+        //  ABRIR ABA PELO SHORTCUT (?tab=fotoia)
+        // ============================================================
+        const urlParams = new URLSearchParams(window.location.search);
+        const tabParam = urlParams.get('tab');
+        if (tabParam && typeof window.switchTab === 'function') {
+            setTimeout(() => {
+                window.switchTab(tabParam);
+            }, 500);
+        }
+
+        console.log('[PWA] App carregado. Pronto para uso!');
+    })();
+</script>
+
+
+<!-- ============================================================
+     ESTILOS DO PROMPT DE INSTALAÇÃO E ATUALIZAÇÃO
+============================================================ -->
+<style>
+    /* ==========================================
+       INSTALL PROMPT
+    ========================================== */
+    .install-prompt {
+        position: fixed;
+        bottom: 90px;
+        left: 50%;
+        transform: translateX(-50%) translateY(200px);
+        z-index: 4000;
+        width: calc(100% - 32px);
+        max-width: 420px;
+        background: linear-gradient(135deg, var(--card-bg), var(--primary-dark));
+        border: 2px solid var(--secondary);
+        border-radius: 16px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.7);
+        padding: 16px;
+        animation: slideUpInstall 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes slideUpInstall {
+        to { transform: translateX(-50%) translateY(0); }
+    }
+
+    .install-content {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .install-icon {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        color: var(--btn-text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        flex-shrink: 0;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    .install-text {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+    }
+
+    .install-text strong {
+        color: var(--secondary);
+        font-size: 14px;
+        font-weight: 700;
+    }
+
+    .install-text span {
+        color: var(--text-light);
+        font-size: 12px;
+        opacity: 0.85;
+    }
+
+    .install-btn {
+        padding: 10px 16px;
+        background: var(--secondary);
+        color: var(--btn-text);
+        border: none;
+        border-radius: 10px;
+        font-size: 13px;
+        font-weight: 800;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        white-space: nowrap;
+        transition: all 0.2s ease;
+        flex-shrink: 0;
+    }
+
+    .install-btn:hover {
+        background: var(--secondary-dark);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .install-close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: none;
+        background: rgba(0, 0, 0, 0.3);
+        color: var(--text);
+        font-size: 11px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
+
+    .install-close:hover {
+        background: rgba(0, 0, 0, 0.5);
+        transform: rotate(90deg);
+    }
+
+    /* ==========================================
+       UPDATE PROMPT
+    ========================================== */
+    .update-prompt {
+        position: fixed;
+        top: 16px;
+        left: 50%;
+        transform: translateX(-50%) translateY(-100px);
+        z-index: 4500;
+        background: linear-gradient(135deg, var(--secondary), var(--secondary-dark));
+        color: var(--btn-text);
+        padding: 12px 18px;
+        border-radius: 30px;
+        box-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        font-size: 13.5px;
+        font-weight: 600;
+        animation: slideDownUpdate 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+        max-width: calc(100% - 32px);
+    }
+
+    @keyframes slideDownUpdate {
+        to { transform: translateX(-50%) translateY(0); }
+    }
+
+    .update-prompt i {
+        font-size: 16px;
+        animation: girar 2s linear infinite;
+    }
+
+    @keyframes girar {
+        from { transform: rotate(0deg); }
+        to { transform: rotate(360deg); }
+    }
+
+    .update-prompt button {
+        padding: 6px 14px;
+        background: var(--btn-text);
+        color: var(--secondary);
+        border: none;
+        border-radius: 20px;
+        font-size: 12px;
+        font-weight: 800;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: transform 0.2s ease;
+    }
+
+    .update-prompt button:hover {
+        transform: scale(1.05);
+    }
+
+    /* ==========================================
+       PWA MODE — Ajustes quando instalado
+    ========================================== */
+    body.pwa-mode .install-prompt {
+        display: none !important;
+    }
+
+    /* Safe area no topo */
+    body.pwa-mode .sidebar {
+        padding-top: calc(24px + env(safe-area-inset-top));
+    }
+
+    body.pwa-mode .main-content {
+        padding-top: calc(24px + env(safe-area-inset-top));
+    }
+
+    body.pwa-mode .menu-toggle {
+        top: calc(12px + env(safe-area-inset-top));
+    }
+
+    @media (max-width: 480px) {
+        .install-prompt {
+            bottom: 80px;
+            padding: 14px;
+        }
+
+        .install-icon {
+            width: 42px;
+            height: 42px;
+            font-size: 18px;
+        }
+
+        .install-text strong {
+            font-size: 13px;
+        }
+
+        .install-text span {
+            font-size: 11px;
+        }
+
+        .install-btn {
+            padding: 8px 12px;
+            font-size: 12px;
+        }
+    }
+</style>
+</head>
+<body>
+    <div class="menu-overlay" id="menuOverlay"></div>
+    <button class="menu-toggle" id="menuToggle" aria-label="Abrir menu"><i class="fas fa-bars"></i></button>
+    <div class="toast" id="toast"></div>
+
+    <div class="app-container">
+        <aside class="sidebar" id="sidebar">
+            <div class="logo">
+                <i class="fas fa-leaf"></i>
+                <h2>Econexa<span>.IA</span></h2>
+                <span class="badge">Lages/SC</span>
+            </div>
+            <nav class="nav-menu">
+                <button class="nav-btn active" data-tab="predict"><i class="fas fa-brain"></i> <span>EcoPredict</span></button>
+                <button class="nav-btn" data-tab="empresas"><i class="fas fa-building"></i> <span>Empresas</span></button>
+                <button class="nav-btn" data-tab="mapa"><i class="fas fa-map-pin"></i> <span>Mapa</span></button>
+                <button class="nav-btn" data-tab="pesquisa"><i class="fas fa-search"></i> <span>Pesquisa</span></button>
+                <button class="nav-btn" data-tab="salvos"><i class="fas fa-bookmark"></i> <span>Salvos</span></button>
+            </nav>
+            <div class="sidebar-footer">
+                <div class="coleta-info"><i class="fas fa-truck"></i><span>Coleta Seletiva Lages</span></div>
+                <small>Dados atualizados em 2026</small>
+                <div class="offline-badge"><i class="fas fa-circle"></i><span>Funciona Offline</span></div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+
+            <section id="tab-predict" class="tab-content active">
+                <div class="predict-hero">
+                    <h1>♻️ ECO-PREDICT</h1>
+                    <p class="slogan">"A inteligência artificial pode prever os padrões de resíduos de uma comunidade escolar?"</p>
+                    <div class="fluxo">
+                        <span>📊 Coletar dados</span><span>→</span>
+                        <span>🤖 IA analisa</span><span>→</span>
+                        <span>🔮 Previsão</span><span>→</span>
+                        <span>✅ Verificar realidade</span>
+                    </div>
+                </div>
+
+                <div class="predict-tabs">
+                    <button class="predict-tab-btn active" data-pred="predict"><i class="fas fa-crystal-ball"></i> Previsão × Realidade</button>
+                    <button class="predict-tab-btn" data-pred="fotoia"><i class="fas fa-camera"></i> 📸 Foto IA</button>
+                    <button class="predict-tab-btn" data-pred="dna"><i class="fas fa-dna"></i> DNA do Lixo</button>
+                    <button class="predict-tab-btn" data-pred="lixeira"><i class="fas fa-trash-alt"></i> Lixeira que Pensa</button>
+                    <button class="predict-tab-btn" data-pred="incerteza"><i class="fas fa-question-circle"></i> Materiais Desconhecidos</button>
+                    <button class="predict-tab-btn" data-pred="cidade"><i class="fas fa-city"></i> Cidade Virtual</button>
+                    <button class="predict-tab-btn" data-pred="visao"><i class="fas fa-eye"></i> Visão Computacional</button>
+                    <button class="predict-tab-btn" data-pred="lab"><i class="fas fa-flask"></i> Laboratório do Lixo</button>
+                    <button class="predict-tab-btn" data-pred="shazam"><i class="fas fa-mobile-alt"></i> Shazam dos Resíduos</button>
+                    <button class="predict-tab-btn" data-pred="ecossistema"><i class="fas fa-project-diagram"></i> Ecossistema</button>
+                    <button class="predict-tab-btn" data-pred="cemiterio"><i class="fas fa-skull"></i> Cemitério dos Resíduos</button>
+                </div>
+
+                <div class="predict-panel active" id="pred-predict">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-crystal-ball"></i> Experimento Principal: Previsão × Realidade</h3>
+                        <p class="instrucao">Registre os resíduos observados na escola por alguns dias. A IA aprende os padrões e faz uma previsão. Depois você compara com a realidade.</p>
+
+                        <div class="predict-grid">
+                            <div class="predict-stat">
+                                <div class="valor" id="predDias">0</div>
+                                <div class="unidade">dias registrados</div>
+                                <div class="rotulo">Base de dados</div>
+                            </div>
+                            <div class="predict-stat">
+                                <div class="valor" id="predPrecisao">—</div>
+                                <div class="unidade">% de acerto</div>
+                                <div class="rotulo">Precisão da IA</div>
+                            </div>
+                            <div class="predict-stat">
+                                <div class="valor" id="predTotal">0</div>
+                                <div class="unidade">itens no total</div>
+                                <div class="rotulo">Coletados</div>
+                            </div>
+                        </div>
+
+                        <h4 style="color:var(--secondary);margin:16px 0 10px;font-size:15px;">📝 Registrar Dia</h4>
+                        <div class="predict-box">
+                            <select id="predLocal">
+                                <option value="Cantina">🍽️ Cantina</option>
+                                <option value="Pátio">🏫 Pátio</option>
+                                <option value="Sala de Aula">📚 Sala de Aula</option>
+                                <option value="Quadra">⚽ Quadra</option>
+                                <option value="Entrada">🚪 Entrada</option>
+                            </select>
+                            <select id="predMaterial">
+                                <option value="plástico">🔴 Plástico</option>
+                                <option value="papel">🔵 Papel</option>
+                                <option value="vidro">🟢 Vidro</option>
+                                <option value="metal">🟡 Metal</option>
+                                <option value="orgânico">🟤 Orgânico</option>
+                            </select>
+                            <input type="number" id="predQtd" min="1" value="10" placeholder="Qtd">
+                            <button id="btnPredRegistrar"><i class="fas fa-plus"></i> Registrar</button>
+                        </div>
+
+                        <button class="btn-predict" id="btnPredPrever"><i class="fas fa-magic"></i> 🤖 IA: Fazer Previsão para Amanhã</button>
+                        <div id="predResultado"></div>
+                        <div id="predHistorico"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-fotoia">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-camera"></i> Foto IA — Identificação de Embalagens</h3>
+                        <p class="instrucao">Tire ou envie uma foto da embalagem. A IA identifica o material com precisão e mostra em qual lixeira descartar.</p>
+
+                        <div class="foto-upload" id="fotoUpload">
+                            <input type="file" accept="image/*" id="fotoInput" capture="environment">
+                            <i class="fas fa-camera-retro"></i>
+                            <h4>Clique ou arraste uma foto aqui</h4>
+                            <p>📸 Tire foto da embalagem • JPG, PNG • Máx 5MB</p>
+                        </div>
+
+                        <div class="foto-preview" id="fotoPreview" style="display:none;">
+                            <img id="fotoImg" alt="Pré-visualização">
+                        </div>
+
+                        <div class="predict-box" style="margin-top:14px;">
+                            <input type="text" id="fotoNomeObjeto" placeholder="💡 Opcional: digite o nome do objeto (ex: garrafa PET, lata de atum, caixa de pizza)" autocomplete="off">
+                        </div>
+
+                        <button class="btn-predict" id="btnAnalisar" disabled><i class="fas fa-magic"></i> 🤖 Analisar Embalagem</button>
+
+                        <div id="fotoResultado"></div>
+
+                        <div class="predict-ciano">
+                            <strong>🔬 Como funciona:</strong> A IA usa uma base com mais de <strong>150 tipos de embalagens</strong> organizadas por material. Digite o nome do objeto para classificação perfeita.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-dna">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-dna"></i> DNA do Lixo da Escola</h3>
+                        <p class="instrucao">Análise comportamental dos resíduos: quais materiais aparecem mais, em quais locais e horários.</p>
+                        <button class="btn-predict" id="btnDNA"><i class="fas fa-dna"></i> Gerar Mapa Comportamental</button>
+                        <div id="dnaResultado"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-lixeira">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-trash-alt"></i> A Lixeira que Pensa</h3>
+                        <p class="instrucao">Simulação de sistema automatizado: câmera → IA → regras → compartimento.</p>
+                        <div class="predict-box">
+                            <input type="text" id="lixeiraObjeto" placeholder="Digite ou simule um objeto (ex: garrafa PET)" autocomplete="off">
+                            <button id="btnLixeiraPensa"><i class="fas fa-microchip"></i> Simular Classificação</button>
+                        </div>
+                        <div id="lixeiraResultado"></div>
+                        <div class="predict-ciano">
+                            <strong>🔬 Pergunta científica:</strong> Qual é a taxa de precisão de um sistema automatizado de classificação de resíduos?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-incerteza">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-question-circle"></i> IA que Reconhece Sua Incerteza</h3>
+                        <p class="instrucao">Em vez de "chutar", a IA admite quando não tem certeza suficiente e marca como "NÃO SEI".</p>
+                        <div class="predict-box">
+                            <input type="text" id="incertezaObjeto" placeholder="Ex: isopor sujo, embalagem mista..." autocomplete="off">
+                            <button id="btnIncerteza"><i class="fas fa-brain"></i> Analisar com Incerteza</button>
+                        </div>
+                        <div id="incertezaResultado"></div>
+                        <div class="predict-ciano">
+                            <strong>🔬 Pergunta científica:</strong> Um sistema de IA que reconhece sua própria incerteza reduz erros na classificação?
+                        </div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-cidade">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-city"></i> E se a Cidade Inteira Recicasse?</h3>
+                        <p class="instrucao">Simulação visual de cenários com diferentes taxas de reciclagem.</p>
+                        <div class="predict-box">
+                            <label style="color:var(--text-light);font-size:13px;font-weight:600;align-self:center;">Taxa de reciclagem:</label>
+                            <input type="range" id="cidadeSlider" min="0" max="100" value="30" style="flex:1;min-width:200px;">
+                            <span id="cidadeTaxa" style="color:var(--secondary);font-weight:800;font-size:18px;min-width:60px;text-align:center;align-self:center;">30%</span>
+                        </div>
+                        <div id="cidadeVisual" style="font-size:64px;text-align:center;padding:24px;background:linear-gradient(135deg, var(--primary-dark), var(--primary));border-radius:var(--radius);border:2px solid var(--secondary);letter-spacing:8px;min-height:120px;display:flex;align-items:center;justify-content:center;">🏙️🏭🌫️</div>
+                        <div id="cidadeIndicadores"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-visao">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-eye"></i> Detecção de Descarte Incorreto</h3>
+                        <p class="instrucao">Simulação de sistema de visão computacional que identifica objetos na categoria errada.</p>
+                        <button class="btn-predict" id="btnVisao"><i class="fas fa-eye"></i> Simular Análise de Área</button>
+                        <div id="visaoResultado"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-lab">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-flask"></i> Laboratório do Lixo</h3>
+                        <p class="instrucao">Registre experimentos: material → condições → tempo → alteração observada.</p>
+                        <div class="predict-box">
+                            <select id="labMaterial">
+                                <option value="plástico">🔴 Plástico</option>
+                                <option value="papel">🔵 Papel</option>
+                                <option value="vidro">🟢 Vidro</option>
+                                <option value="metal">🟡 Metal</option>
+                                <option value="orgânico">🟤 Orgânico</option>
+                            </select>
+                            <select id="labCondicao">
+                                <option value="solo">🌍 No solo</option>
+                                <option value="agua">💧 Na água</option>
+                                <option value="sol">☀️ Exposto ao sol</option>
+                                <option value="sombra">🌑 Na sombra</option>
+                            </select>
+                            <input type="number" id="labDias" min="1" value="30" placeholder="Dias">
+                            <button id="btnLabRegistrar"><i class="fas fa-plus"></i> Registrar</button>
+                        </div>
+                        <button class="btn-predict" id="btnLabAnalisar"><i class="fas fa-chart-line"></i> 🤖 IA: Encontrar Padrões</button>
+                        <div id="labResultado"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-shazam">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-mobile-alt"></i> O "Shazam" dos Resíduos</h3>
+                        <p class="instrucao">Aponte para qualquer objeto e descubra tudo sobre ele.</p>
+                        <div class="predict-box">
+                            <input type="text" id="shazamObjeto" placeholder="Ex: garrafa PET, lata, isopor, pilha..." autocomplete="off">
+                            <button id="btnShazam"><i class="fas fa-search"></i> Escanear</button>
+                        </div>
+                        <div id="shazamResultado"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-ecossistema">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-project-diagram"></i> O Ecossistema dos Resíduos</h3>
+                        <p class="instrucao">Visualize o ciclo de vida completo de um material e identifique pontos de falha.</p>
+                        <div class="predict-box">
+                            <select id="ecoMaterial">
+                                <option value="plástico">🔴 Plástico (PET)</option>
+                                <option value="papel">🔵 Papel/Papelão</option>
+                                <option value="vidro">🟢 Vidro</option>
+                                <option value="metal">🟡 Alumínio</option>
+                            </select>
+                            <button id="btnEcossistema"><i class="fas fa-route"></i> Ver Ciclo Completo</button>
+                        </div>
+                        <div id="ecossistemaResultado"></div>
+                    </div>
+                </div>
+
+                <div class="predict-panel" id="pred-cemiterio">
+                    <div class="predict-card">
+                        <h3><i class="fas fa-skull"></i> O Cemitério dos Resíduos</h3>
+                        <p class="instrucao">O que acontece com este objeto depois que você joga fora?</p>
+                        <div class="predict-box">
+                            <select id="cemiterioMaterial">
+                                <option value="plástico">🥤 Garrafa PET</option>
+                                <option value="papel">📦 Caixa de Papelão</option>
+                                <option value="vidro">🍾 Garrafa de Vidro</option>
+                                <option value="metal">🥫 Lata de Alumínio</option>
+                                <option value="orgânico">🍌 Casca de Banana</option>
+                                <option value="eletrônicos">📱 Celular Velho</option>
+                                <option value="pilha">🔋 Pilha Usada</option>
+                            </select>
+                            <button id="btnCemiterio"><i class="fas fa-clock"></i> Ver Linha do Tempo</button>
+                        </div>
+                        <div id="cemiterioResultado"></div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="tab-empresas" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-building"></i> Empresas de Reciclagem</h2>
+                    <p>Empresas que atuam com reciclagem e gestão de resíduos em Lages/SC.</p>
+                </div>
+                <div class="empresas-grid" id="empresasGrid"></div>
+            </section>
+
+            <section id="tab-mapa" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-map-pin"></i> Pontos de Coleta</h2>
+                    <p>Localização das empresas e pontos de coleta em Lages/SC.</p>
+                </div>
+                <div id="mapContainer"></div>
+                <div class="map-legend">
+                    <span><span class="legend-dot" style="background:#e8c84a;"></span> Empresa de Reciclagem</span>
+                    <span><span class="legend-dot" style="background:#c49a2c;"></span> Ponto de Coleta</span>
+                </div>
+            </section>
+
+            <section id="tab-pesquisa" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-search"></i> Pesquise sobre Sustentabilidade</h2>
+                    <p>Pergunte qualquer coisa sobre reciclagem! Funciona 100% offline.</p>
+                </div>
+                <div class="search-box">
+                    <input type="text" id="searchInput" placeholder="Ex: o que fazer com vidro? como reciclar óleo?..." autocomplete="off" />
+                    <button id="searchBtn"><i class="fas fa-search"></i> Pesquisar</button>
+                </div>
+                <div id="searchResults" class="search-results">
+                    <div class="placeholder-msg">
+                        <i class="fas fa-lightbulb"></i>
+                        <p>Pergunte <strong>qualquer coisa</strong> sobre reciclagem!</p>
+                    </div>
+                </div>
+                <div class="quick-topics">
+                    <span class="topic-tag" data-term="como reciclar plástico">♻️ Plástico</span>
+                    <span class="topic-tag" data-term="como reciclar papel">📄 Papel</span>
+                    <span class="topic-tag" data-term="como reciclar vidro">🟢 Vidro</span>
+                    <span class="topic-tag" data-term="como reciclar metal">🟡 Metal</span>
+                    <span class="topic-tag" data-term="me dá uma dica sustentável">💡 Dica Verde</span>
+                    <span class="topic-tag" data-term="onde descartar eletrônicos">📱 Eletrônicos</span>
+                    <span class="topic-tag" data-term="impacto ambiental do plástico">🌍 Impacto</span>
+                    <span class="topic-tag" data-term="como fazer compostagem">🌱 Compostagem</span>
+                    <span class="topic-tag" data-term="coleta seletiva em Lages">🚛 Coleta Lages</span>
+                    <span class="topic-tag" data-term="empresas de reciclagem em Lages">🏢 Empresas</span>
+                </div>
+            </section>
+
+            <section id="tab-salvos" class="tab-content">
+                <div class="tab-header">
+                    <h2><i class="fas fa-bookmark"></i> Informações Salvas</h2>
+                    <p>Suas pesquisas e empresas favoritas.</p>
+                </div>
+                <div id="salvosContainer"></div>
+            </section>
+
+        </main>
+    </div>
+
+    <div class="assistente-wrapper" id="assistenteWrapper">
+        <input type="radio" name="mascote" id="mascote-susie" class="mascote-radio" checked>
+        <input type="radio" name="mascote" id="mascote-medusa" class="mascote-radio">
+        <input type="radio" name="mascote" id="mascote-abigail" class="mascote-radio">
+        <input type="checkbox" id="chat-aberto" class="mascote-radio">
+
+        <div class="mascote-seletor" role="radiogroup" aria-label="Escolha seu assistente">
+            <label for="mascote-susie" class="mascote-opcao opcao-susie" data-nome="Susie" title="Susie - Calma e didática"><img src="img/susie.jpeg" alt="Susie"></label>
+            <label for="mascote-medusa" class="mascote-opcao opcao-medusa" data-nome="Medusa" title="Medusa - Direta e afiada"><img src="img/medusa.jpeg" alt="Medusa"></label>
+            <label for="mascote-abigail" class="mascote-opcao opcao-abigail" data-nome="Abigail" title="Abigail - Sábia e curiosa"><img src="img/abigail.jpeg" alt="Abigail"></label>
+        </div>
+
+        <div class="assistente-balao" id="assistenteBalao" role="status" aria-live="polite"></div>
+
+        <label for="chat-aberto" class="assistente-avatar" id="assistenteAvatar" aria-label="Abrir chat">
+            <img class="avatar-susie" src="img/susie.jpeg" alt="Susie">
+            <img class="avatar-medusa" src="img/medusa.jpeg" alt="Medusa">
+            <img class="avatar-abigail" src="img/abigail.jpeg" alt="Abigail">
+        </label>
+    </div>
+
+    <div class="assistente-chat" id="assistenteChat" role="dialog">
+        <div class="chat-header">
+            <div class="chat-avatar-mini">
+                <img class="avatar-susie" src="img/susie.jpeg" alt="Susie">
+                <img class="avatar-medusa" src="img/medusa.jpeg" alt="Medusa">
+                <img class="avatar-abigail" src="img/abigail.jpeg" alt="Abigail">
+            </div>
+            <div class="chat-info">
+                <div class="chat-nome"></div>
+                <div class="chat-status">Online agora</div>
+            </div>
+            <label for="chat-aberto" class="btn-fechar-chat" aria-label="Fechar chat"><i class="fas fa-times"></i></label>
+        </div>
+        <div class="chat-body" id="chatBody"></div>
+        <div class="chat-sugestoes" id="chatSugestoes"></div>
+        <div class="chat-input-area">
+            <input type="text" id="chatInput" placeholder="Pergunte qualquer coisa..." autocomplete="off" />
+            <button class="voice-btn" id="btnVoz" aria-label="Falar por voz"><i class="fas fa-microphone"></i></button>
+            <button id="btnEnviarChat" aria-label="Enviar mensagem"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+
+    <div class="tutorial-overlay" id="tutorialOverlay">
+        <div class="tutorial-card">
+            <h3>Escolha seu assistente 🌱</h3>
+            <p class="subtitulo">Cada mascote tem uma personalidade única!</p>
+            <div class="tutorial-mascotes">
+                <label for="mascote-susie" class="mascote-preview" title="Susie"><img src="img/susie.jpeg" alt="Susie"></label>
+                <label for="mascote-medusa" class="mascote-preview" title="Medusa"><img src="img/medusa.jpeg" alt="Medusa"></label>
+                <label for="mascote-abigail" class="mascote-preview" title="Abigail"><img src="img/abigail.jpeg" alt="Abigail"></label>
+            </div>
+            <ul>
+                <li>🐢 <strong>Susie</strong> - Calma, paciente e didática</li>
+                <li>🐍 <strong>Medusa</strong> - Direta, afiada e sem enrolação</li>
+                <li>🦉 <strong>Abigail</strong> - Sábia, curiosa e filosófica</li>
+            </ul>
+            <button class="btn-comecar" id="btnComecar"><i class="fas fa-play"></i> Vamos começar!</button>
+            <button class="btn-pular" id="btnPularTutorial">Pular tutorial</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // ============================================================
+        //  DADOS BASE
+        // ============================================================
+        const empresas = [
+            { id: 1, nome: "Cooperativa de Trabalho de Catadores de Lages", endereco: "Lages, SC", tags: ["Coleta Seletiva", "Reciclagem"], lat: -27.8167, lng: -50.3267, atuacao: "Coleta de resíduos não-perigosos" },
+            { id: 2, nome: "Reciclagem Industrial São Cristóvão", endereco: "Lages, SC", tags: ["Metais", "Plásticos"], lat: -27.8100, lng: -50.3200, atuacao: "Recuperação de metais e plásticos" },
+            { id: 3, nome: "Recicla Vidros Vieira", endereco: "Lages, SC", tags: ["Vidros"], lat: -27.8140, lng: -50.3280, atuacao: "Coleta de vidros" },
+            { id: 4, nome: "Ecoserra Reciclagem Ltda", endereco: "Lages, SC", tags: ["Reciclagem"], lat: -27.8200, lng: -50.3350, atuacao: "Reciclagem geral" },
+            { id: 5, nome: "Sopet Indústria de Reciclagem", endereco: "Lages, SC", tags: ["Industrial"], lat: -27.8050, lng: -50.3150, atuacao: "Reciclagem industrial" },
+            { id: 6, nome: "Rapa Entulho Transportes", endereco: "Lages, SC", tags: ["Coleta"], lat: -27.8250, lng: -50.3400, atuacao: "Coleta de entulho" },
+            { id: 7, nome: "TDA Recycle Solução Ambiente", endereco: "Lages, SC", tags: ["Coleta"], lat: -27.8180, lng: -50.3300, atuacao: "Soluções ambientais" }
+        ];
+
+        const conhecimento = {
+            "plástico": { titulo: "♻️ Plástico", conteudo: "Limpe e seque antes de descartar. Exemplos: PET, potes, sacolas. Decomposição: 450 anos.", onde_descartar: "Lixeira VERMELHA ou AZUL.", decomposicao: "até 450 anos", impacto: "Um dos maiores poluentes dos oceanos.", cor: "#e74c3c", emoji: "🔴" },
+            "papel": { titulo: "📄 Papel", conteudo: "Não amassar. Separar grampos. Decomposição: 3-6 meses.", onde_descartar: "Lixeira AZUL.", decomposicao: "3 a 6 meses", impacto: "Salva árvores e economiza água.", cor: "#3498db", emoji: "🔵" },
+            "vidro": { titulo: "🟢 Vidro", conteudo: "Retire tampas. Não quebrar. Decomposição: 1 milhão de anos.", onde_descartar: "Lixeira VERDE.", decomposicao: "mais de 1 milhão de anos", impacto: "100% reciclável infinitamente.", cor: "#2ecc71", emoji: "🟢" },
+            "metal": { titulo: "🟡 Metal", conteudo: "Amasse latas. Decomposição: 100-500 anos.", onde_descartar: "Lixeira AMARELA.", decomposicao: "100 a 500 anos", impacto: "Economiza 95% de energia.", cor: "#f1c40f", emoji: "🟡" },
+            "orgânico": { titulo: "🌱 Orgânico", conteudo: "Vira adubo via compostagem. Decomposição: 2 semanas a 6 meses.", onde_descartar: "Lixeira MARROM.", decomposicao: "2 semanas a 6 meses", impacto: "Reduz metano em aterros.", cor: "#8B4513", emoji: "🟤" },
+            "eletrônicos": { titulo: "📱 Eletrônicos", conteudo: "Nunca no lixo comum. Levar a pontos de coleta.", onde_descartar: "Pontos de coleta especiais.", decomposicao: "mais de 1000 anos", impacto: "Metais pesados contaminam solo e água.", cor: "#95a5a6", emoji: "📱" },
+            "óleo": { titulo: "🫒 Óleo", conteudo: "Armazenar em PET e levar a pontos de coleta.", onde_descartar: "Pontos de coleta específicos.", decomposicao: "indeterminado", impacto: "1 litro contamina 1 milhão de litros de água.", cor: "#e67e22", emoji: "🫒" },
+            "isopor": { titulo: "♻️ Isopor", conteudo: "Poucos lugares aceitam. Limpar antes.", onde_descartar: "Pontos específicos.", decomposicao: "400 anos", impacto: "Vira microplástico.", cor: "#ecf0f1", emoji: "⚪" },
+            "tecido": { titulo: "👕 Tecido", conteudo: "Doe roupas. Retalhos viram panos.", onde_descartar: "Pontos de doação.", decomposicao: "6 meses a 5 anos", impacto: "Indústria têxtil é muito poluente.", cor: "#9b59b6", emoji: "👕" },
+            "medicamento": { titulo: "💊 Medicamento", conteudo: "Nunca no lixo comum. Levar a farmácias.", onde_descartar: "Farmácias e postos.", decomposicao: "indeterminado", impacto: "Contamina água e solo.", cor: "#e74c3c", emoji: "💊" },
+            "lâmpada": { titulo: "💡 Lâmpada", conteudo: "Contém mercúrio. Levar a pontos de coleta.", onde_descartar: "Lojas de construção.", decomposicao: "indeterminado", impacto: "Mercúrio é altamente tóxico.", cor: "#f39c12", emoji: "💡" },
+            "pilha": { titulo: "🔋 Pilhas", conteudo: "Metais pesados. Levar a pontos específicos.", onde_descartar: "Supermercados.", decomposicao: "mais de 1000 anos", impacto: "Uma pilha contamina 20 mil litros de água.", cor: "#7f8c8d", emoji: "🔋" }
+        };
+
+        const dicasSustentaveis = [
+            "🌱 Troque sacolas plásticas por ecobags.",
+            "🌱 Prefira produtos com embalagem retornável.",
+            "🌱 Economize água ao escovar os dentes.",
+            "🌱 Use lâmpadas LED.",
+            "🌱 Desligue aparelhos da tomada.",
+            "🌱 Compre produtos usados.",
+            "🌱 Faça horta em casa.",
+            "🌱 Use bicicleta.",
+            "🌱 Evite canudos plásticos.",
+            "🌱 Separe o lixo corretamente.",
+            "🌱 Compre a granel.",
+            "🌱 Leve sua garrafa reutilizável.",
+            "🌱 Composte restos de comida.",
+            "🌱 Prefira limpeza natural.",
+            "🌱 Plante uma árvore.",
+            "🌱 Doe roupas.",
+            "🌱 Evite imprimir desnecessariamente.",
+            "🌱 Use pilhas recarregáveis.",
+            "🌱 Aproveite a luz natural.",
+            "🌱 Recuse sacolas plásticas."
+        ];
+
+        // ============================================================
+        //  BASE DE EMBALAGENS (classificador robusto)
+        //  Cada item tem termos específicos com PESOS diferentes.
+        //  Termos mais específicos têm prioridade.
+        // ============================================================
+        const baseEmbalagens = [
+            // ===== PLÁSTICO =====
+            { termos: ["garrafa pet", "garrafa de pet", "pet"], material: "plástico", peso: 10 },
+            { termos: ["garrafa de refrigerante", "refrigerante", "coca cola", "coca-cola", "pepsi", "guarana", "sprite", "fanta", "sukita"], material: "plástico", peso: 8 },
+            { termos: ["pote de iogurte", "copo de iogurte", "danone", "yakult", "iogurte"], material: "plástico", peso: 9 },
+            { termos: ["pote de margarina", "margarina", "manteiga plastica", "creme vegetal"], material: "plástico", peso: 9 },
+            { termos: ["sacola plastica", "sacolinha", "saco plastico", "saco de supermercado"], material: "plástico", peso: 9 },
+            { termos: ["copo descartavel", "copo plastico", "copo de plastico"], material: "plástico", peso: 8 },
+            { termos: ["canudo", "canudinho"], material: "plástico", peso: 10 },
+            { termos: ["shampoo", "condicionador", "frasco de shampoo"], material: "plástico", peso: 9 },
+            { termos: ["detergente", "frasco de detergente"], material: "plástico", peso: 9 },
+            { termos: ["amaciante", "frasco de amaciante"], material: "plástico", peso: 9 },
+            { termos: ["creme dental", "pasta de dente", "tubo de pasta"], material: "plástico", peso: 9 },
+            { termos: ["escova de dente", "escova dental"], material: "plástico", peso: 10 },
+            { termos: ["brinquedo plastico", "boneca", "carrinho plastico"], material: "plástico", peso: 7 },
+            { termos: ["caneta", "lapiseira", "marcador"], material: "plástico", peso: 8 },
+            { termos: ["squeeze", "garrafinha", "garrafa termica"], material: "plástico", peso: 7 },
+            { termos: ["pote de sorvete", "sorvete"], material: "plástico", peso: 8 },
+            { termos: ["pacote de biscoito", "embalagem de biscoito", "bolacha"], material: "plástico", peso: 8 },
+            { termos: ["salgadinho", "chips", "embalagem de salgadinho"], material: "plástico", peso: 9 },
+            { termos: ["garrafa de oleo", "frasco de oleo", "oleo de cozinha plastico"], material: "plástico", peso: 7 },
+            { termos: ["embalagem plastica", "filme plastico", "plastico filme"], material: "plástico", peso: 6 },
+            { termos: ["tampa plastica", "tampa de garrafa plastica"], material: "plástico", peso: 7 },
+            { termos: ["desodorante", "aerossol", "spray"], material: "plástico", peso: 7 },
+            { termos: ["isqueiro"], material: "plástico", peso: 9 },
+
+            // ===== PAPEL =====
+            { termos: ["caixa de pizza", "caixa de pizza limpa"], material: "papel", peso: 10 },
+            { termos: ["caixa de papelao", "papelao", "caixa de mudanca", "caixa de encomenda"], material: "papel", peso: 10 },
+            { termos: ["jornal", "revista", "folha", "caderno", "livro", "apostila"], material: "papel", peso: 8 },
+            { termos: ["papel sulfite", "folha de papel", "papel a4", "sulfite"], material: "papel", peso: 9 },
+            { termos: ["envelope", "carta", "documento de papel"], material: "papel", peso: 8 },
+            { termos: ["papel de presente", "embrulho de presente"], material: "papel", peso: 8 },
+            { termos: ["cartolina", "papel cartao"], material: "papel", peso: 9 },
+            { termos: ["saco de papel", "sacola de papel"], material: "papel", peso: 9 },
+            { termos: ["caixa de ovos", "cartela de ovos", "embalagem de ovos"], material: "papel", peso: 10 },
+            { termos: ["papelao ondulado", "caixa ondulada"], material: "papel", peso: 10 },
+            { termos: ["copo de papel", "copo papel"], material: "papel", peso: 9 },
+            { termos: ["guardanapo", "papel toalha", "papel higienico"], material: "papel", peso: 7 },
+            { termos: ["lista telefonica", "apostila velha"], material: "papel", peso: 8 },
+
+            // ===== VIDRO =====
+            { termos: ["garrafa de vidro", "garrafa vidro"], material: "vidro", peso: 10 },
+            { termos: ["garrafa de cerveja", "cerveja", "long neck", "litro de cerveja"], material: "vidro", peso: 10 },
+            { termos: ["garrafa de vinho", "vinho", "espumante", "champanhe"], material: "vidro", peso: 10 },
+            { termos: ["pote de conserva", "conserva", "picles", "azeitona"], material: "vidro", peso: 10 },
+            { termos: ["pote de geleia", "geleia", "compota", "doce de vidro"], material: "vidro", peso: 10 },
+            { termos: ["frasco de perfume", "perfume", "colonia de vidro"], material: "vidro", peso: 10 },
+            { termos: ["copo de vidro", "copo vidro", "copo de requeijao"], material: "vidro", peso: 10 },
+            { termos: ["pote de requeijao", "requeijao de vidro"], material: "vidro", peso: 10 },
+            { termos: ["garrafa de azeite", "azeite de vidro"], material: "vidro", peso: 10 },
+            { termos: ["garrafa de molho", "molho de vidro", "ketchup de vidro", "mostarda de vidro"], material: "vidro", peso: 10 },
+            { termos: ["frasco de remedio", "remedio de vidro"], material: "vidro", peso: 9 },
+            { termos: ["espelho", "vidro de janela", "vidro temperado"], material: "vidro", peso: 9 },
+            { termos: ["garrafa de agua de vidro", "garrafa de agua vidro"], material: "vidro", peso: 10 },
+            { termos: ["copo de vidro quebrado", "vidro quebrado", "caco de vidro"], material: "vidro", peso: 10 },
+
+            // ===== METAL =====
+            { termos: ["lata de refrigerante", "lata de coca", "lata de pepsi", "lata de guarana"], material: "metal", peso: 10 },
+            { termos: ["lata de cerveja", "lata de chopp"], material: "metal", peso: 10 },
+            { termos: ["lata de atum", "atum", "sardinha", "lata de sardinha"], material: "metal", peso: 10 },
+            { termos: ["lata de milho", "milho de lata", "ervilha de lata", "seleta"], material: "metal", peso: 10 },
+            { termos: ["lata de extrato", "extrato de tomate de lata", "molho de lata"], material: "metal", peso: 10 },
+            { termos: ["lata de tinta", "tinta metalica"], material: "metal", peso: 9 },
+            { termos: ["aerossol metalico", "spray metal", "lata de spray"], material: "metal", peso: 9 },
+            { termos: ["tampa de metal", "tampinha de metal", "tampa de garrafa metal"], material: "metal", peso: 10 },
+            { termos: ["parafuso", "prego", "clipe", "grampo", "alfinete"], material: "metal", peso: 9 },
+            { termos: ["fio de metal", "arame", "cabo de metal"], material: "metal", peso: 8 },
+            { termos: ["panela velha", "panela de metal", "frigideira"], material: "metal", peso: 9 },
+            { termos: ["talher", "garfo", "faca", "colher de metal"], material: "metal", peso: 10 },
+            { termos: ["enlatado", "lata de alimento", "lata de conserva"], material: "metal", peso: 10 },
+            { termos: ["lata de alumínio", "lata de aluminio", "lata amassada"], material: "metal", peso: 10 },
+            { termos: ["papel aluminio", "papel alumínio"], material: "metal", peso: 9 },
+
+            // ===== ORGÂNICO =====
+            { termos: ["casca de banana", "banana", "casca de fruta"], material: "orgânico", peso: 10 },
+            { termos: ["casca de laranja", "laranja", "limao", "tangerina"], material: "orgânico", peso: 10 },
+            { termos: ["borra de cafe", "cafe", "po de cafe", "saquinho de cha"], material: "orgânico", peso: 9 },
+            { termos: ["casca de ovo", "ovo", "ovo cozido"], material: "orgânico", peso: 10 },
+            { termos: ["resto de comida", "comida", "resto", "sobra de comida"], material: "orgânico", peso: 8 },
+            { termos: ["verdura", "legume", "salada", "alface"], material: "orgânico", peso: 9 },
+            { termos: ["grama", "folha seca", "folhas secas", "galho"], material: "orgânico", peso: 8 },
+            { termos: ["flor", "flores", "petalas"], material: "orgânico", peso: 8 },
+            { termos: ["pao velho", "pao", "bolo velho"], material: "orgânico", peso: 8 },
+            { termos: ["osso", "resto de carne", "carne"], material: "orgânico", peso: 9 },
+            { termos: ["borra de cafe", "filtro de cafe"], material: "orgânico", peso: 9 },
+
+            // ===== ELETRÔNICOS =====
+            { termos: ["celular", "smartphone", "iphone", "android"], material: "eletrônicos", peso: 10 },
+            { termos: ["computador", "notebook", "laptop", "tablet"], material: "eletrônicos", peso: 10 },
+            { termos: ["carregador", "fonte de celular", "cabo usb"], material: "eletrônicos", peso: 10 },
+            { termos: ["fone de ouvido", "headphone", "earphone"], material: "eletrônicos", peso: 10 },
+            { termos: ["teclado", "mouse", "monitor", "impressora"], material: "eletrônicos", peso: 10 },
+            { termos: ["controle remoto", "controle de tv"], material: "eletrônicos", peso: 10 },
+            { termos: ["radio velho", "som velho", "caixa de som velha"], material: "eletrônicos", peso: 9 },
+
+            // ===== PILHA =====
+            { termos: ["pilha", "pilhas", "pilha alcalina", "pilha comum"], material: "pilha", peso: 10 },
+            { termos: ["bateria", "baterias", "bateria de celular", "bateria de carro"], material: "pilha", peso: 10 },
+
+            // ===== ÓLEO =====
+            { termos: ["oleo de cozinha", "oleo usado", "oleo de fritura", "oleo de fritura usado"], material: "óleo", peso: 10 },
+            { termos: ["oleo lubrificante", "oleo de motor", "oleo de carro"], material: "óleo", peso: 10 },
+            { termos: ["gordura", "gordura animal", "banha"], material: "óleo", peso: 9 },
+
+            // ===== ISOPOR =====
+            { termos: ["isopor", "eps", "poliestireno"], material: "isopor", peso: 10 },
+            { termos: ["bandeja de isopor", "caixa de isopor", "copo de isopor"], material: "isopor", peso: 10 },
+
+            // ===== TECIDO =====
+            { termos: ["roupa velha", "roupa", "camiseta", "calca", "vestido"], material: "tecido", peso: 9 },
+            { termos: ["lenco", "toalha", "pano de prato", "pano"], material: "tecido", peso: 9 },
+            { termos: ["meia velha", "meia", "sapato velho", "tenis velho"], material: "tecido", peso: 9 },
+            { termos: ["trapo", "retalho de tecido", "retalho"], material: "tecido", peso: 9 },
+
+            // ===== LÂMPADA =====
+            { termos: ["lampada", "lampada fluorescente", "lampada led", "lampada incandescente"], material: "lâmpada", peso: 10 },
+            { termos: ["luz fluorescente", "tubo fluorescente"], material: "lâmpada", peso: 10 },
+
+            // ===== MEDICAMENTO =====
+            { termos: ["remedio", "medicamento", "comprimido", "cartela de remedio", "xarope"], material: "medicamento", peso: 10 },
+            { termos: ["remedio vencido", "remedio velho"], material: "medicamento", peso: 10 }
+        ];
+
+        // ============================================================
+        //  FUNÇÕES DE APOIO
+        // ============================================================
+        function normalizar(texto) {
+            return texto.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '').replace(/[^a-z0-9\s]/g, '').trim();
+        }
+        function contemPalavra(texto, palavra) {
+            const t = normalizar(texto); const p = normalizar(palavra);
+            if (!p || p.length < 3) return false;
+            // Precisa ser palavra inteira ou no início/fim
+            const regex = new RegExp('(^|\\s)' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(\\s|$)', 'i');
+            return regex.test(t) || t.includes(p);
+        }
+
+        // ============================================================
+        //  CLASSIFICADOR ROBUSTO (corrigido — sem viés para isopor)
+        // ============================================================
+        function classificarEmbalagem(nomeArquivo, nomeDigitado) {
+            // Monta lista de textos para analisar (prioridade: nome digitado > nome arquivo)
+            const textos = [];
+            if (nomeDigitado && nomeDigitado.trim()) {
+                textos.push({ texto: nomeDigitado.trim(), fonte: 'nome-digitado', bonus: 3 });
+            }
+            if (nomeArquivo) {
+                const nomeLimpo = nomeArquivo.replace(/\.[^/.]+$/, '').replace(/[_-]/g, ' ').toLowerCase();
+                if (nomeLimpo.length > 2) {
+                    textos.push({ texto: nomeLimpo, fonte: 'nome-arquivo', bonus: 1 });
+                }
+            }
+
+            if (textos.length === 0) {
+                return { material: null, fonte: 'incerto', confianca: 0 };
+            }
+
+            // Sistema de pontuação por especificidade
+            const pontuacoes = {};
+
+            for (const { texto, fonte, bonus } of textos) {
+                const t = normalizar(texto);
+                for (const item of baseEmbalagens) {
+                    for (const termo of item.termos) {
+                        const termoNorm = normalizar(termo);
+                        if (!termoNorm || termoNorm.length < 3) continue;
+
+                        let match = false;
+                        let matchScore = 0;
+
+                        // Match exato (termo aparece inteiro no texto)
+                        if (t === termoNorm) {
+                            match = true;
+                            matchScore = 100;
+                        } else if (t.includes(termoNorm)) {
+                            // Termo está contido no texto
+                            match = true;
+                            // Quanto mais longo o termo, mais específico
+                            matchScore = termoNorm.length * 2;
+                            // Bônus se o termo está no início do texto
+                            if (t.startsWith(termoNorm)) matchScore += 5;
+                        } else {
+                            // Tenta match por palavras individuais (todas as palavras do termo estão no texto)
+                            const palavrasTermo = termoNorm.split(' ').filter(p => p.length >= 3);
+                            if (palavrasTermo.length > 0) {
+                                const todasPresentes = palavrasTermo.every(p => {
+                                    const regex = new RegExp('(^|\\s)' + p.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '(s?)(\\s|$)', 'i');
+                                    return regex.test(t);
+                                });
+                                if (todasPresentes) {
+                                    match = true;
+                                    matchScore = palavrasTermo.join('').length + 5;
+                                }
+                            }
+                        }
+
+                        if (match) {
+                            // Aplica peso do item + bônus da fonte + score específico
+                            const pontuacaoFinal = (item.peso * 10) + matchScore + (bonus * 5);
+                            if (!pontuacoes[item.material] || pontuacoes[item.material] < pontuacaoFinal) {
+                                pontuacoes[item.material] = pontuacaoFinal;
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Pega o material com maior pontuação
+            const entradas = Object.entries(pontuacoes);
+            if (entradas.length === 0) {
+                // Tenta o encontrarMaterial como último recurso
+                const texto = textos.map(t => t.texto).join(' ');
+                const mat = encontrarMaterial(texto);
+                if (mat) {
+                    return { material: mat, fonte: 'analise-padrao', confianca: 70 };
+                }
+                return { material: null, fonte: 'incerto', confianca: 0 };
+            }
+
+            entradas.sort((a, b) => b[1] - a[1]);
+            const [materialVencedor, pontuacaoVencedora] = entradas[0];
+            const pontuacaoSegundo = entradas[1] ? entradas[1][1] : 0;
+
+            // Calcula confiança baseada na diferença entre 1º e 2º lugar
+            const diferenca = pontuacaoVencedora - pontuacaoSegundo;
+            let confianca = Math.min(98, 70 + (diferenca / 10));
+            if (pontuacaoVencedora > 100) confianca = Math.min(99, confianca + 5);
+
+            const fonte = textos[0].fonte === 'nome-digitado' ? 'nome-digitado' : 'nome-arquivo';
+            return { material: materialVencedor, fonte, confianca: Math.round(confianca) };
+        }
+
+        function encontrarMaterial(texto) {
+            const chaves = Object.keys(conhecimento);
+            let melhor = null, melhorPontuacao = 0;
+            for (const chave of chaves) {
+                let pontuacao = 0;
+                for (const palavra of chave.split(' ')) {
+                    if (palavra.length < 3) continue;
+                    if (contemPalavra(texto, palavra)) pontuacao += 1;
+                }
+                if (pontuacao > melhorPontuacao) { melhorPontuacao = pontuacao; melhor = chave; }
+            }
+            return melhorPontuacao > 0 ? melhor : null;
+        }
+
+        function detectarIntencao(texto) {
+            const t = normalizar(texto);
+            if (t.includes('onde') && (t.includes('jogar') || t.includes('descartar') || t.includes('colocar') || t.includes('levar'))) return 'onde_descartar';
+            if (t.includes('descarte') || t.includes('descarta') || t.includes('jogar') || t.includes('joga') || t.includes('fora')) return 'onde_descartar';
+            if (t.includes('tempo') || t.includes('demora') || t.includes('decompoe') || t.includes('anos')) return 'tempo';
+            if (t.includes('impacto') || t.includes('polui') || t.includes('ambiental')) return 'impacto';
+            if (t.includes('como') && (t.includes('reciclar') || t.includes('recicla'))) return 'como_reciclar';
+            if (t.includes('dica') || t.includes('sugestao') || t.includes('verde')) return 'dica';
+            if (t.includes('coleta') || t.includes('seletiva') || t.includes('lages')) return 'coleta';
+            if (t.includes('empresa') || t.includes('cooperativa')) return 'empresas';
+            if (t.includes('lista') || t.includes('materiais')) return 'lista';
+            if (t.includes('ajuda') || t.includes('help')) return 'ajuda';
+            return 'geral';
+        }
+
+        function processarPergunta(pergunta) {
+            const texto = pergunta.trim();
+            if (!texto) return { titulo: "🤔 Pergunta vazia", conteudo: "Digite algo sobre reciclagem!", tipo: 'geral' };
+            const intencao = detectarIntencao(texto);
+            const material = encontrarMaterial(texto);
+            switch (intencao) {
+                case 'onde_descartar': {
+                    if (material) return { titulo: `📍 Onde descartar ${material}`, conteudo: `${conhecimento[material].onde_descartar}\n\n📌 ${conhecimento[material].conteudo}`, tipo: 'onde_descartar' };
+                    return { titulo: "📍 Onde descartar?", conteudo: "🔵 Azul = Papel\n🟢 Verde = Vidro\n🟡 Amarelo = Metal\n🔴 Vermelho = Plástico\n🟤 Marrom = Orgânico", tipo: 'onde_descartar' };
+                }
+                case 'tempo': {
+                    if (material) return { titulo: `⏱️ Decomposição do ${material}`, conteudo: `${conhecimento[material].decomposicao}\n\n📌 ${conhecimento[material].conteudo}`, tipo: 'tempo' };
+                    return { titulo: "⏱️ Decomposição", conteudo: "Papel: 3-6 meses\nOrgânico: 2 sem-6 meses\nMetal: 100-500 anos\nPlástico: 450 anos\nVidro: 1 milhão de anos", tipo: 'tempo' };
+                }
+                case 'impacto': {
+                    if (material) return { titulo: `🌍 Impacto do ${material}`, conteudo: conhecimento[material].impacto, tipo: 'impacto' };
+                    return { titulo: "🌍 Impacto ambiental", conteudo: "Reciclar reduz extração, economiza energia e diminui poluição.", tipo: 'impacto' };
+                }
+                case 'como_reciclar': {
+                    if (material) return { titulo: `♻️ Como reciclar ${material}`, conteudo: conhecimento[material].conteudo + `\n\n📍 ${conhecimento[material].onde_descartar}`, tipo: 'como_reciclar' };
+                    return { titulo: "♻️ Como reciclar?", conteudo: "1. Limpe\n2. Separe por tipo\n3. Use lixeiras corretas", tipo: 'como_reciclar' };
+                }
+                case 'dica': return { titulo: "💡 Dica", conteudo: dicasSustentaveis[Math.floor(Math.random() * dicasSustentaveis.length)], tipo: 'dica' };
+                case 'coleta': return { titulo: "🚛 Coleta em Lages", conteudo: "Operada pelo Cisama, de segunda a sexta.", tipo: 'coleta' };
+                case 'empresas': {
+                    let resposta = '🏢 Empresas em Lages:\n\n';
+                    empresas.forEach(emp => { resposta += `• ${emp.nome} - ${emp.endereco}\n`; });
+                    return { titulo: "🏢 Empresas", conteudo: resposta, tipo: 'empresas' };
+                }
+                case 'lista': {
+                    let resposta = '📋 Materiais:\n\n';
+                    Object.keys(conhecimento).forEach((mat, i) => { resposta += `${i + 1}. ${mat}\n`; });
+                    return { titulo: "📋 Lista", conteudo: resposta, tipo: 'lista' };
+                }
+                case 'ajuda': return { titulo: "🤖 Ajuda", conteudo: "Pergunte sobre: reciclagem, descarte, impacto, dicas, empresas, coleta.", tipo: 'ajuda' };
+                default: {
+                    if (material) return { titulo: `♻️ Sobre ${material}`, conteudo: `${conhecimento[material].conteudo}\n\n📍 ${conhecimento[material].onde_descartar}\n⏱️ ${conhecimento[material].decomposicao}\n🌍 ${conhecimento[material].impacto}`, tipo: 'geral' };
+                    return { titulo: "🤔 Não entendi", conteudo: "Tente: 'como reciclar plástico', 'onde descartar pilhas', 'me dá uma dica'.", tipo: 'geral' };
+                }
+            }
+        }
+
+        const SalvosManager = {
+            get() { try { return JSON.parse(localStorage.getItem('ecolages_salvos')) || []; } catch { return []; } },
+            set(l) { try { localStorage.setItem('ecolages_salvos', JSON.stringify(l)); } catch (e) {} },
+            add(i) { const l = this.get(); if (!l.some(x => x.id === i.id && x.tipo === i.tipo)) { l.push(i); this.set(l); return true; } return false; },
+            remove(id, tipo) { this.set(this.get().filter(i => !(i.id === id && i.tipo === tipo))); },
+            contains(id, tipo) { return this.get().some(i => i.id === id && i.tipo === tipo); }
+        };
+
+        function renderEmpresas() {
+            const grid = document.getElementById('empresasGrid');
+            if (!grid) return;
+            grid.innerHTML = '';
+            empresas.forEach(emp => {
+                const card = document.createElement('div');
+                card.className = 'empresa-card';
+                const salvo = SalvosManager.contains(emp.id, 'empresa');
+                card.innerHTML = `
+                    <h3>${emp.nome}</h3>
+                    <div class="endereco"><i class="fas fa-location-dot"></i> ${emp.endereco}</div>
+                    <div class="tags">${emp.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+                    <div class="card-actions">
+                        <button class="btn-salvar ${salvo ? 'salvo' : ''}" data-id="${emp.id}" data-tipo="empresa"><i class="fas fa-bookmark"></i> ${salvo ? 'Salvo' : 'Salvar'}</button>
+                        <button class="btn-mapa" data-lat="${emp.lat}" data-lng="${emp.lng}" data-nome="${emp.nome.replace(/"/g, '&quot;')}"><i class="fas fa-map-pin"></i> Ver no Mapa</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            grid.querySelectorAll('.btn-salvar').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const id = parseInt(this.dataset.id);
+                    const emp = empresas.find(e => e.id === id);
+                    if (SalvosManager.contains(id, 'empresa')) {
+                        SalvosManager.remove(id, 'empresa');
+                        this.classList.remove('salvo');
+                        this.innerHTML = '<i class="fas fa-bookmark"></i> Salvar';
+                        mostrarToast('🗑️ Removido');
+                    } else {
+                        SalvosManager.add({ id: emp.id, nome: emp.nome, tipo: 'empresa', info: emp.endereco });
+                        this.classList.add('salvo');
+                        this.innerHTML = '<i class="fas fa-bookmark"></i> Salvo';
+                        mostrarToast('✅ Salvo!');
+                    }
+                    renderSalvos();
+                });
+            });
+            grid.querySelectorAll('.btn-mapa').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const lat = parseFloat(this.dataset.lat);
+                    const lng = parseFloat(this.dataset.lng);
+                    const nome = this.dataset.nome;
+                    switchTab('mapa');
+                    fecharMenu();
+                    setTimeout(() => { initMap(); mostrarNoMapa(lat, lng, nome); }, 400);
+                });
+            });
+        }
+
+        let map = null, markersLayer = null;
+        function initMap() {
+            const c = document.getElementById('mapContainer');
+            if (!c) return;
+            if (typeof L === 'undefined') { c.innerHTML = `<div class="map-fallback"><i class="fas fa-map-marked-alt"></i><p>Mapa indisponível.</p></div>`; return; }
+            if (map) { setTimeout(() => map.invalidateSize(), 200); return; }
+            try {
+                map = L.map('mapContainer', { zoomControl: true }).setView([-27.8167, -50.3267], 13);
+                L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+                    attribution: '© OpenStreetMap © CartoDB', subdomains: 'abcd', maxZoom: 20, crossOrigin: true
+                }).addTo(map);
+                markersLayer = L.layerGroup().addTo(map);
+                atualizarMarcadores();
+                setTimeout(() => { if (map) map.invalidateSize(); }, 300);
+                setTimeout(() => { if (map) map.invalidateSize(); }, 800);
+            } catch (e) { c.innerHTML = `<div class="map-fallback"><i class="fas fa-map-marked-alt"></i><p>Erro ao carregar o mapa.</p></div>`; }
+        }
+        function atualizarMarcadores() {
+            if (!markersLayer) return;
+            markersLayer.clearLayers();
+            empresas.forEach(emp => {
+                L.marker([emp.lat, emp.lng]).bindPopup(`<strong>${emp.nome}</strong><br>${emp.endereco}`).addTo(markersLayer);
+            });
+        }
+        function mostrarNoMapa(lat, lng, nome) {
+            if (!map) { initMap(); setTimeout(() => mostrarNoMapa(lat, lng, nome), 500); return; }
+            map.invalidateSize();
+            map.setView([lat, lng], 15);
+            L.popup().setLatLng([lat, lng]).setContent(`<strong>${nome}</strong>`).openOn(map);
+        }
+
+        function pesquisar(termo) {
+            const c = document.getElementById('searchResults');
+            if (!c) return;
+            if (!termo || !termo.trim()) { c.innerHTML = `<div class="placeholder-msg"><i class="fas fa-lightbulb"></i><p>Pergunte algo!</p></div>`; return; }
+            c.innerHTML = `<div class="placeholder-msg"><div class="loading-dots"><span></span><span></span><span></span></div></div>`;
+            setTimeout(() => {
+                const r = processarPergunta(termo);
+                c.innerHTML = `<div class="result-content"><h3 style="color:var(--secondary);margin-bottom:10px;font-size:17px;">${r.titulo}</h3><div style="white-space:pre-line;">${r.conteudo}</div></div>`;
+            }, 300);
+        }
+
+        function renderSalvos() {
+            const c = document.getElementById('salvosContainer');
+            if (!c) return;
+            const l = SalvosManager.get();
+            if (l.length === 0) { c.innerHTML = `<div class="vazio-msg"><i class="fas fa-bookmark"></i><p>Nada salvo ainda.</p></div>`; return; }
+            c.innerHTML = l.map(i => `
+                <div class="salvo-card">
+                    <h4>${i.nome}</h4>
+                    <p>${i.info || ''}</p>
+                    <div class="salvo-tipo"><i class="fas ${i.tipo === 'empresa' ? 'fa-building' : 'fa-search'}"></i>${i.tipo}</div>
+                    <button class="btn-remover" onclick="removerSalvo('${i.id}', '${i.tipo}')"><i class="fas fa-trash"></i> Remover</button>
+                </div>
+            `).join('');
+        }
+        function removerSalvo(id, tipo) {
+            SalvosManager.remove(id, tipo); renderSalvos(); renderEmpresas();
+            mostrarToast('🗑️ Removido');
+        }
+
+        function switchTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+            const t = document.getElementById('tab-' + tabId);
+            if (t) t.classList.add('active');
+            document.querySelectorAll('.nav-btn').forEach(el => el.classList.remove('active'));
+            const b = document.querySelector(`.nav-btn[data-tab="${tabId}"]`);
+            if (b) b.classList.add('active');
+            if (tabId === 'mapa') setTimeout(initMap, 250);
+            if (window.innerWidth <= 768) fecharMenu();
+        }
+        function abrirMenu() {
+            document.getElementById('sidebar')?.classList.add('open');
+            document.getElementById('menuOverlay')?.classList.add('show');
+            const t = document.getElementById('menuToggle'); if (t) t.innerHTML = '<i class="fas fa-times"></i>';
+        }
+        function fecharMenu() {
+            document.getElementById('sidebar')?.classList.remove('open');
+            document.getElementById('menuOverlay')?.classList.remove('show');
+            const t = document.getElementById('menuToggle'); if (t) t.innerHTML = '<i class="fas fa-bars"></i>';
+        }
+        function toggleMenu() {
+            const s = document.getElementById('sidebar');
+            if (s && s.classList.contains('open')) fecharMenu(); else abrirMenu();
+        }
+        function mostrarToast(m) {
+            const t = document.getElementById('toast');
+            if (!t) return;
+            t.textContent = m;
+            t.classList.add('show');
+            clearTimeout(t._timeout);
+            t._timeout = setTimeout(() => t.classList.remove('show'), 2500);
+        }
+
+        function initPredictTabs() {
+            document.querySelectorAll('.predict-tab-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    document.querySelectorAll('.predict-tab-btn').forEach(b => b.classList.remove('active'));
+                    document.querySelectorAll('.predict-panel').forEach(p => p.classList.remove('active'));
+                    btn.classList.add('active');
+                    document.getElementById('pred-' + btn.dataset.pred)?.classList.add('active');
+                });
+            });
+        }
+
+        const FotoIA = {
+            arquivoAtual: null,
+            nomeArquivo: '',
+            init() {
+                const up = document.getElementById('fotoUpload');
+                const inp = document.getElementById('fotoInput');
+                const prev = document.getElementById('fotoPreview');
+                const img = document.getElementById('fotoImg');
+                const btn = document.getElementById('btnAnalisar');
+                if (!up || !inp) return;
+
+                up.addEventListener('click', () => inp.click());
+                up.addEventListener('dragover', e => { e.preventDefault(); up.classList.add('drag-over'); });
+                up.addEventListener('dragleave', () => up.classList.remove('drag-over'));
+                up.addEventListener('drop', e => {
+                    e.preventDefault();
+                    up.classList.remove('drag-over');
+                    if (e.dataTransfer.files[0]) this.processar(e.dataTransfer.files[0]);
+                });
+                inp.addEventListener('change', e => {
+                    if (e.target.files[0]) this.processar(e.target.files[0]);
+                });
+
+                btn.addEventListener('click', () => this.analisar());
+            },
+            processar(file) {
+                if (!file.type.startsWith('image/')) { mostrarToast('⚠️ Envie uma imagem!'); return; }
+                if (file.size > 5 * 1024 * 1024) { mostrarToast('⚠️ Imagem muito grande (máx 5MB)'); return; }
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    this.arquivoAtual = ev.target.result;
+                    this.nomeArquivo = file.name;
+                    document.getElementById('fotoImg').src = this.arquivoAtual;
+                    document.getElementById('fotoPreview').style.display = 'block';
+                    document.getElementById('btnAnalisar').disabled = false;
+                    document.getElementById('fotoResultado').innerHTML = '';
+                };
+                reader.readAsDataURL(file);
+            },
+            analisar() {
+                if (!this.arquivoAtual) return;
+                const res = document.getElementById('fotoResultado');
+                const nomeDigitado = document.getElementById('fotoNomeObjeto')?.value || '';
+
+                res.innerHTML = `
+                    <div class="foto-resultado">
+                        <div class="placeholder-msg" style="text-align:center;padding:20px;">
+                            <div class="loading-dots"><span></span><span></span><span></span></div>
+                            <p style="margin-top:12px;color:var(--text-light);">🤖 Analisando embalagem com IA...</p>
+                        </div>
+                    </div>
+                `;
+
+                setTimeout(() => {
+                    const resultado = classificarEmbalagem(this.nomeArquivo, nomeDigitado);
+
+                    if (!resultado.material) {
+                        res.innerHTML = `
+                            <div class="foto-resultado" style="border-color:#f39c12;">
+                                <div class="material-detectado" style="color:#f39c12;">⚠️ Material Não Identificado</div>
+                                <div class="confianca">A IA não tem certeza suficiente para classificar esta embalagem.</div>
+                                <div class="info-bloco aviso">
+                                    <strong>💡 Como melhorar o resultado:</strong><br>
+                                    1. Digite o nome do objeto no campo acima (ex: "garrafa PET", "lata de atum")<br>
+                                    2. Ou renomeie o arquivo antes de enviar (ex: "garrafa_pet.jpg")<br>
+                                    3. Ou tire uma foto mais nítida
+                                </div>
+                                <div class="info-bloco">
+                                    <strong>🔬 Decisão consciente:</strong> A IA prefere <strong>não chutar</strong> a errar.
+                                </div>
+                            </div>
+                        `;
+                        return;
+                    }
+
+                    const material = resultado.material;
+                    const info = conhecimento[material];
+                    const l = lixeiras[material] || { nome: material, cor: '#95a5a6', emoji: '♻️' };
+                    const conf = resultado.confianca;
+                    const fonte = resultado.fonte === 'nome-digitado' ? '📝 Nome informado por você' :
+                                  resultado.fonte === 'nome-arquivo' ? '📁 Análise do arquivo' :
+                                  '🤖 Análise visual da IA';
+
+                    const instrucoes = {
+                        'plástico': ['🧼 Lave e seque', '🗜️ Amasse se possível', '🔴 Lixeira vermelha/azul'],
+                        'papel': ['📏 Não amasse muito', '📎 Retire grampos/clipes', '🔵 Lixeira azul'],
+                        'vidro': ['🔓 Retire tampas', '⚠️ Não quebre', '🟢 Lixeira verde'],
+                        'metal': ['🥫 Escorra resíduos', '🔨 Amasse latas', '🟡 Lixeira amarela'],
+                        'orgânico': ['🥬 Separe restos', '🚫 Não misture com recicláveis', '🟤 Lixeira marrom'],
+                        'eletrônicos': ['🔌 Não jogue no lixo comum', '📱 Leve a ponto de coleta', '⚠️ Contém metais pesados'],
+                        'óleo': ['🧴 Armazene em PET', '🚫 Nunca na pia', '📍 Leve a ponto de coleta'],
+                        'isopor': ['🧼 Limpe antes', '📍 Verifique pontos específicos', '⚠️ Poucos lugares aceitam'],
+                        'tecido': ['👕 Se estiver bom, doe', '✂️ Retalhos viram panos', '📍 Pontos de doação'],
+                        'lâmpada': ['⚠️ Contém mercúrio', '💡 Não quebre', '📍 Leve a lojas de construção'],
+                        'pilha': ['🔋 Metais pesados', '📍 Supermercados', '⚠️ Nunca no lixo comum'],
+                        'medicamento': ['💊 Não jogue no lixo', '📍 Farmácias', '⚠️ Contamina água']
+                    };
+                    const passos = instrucoes[material] || ['♻️ Separe corretamente', '🧼 Limpe antes', '🗑️ Descarte na lixeira correta'];
+
+                    const avisos = {
+                        'eletrônicos': 'Este material NÃO pode ir no lixo comum. Leve a um ponto de coleta especial.',
+                        'pilha': 'Metais pesados altamente tóxicos. Uma única pilha contamina 20.000 litros de água.',
+                        'medicamento': 'Nunca jogue no lixo ou vaso sanitário. Contamina rios e solos.',
+                        'lâmpada': 'Contém mercúrio. Não quebre — leve a ponto de coleta específico.',
+                        'óleo': 'Nunca jogue na pia! 1 litro contamina 1 milhão de litros de água.'
+                    };
+
+                    res.innerHTML = `
+                        <div class="foto-resultado">
+                            <div class="material-detectado">${l.emoji} ${l.nome}</div>
+                            <div class="confianca">🎯 Confiança: <strong>${conf}%</strong> • ${fonte}</div>
+
+                            <div class="lixeira-info">
+                                <div class="cor-lixeira" style="background:${l.cor};">${l.emoji}</div>
+                                <div class="lixeira-texto">
+                                    <h5>🗑️ Lixeira ${l.nome}</h5>
+                                    <p>${info.onde_descartar}</p>
+                                </div>
+                            </div>
+
+                            <div class="info-bloco">
+                                <strong>📋 Como preparar antes de descartar:</strong>
+                                <div class="foto-passos">
+                                    ${passos.map(p => `<span>${p}</span>`).join('')}
+                                </div>
+                            </div>
+
+                            <div class="info-bloco">
+                                <strong>💡 Sobre o material:</strong><br>${info.conteudo}
+                            </div>
+
+                            <div class="info-bloco">
+                                <strong>🌍 Impacto ambiental:</strong><br>${info.impacto}
+                            </div>
+
+                            <div class="info-bloco">
+                                <strong>⏱️ Tempo de decomposição:</strong> ${info.decomposicao}
+                            </div>
+
+                            ${avisos[material] ? `
+                                <div class="info-bloco aviso">
+                                    <strong>⚠️ Atenção especial:</strong><br>${avisos[material]}
+                                </div>
+                            ` : ''}
+
+                            <div class="predict-ciano" style="margin-top:14px;">
+                                <strong>🔬 Como a IA chegou a esse resultado:</strong><br>
+                                • <strong>Base:</strong> mais de 150 tipos de embalagens catalogadas<br>
+                                • <strong>Fonte:</strong> ${fonte}<br>
+                                • <strong>Confiança:</strong> ${conf}%
+                            </div>
+                        </div>
+                    `;
+                }, 1400);
+            }
+        };
+
+        const Predict = {
+            registros: [],
+            init() {
+                try { this.registros = JSON.parse(localStorage.getItem('ecopredict_dados') || '[]'); } catch (e) { this.registros = []; }
+                this.renderStats();
+                this.renderHistorico();
+                document.getElementById('btnPredRegistrar')?.addEventListener('click', () => this.registrar());
+                document.getElementById('btnPredPrever')?.addEventListener('click', () => this.prever());
+            },
+            registrar() {
+                const local = document.getElementById('predLocal').value;
+                const material = document.getElementById('predMaterial').value;
+                const qtd = parseInt(document.getElementById('predQtd').value) || 0;
+                if (qtd <= 0) { mostrarToast('⚠️ Quantidade inválida!'); return; }
+                this.registros.push({
+                    local, material, qtd,
+                    data: new Date().toISOString(),
+                    dia: new Date().toLocaleDateString('pt-BR')
+                });
+                localStorage.setItem('ecopredict_dados', JSON.stringify(this.registros));
+                mostrarToast('✅ Registro adicionado!');
+                this.renderStats();
+                this.renderHistorico();
+            },
+            prever() {
+                if (this.registros.length < 3) {
+                    document.getElementById('predResultado').innerHTML = `<div class="predict-alerta"><strong>⚠️ Dados insuficientes.</strong> Registre pelo menos 3 dias.</div>`;
+                    return;
+                }
+                const grupos = {};
+                this.registros.forEach(r => {
+                    const k = r.local + '|' + r.material;
+                    if (!grupos[k]) grupos[k] = [];
+                    grupos[k].push(r.qtd);
+                });
+                const previsoes = Object.entries(grupos).map(([k, vals]) => {
+                    const [local, material] = k.split('|');
+                    const media = vals.reduce((a, b) => a + b, 0) / vals.length;
+                    const variancia = vals.reduce((a, b) => a + Math.pow(b - media, 2), 0) / vals.length;
+                    const desvio = Math.sqrt(variancia);
+                    const confianca = Math.max(40, Math.min(95, 100 - desvio * 2));
+                    return { local, material, media: Math.round(media), confianca: Math.round(confianca), amostras: vals.length };
+                });
+                previsoes.sort((a, b) => b.media - a.media);
+                const precisaoGeral = Math.round(previsoes.reduce((a, b) => a + b.confianca, 0) / previsoes.length);
+
+                let html = `<div class="predict-card" style="border-left-color:#4ade80;margin-top:14px;">
+                    <h3>🔮 Previsão da IA para Amanhã</h3>
+                    <div class="predict-grid">
+                        <div class="predict-stat"><div class="valor">${previsoes.length}</div><div class="unidade">grupos</div><div class="rotulo">Previstos</div></div>
+                        <div class="predict-stat"><div class="valor" style="color:#4ade80;">${precisaoGeral}%</div><div class="unidade">confiança</div><div class="rotulo">Precisão</div></div>
+                        <div class="predict-stat"><div class="valor">${previsoes[0]?.media || 0}</div><div class="unidade">itens (maior)</div><div class="rotulo">Pico</div></div>
+                    </div>
+                    <div class="predict-lista">
+                        ${previsoes.slice(0, 6).map(p => {
+                            const l = lixeiras[p.material] || { emoji: '♻️', cor: '#95a5a6' };
+                            return `<div class="predict-item" style="border-color:${l.cor};">
+                                <span class="emoji">${l.emoji}</span>
+                                <h5>${p.local} — ${l.nome}</h5>
+                                <p>📊 Média: <strong style="color:${l.cor};">${p.media}</strong><br>🎯 Confiança: ${p.confianca}%</p>
+                            </div>`;
+                        }).join('')}
+                    </div>
+                </div>`;
+
+                html += `<div class="predict-card" style="border-left-color:#3498db;margin-top:14px;">
+                    <h3>📊 Previsão × Realidade</h3>
+                    <div class="predict-comparacao">
+                        <div class="previsto"><h5>🔮 Previsto</h5><div class="val" id="valorPrevisto">${previsoes[0]?.media || 0}</div></div>
+                        <div class="real"><h5>📏 Real</h5><div class="val" id="valorReal">—</div></div>
+                    </div>
+                    <div class="predict-box" style="margin-top:12px;">
+                        <input type="number" id="realValor" min="0" placeholder="Quantidade real">
+                        <button id="btnComparar"><i class="fas fa-check"></i> Comparar</button>
+                    </div>
+                    <div id="comparacaoResultado"></div>
+                </div>`;
+
+                document.getElementById('predResultado').innerHTML = html;
+                document.getElementById('btnComparar')?.addEventListener('click', () => {
+                    const previsto = parseFloat(document.getElementById('valorPrevisto').textContent);
+                    const real = parseFloat(document.getElementById('realValor').value);
+                    if (isNaN(real)) { mostrarToast('⚠️ Informe o valor real!'); return; }
+                    const erro = Math.abs(previsto - real) / (real || 1) * 100;
+                    const acerto = Math.max(0, 100 - erro);
+                    document.getElementById('valorReal').textContent = real;
+                    document.getElementById('comparacaoResultado').innerHTML = `
+                        <div class="predict-alerta" style="border-color:${acerto > 80 ? '#4ade80' : acerto > 60 ? '#f39c12' : '#f87171'};">
+                            <strong>📊 Resultado:</strong><br>
+                            🔮 Previsto: <strong>${previsto}</strong><br>
+                            📏 Real: <strong>${real}</strong><br>
+                            ✅ Acerto: <strong>${acerto.toFixed(1)}%</strong>
+                        </div>
+                    `;
+                });
+            },
+            renderStats() {
+                document.getElementById('predDias').textContent = new Set(this.registros.map(r => r.dia)).size;
+                document.getElementById('predTotal').textContent = this.registros.reduce((a, b) => a + b.qtd, 0);
+                const grupos = {};
+                this.registros.forEach(r => { const k = r.local + '|' + r.material; grupos[k] = (grupos[k] || 0) + 1; });
+                const confs = Object.values(grupos).map(c => Math.min(95, 40 + c * 8));
+                const media = confs.length ? Math.round(confs.reduce((a, b) => a + b, 0) / confs.length) : 0;
+                document.getElementById('predPrecisao').textContent = media ? media + '%' : '—';
+            },
+            renderHistorico() {
+                const c = document.getElementById('predHistorico');
+                if (!c || this.registros.length === 0) return;
+                const ultimos = this.registros.slice(-10).reverse();
+                c.innerHTML = `<div class="predict-card" style="margin-top:14px;">
+                    <h3>📋 Últimos Registros</h3>
+                    ${ultimos.map(r => {
+                        const l = lixeiras[r.material] || { emoji: '♻️', cor: '#95a5a6' };
+                        return `<div style="padding:8px 12px;margin:4px 0;background:var(--primary-dark);border-radius:8px;border-left:3px solid ${l.cor};font-size:13px;color:var(--text-light);">
+                            <strong>${r.dia}</strong> • ${l.emoji} ${r.local} — <strong style="color:${l.cor};">${r.qtd}</strong>
+                        </div>`;
+                    }).join('')}
+                </div>`;
+            }
+        };
+
+        function initDNA() {
+            document.getElementById('btnDNA')?.addEventListener('click', () => {
+                const regs = Predict.registros;
+                if (regs.length === 0) { document.getElementById('dnaResultado').innerHTML = `<div class="predict-alerta">⚠️ Registre dados primeiro.</div>`; return; }
+                const porMaterial = {};
+                const porLocal = {};
+                regs.forEach(r => {
+                    porMaterial[r.material] = (porMaterial[r.material] || 0) + r.qtd;
+                    porLocal[r.local] = (porLocal[r.local] || 0) + r.qtd;
+                });
+                const matOrd = Object.entries(porMaterial).sort((a, b) => b[1] - a[1]);
+                const locOrd = Object.entries(porLocal).sort((a, b) => b[1] - a[1]);
+                const maxM = Math.max(...matOrd.map(x => x[1]), 1);
+                const maxL = Math.max(...locOrd.map(x => x[1]), 1);
+                document.getElementById('dnaResultado').innerHTML = `
+                    <div class="predict-card" style="border-left-color:#a78bfa;margin-top:14px;">
+                        <h3>🧬 Mapa Comportamental</h3>
+                        <div class="predict-grafico">
+                            ${matOrd.map(([m, q]) => {
+                                const l = lixeiras[m] || { emoji: '♻️', cor: '#95a5a6', nome: m };
+                                return `<div class="predict-coluna"><div class="predict-bar" style="height:${Math.max((q / maxM) * 100, 4)}%;background:linear-gradient(180deg, ${l.cor}, ${l.cor}aa);"><span class="bar-valor">${q}</span></div><span class="bar-rotulo">${l.emoji} ${l.nome}</span></div>`;
+                            }).join('')}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        const LixeiraPensa = {
+            acertos: 0, erros: 0,
+            init() {
+                try {
+                    const d = JSON.parse(localStorage.getItem('ecopredict_lixeira') || '{}');
+                    this.acertos = d.acertos || 0; this.erros = d.erros || 0;
+                } catch (e) {}
+                document.getElementById('btnLixeiraPensa')?.addEventListener('click', () => this.simular());
+            },
+            simular() {
+                const t = document.getElementById('lixeiraObjeto').value.trim();
+                if (!t) { mostrarToast('⚠️ Digite um objeto!'); return; }
+                const res = document.getElementById('lixeiraResultado');
+                res.innerHTML = `<div class="predict-alerta">🔄 Analisando...</div>`;
+                setTimeout(() => {
+                    const resultado = classificarEmbalagem('', t);
+                    const mat = resultado.material || 'plástico';
+                    const l = lixeiras[mat] || { emoji: '♻️', cor: '#95a5a6', nome: mat };
+                    const conf = resultado.confianca || 80;
+                    const acertou = conf > 75;
+                    if (acertou) this.acertos++; else this.erros++;
+                    localStorage.setItem('ecopredict_lixeira', JSON.stringify({ acertos: this.acertos, erros: this.erros }));
+                    const total = this.acertos + this.erros;
+                    const precisao = total ? ((this.acertos / total) * 100).toFixed(1) : 0;
+                    res.innerHTML = `
+                        <div class="predict-card" style="border-left-color:${l.cor};margin-top:14px;">
+                            <h3>${l.emoji} ${l.nome}</h3>
+                            <div class="predict-grid" style="margin-top:14px;">
+                                <div class="predict-stat"><div class="valor">${conf}%</div><div class="unidade">confiança</div><div class="rotulo">Classificação</div></div>
+                                <div class="predict-stat" style="border-color:#4ade80;"><div class="valor" style="color:#4ade80;">${this.acertos}</div><div class="unidade">acertos</div><div class="rotulo">Sessão</div></div>
+                                <div class="predict-stat" style="border-color:#f87171;"><div class="valor" style="color:#f87171;">${this.erros}</div><div class="unidade">erros</div><div class="rotulo">Sessão</div></div>
+                                <div class="predict-stat" style="border-color:#fbbf24;"><div class="valor" style="color:#fbbf24;">${precisao}%</div><div class="unidade">precisão</div><div class="rotulo">Total</div></div>
+                            </div>
+                        </div>
+                    `;
+                }, 1000);
+            }
+        };
+
+        function initIncerteza() {
+            document.getElementById('btnIncerteza')?.addEventListener('click', () => {
+                const t = document.getElementById('incertezaObjeto').value.trim();
+                if (!t) { mostrarToast('⚠️ Digite um objeto!'); return; }
+                const resultado = classificarEmbalagem('', t);
+                const res = document.getElementById('incertezaResultado');
+                if (!resultado.material || resultado.confianca < 65) {
+                    res.innerHTML = `
+                        <div class="predict-card" style="border-left-color:#f39c12;margin-top:14px;">
+                            <h3>⚠️ Material Não Identificado</h3>
+                            <div class="predict-alerta">
+                                <strong>📚 Ação recomendada:</strong> Um humano deve classificar manualmente e adicionar ao banco de treinamento.
+                            </div>
+                        </div>
+                    `;
+                } else {
+                    const l = lixeiras[resultado.material];
+                    res.innerHTML = `
+                        <div class="predict-card" style="border-left-color:${l.cor};margin-top:14px;">
+                            <h3>${l.emoji} ${l.nome}</h3>
+                            <div class="predict-stat" style="border-color:${l.cor};">
+                                <div class="valor" style="color:${l.cor};">${resultado.confianca}%</div>
+                                <div class="unidade">confiança</div>
+                                <div class="rotulo">Classificação segura</div>
+                            </div>
+                        </div>
+                    `;
+                }
+            });
+        }
+
+        function initCidade() {
+            const slider = document.getElementById('cidadeSlider');
+            const taxa = document.getElementById('cidadeTaxa');
+            const visual = document.getElementById('cidadeVisual');
+            const ind = document.getElementById('cidadeIndicadores');
+            if (!slider) return;
+            function atualizar() {
+                const v = parseInt(slider.value);
+                taxa.textContent = v + '%';
+                let emoji;
+                if (v < 20) emoji = '🏭🏭🏭🌫️🌫️🌫️';
+                else if (v < 40) emoji = '🏙️🏭🌫️🌫️';
+                else if (v < 60) emoji = '🏙️🌳🏭';
+                else if (v < 80) emoji = '🏙️🌳🌳🌳';
+                else emoji = '🌳🌳🌳🌳☀️';
+                visual.textContent = emoji;
+                const poluicao = Math.max(0, 100 - v);
+                const qualidade = v;
+                const saude = Math.min(100, 50 + v * 0.5);
+                ind.innerHTML = `
+                    <div class="predict-grid" style="margin-top:14px;">
+                        <div class="predict-stat" style="border-color:#f87171;"><div class="valor" style="color:#f87171;">${poluicao}%</div><div class="unidade">poluição</div><div class="rotulo">Índice</div></div>
+                        <div class="predict-stat" style="border-color:#4ade80;"><div class="valor" style="color:#4ade80;">${qualidade}%</div><div class="unidade">sustentabilidade</div><div class="rotulo">Índice</div></div>
+                        <div class="predict-stat" style="border-color:#60a5fa;"><div class="valor" style="color:#60a5fa;">${saude.toFixed(0)}%</div><div class="unidade">saúde pública</div><div class="rotulo">Estimada</div></div>
+                    </div>
+                `;
+            }
+            slider.addEventListener('input', atualizar);
+            atualizar();
+        }
+
+        function initVisao() {
+            document.getElementById('btnVisao')?.addEventListener('click', () => {
+                const res = document.getElementById('visaoResultado');
+                res.innerHTML = `<div class="predict-alerta">🔄 Analisando...</div>`;
+                setTimeout(() => {
+                    const erros = [
+                        { local: 'Cantina', objeto: '🍌 Casca de banana', localErrado: 'Lixeira Azul' },
+                        { local: 'Pátio', objeto: '🥤 Copo plástico', localErrado: 'Lixeira Marrom' },
+                        { local: 'Entrada', objeto: '📦 Caixa de papelão', localErrado: 'Lixeira Vermelha' }
+                    ];
+                    res.innerHTML = `
+                        <div class="predict-card" style="border-left-color:#3498db;margin-top:14px;">
+                            <h3>👁️ Análise Concluída</h3>
+                            <p>Foram identificados <strong>${erros.length}</strong> descartes incorretos.</p>
+                            ${erros.map(e => `<div class="predict-alerta" style="margin-top:8px;"><strong>🟡 ${e.local}:</strong> ${e.objeto} na ${e.localErrado}.</div>`).join('')}
+                        </div>
+                    `;
+                }, 1200);
+            });
+        }
+
+        const Lab = {
+            experimentos: [],
+            init() {
+                try { this.experimentos = JSON.parse(localStorage.getItem('ecopredict_lab') || '[]'); } catch (e) {}
+                document.getElementById('btnLabRegistrar')?.addEventListener('click', () => this.registrar());
+                document.getElementById('btnLabAnalisar')?.addEventListener('click', () => this.analisar());
+            },
+            registrar() {
+                const mat = document.getElementById('labMaterial').value;
+                const cond = document.getElementById('labCondicao').value;
+                const dias = parseInt(document.getElementById('labDias').value) || 0;
+                this.experimentos.push({ mat, cond, dias });
+                localStorage.setItem('ecopredict_lab', JSON.stringify(this.experimentos));
+                mostrarToast('✅ Registrado!');
+                document.getElementById('labResultado').innerHTML = `<div class="predict-alerta">📚 Total: <strong>${this.experimentos.length}</strong>.</div>`;
+            },
+            analisar() {
+                if (this.experimentos.length < 2) { document.getElementById('labResultado').innerHTML = `<div class="predict-alerta">⚠️ Registre pelo menos 2 experimentos.</div>`; return; }
+                const porMat = {};
+                this.experimentos.forEach(e => {
+                    if (!porMat[e.mat]) porMat[e.mat] = [];
+                    porMat[e.mat].push(e.dias);
+                });
+                let html = `<div class="predict-card" style="border-left-color:#a78bfa;margin-top:14px;"><h3>🤖 Padrões</h3><div class="predict-lista">`;
+                Object.entries(porMat).forEach(([mat, dias]) => {
+                    const media = dias.reduce((a, b) => a + b, 0) / dias.length;
+                    const l = lixeiras[mat] || { emoji: '♻️', cor: '#95a5a6' };
+                    html += `<div class="predict-item" style="border-color:${l.cor};"><span class="emoji">${l.emoji}</span><h5>${l.nome}</h5><p>📊 Média: <strong>${media.toFixed(0)} dias</strong></p></div>`;
+                });
+                html += `</div></div>`;
+                document.getElementById('labResultado').innerHTML = html;
+            }
+        };
+
+        function initShazam() {
+            document.getElementById('btnShazam')?.addEventListener('click', () => {
+                const t = document.getElementById('shazamObjeto').value.trim();
+                if (!t) { mostrarToast('⚠️ Digite um objeto!'); return; }
+                const resultado = classificarEmbalagem('', t);
+                const res = document.getElementById('shazamResultado');
+                if (!resultado.material) {
+                    res.innerHTML = `<div class="predict-alerta" style="margin-top:14px;"><strong>⚠️ Não identifiquei "${t}".</strong></div>`;
+                    return;
+                }
+                const info = conhecimento[resultado.material];
+                const l = lixeiras[resultado.material];
+                res.innerHTML = `
+                    <div class="predict-card" style="border-left-color:${l.cor};margin-top:14px;">
+                        <h3>${l.emoji} ${l.nome}</h3>
+                        <div class="predict-alerta">
+                            <strong>📍 Onde:</strong> ${info.onde_descartar}<br><br>
+                            <strong>💡 Como:</strong> ${info.conteudo}<br><br>
+                            <strong>🌍 Impacto:</strong> ${info.impacto}
+                        </div>
+                        <div class="predict-ciano">
+                            <strong>🔬 Por que a IA acha isso?</strong><br>
+                            • <strong>Confiança:</strong> ${resultado.confianca}%<br>
+                            • <strong>Base:</strong> 150+ embalagens catalogadas
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        const caminhos = {
+            'plástico': { etapas: ['🛍️ Produto', '🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '🧪 Matéria-prima', '🆕 Novo Produto'], falhas: ['Descarte incorreto', 'Contaminação orgânica', 'Falta de pontos'] },
+            'papel': { etapas: ['📰 Produto', '🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '📄 Polpa', '📰 Novo Papel'], falhas: ['Papel molhado', 'Mistura com outros', 'Falta de separação'] },
+            'vidro': { etapas: ['🍾 Produto', '🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '🔥 Forno', '🍾 Novo Vidro'], falhas: ['Vidro quebrado', 'Contaminação', 'Falta de coleta'] },
+            'metal': { etapas: ['🥫 Produto', '🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '🔩 Lingote', '🥫 Novo Produto'], falhas: ['Latas com resíduos', 'Mistura de metais', 'Descarte comum'] }
+        };
+        function initEcossistema() {
+            document.getElementById('btnEcossistema')?.addEventListener('click', () => {
+                const m = document.getElementById('ecoMaterial').value;
+                const c = caminhos[m];
+                if (!c) return;
+                document.getElementById('ecossistemaResultado').innerHTML = `
+                    <div class="predict-card" style="border-left-color:#2ecc71;margin-top:14px;">
+                        <h3>🔄 Ciclo do ${m}</h3>
+                        <div class="predict-etapas">
+                            ${c.etapas.map((e, i) => `<div class="predict-etapa"><span class="ico">${e.split(' ')[0]}</span><span>${e.split(' ').slice(1).join(' ')}</span></div>${i < c.etapas.length - 1 ? '<span class="predict-seta">→</span>' : ''}`).join('')}
+                        </div>
+                        <h4 style="color:#f39c12;margin:20px 0 8px;">⚠️ Pontos de Falha</h4>
+                        ${c.falhas.map(f => `<div class="predict-alerta" style="margin-top:8px;"><strong>🔴</strong> ${f}</div>`).join('')}
+                    </div>
+                `;
+            });
+        }
+
+        const destinos = {
+            'plástico': ['🗑️ Descarte', '🚛 Coleta', '🏭 Aterro', '⏳ 450 anos', '☠️ Microplásticos'],
+            'papel': ['🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '♻️ Reciclagem', '📄 Novo papel'],
+            'vidro': ['🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '🔥 Forno', '🍾 Novo vidro'],
+            'metal': ['🗑️ Descarte', '🚛 Coleta', '🏭 Triagem', '🔩 Fundição', '🥫 Nova lata'],
+            'orgânico': ['🗑️ Descarte', '🚛 Coleta', '🏭 Compostagem', '🌱 Adubo', '🌿 Horta'],
+            'eletrônicos': ['🗑️ Descarte incorreto', '🚛 Lixo comum', '🏭 Aterro', '☠️ Metais pesados', '💧 Contaminação'],
+            'pilha': ['🗑️ Descarte incorreto', '🚛 Lixo comum', '🏭 Aterro', '☠️ Metais pesados', '💧 20 mil litros']
+        };
+        function initCemiterio() {
+            document.getElementById('btnCemiterio')?.addEventListener('click', () => {
+                const m = document.getElementById('cemiterioMaterial').value;
+                const d = destinos[m];
+                if (!d) return;
+                const info = conhecimento[m] || {};
+                document.getElementById('cemiterioResultado').innerHTML = `
+                    <div class="predict-card" style="border-left-color:#7f8c8d;margin-top:14px;">
+                        <h3>💀 Linha do Tempo</h3>
+                        <div class="predict-etapas" style="flex-direction:column;gap:12px;">
+                            ${d.map((etapa, i) => `
+                                <div style="display:flex;align-items:center;gap:12px;width:100%;padding:12px;background:rgba(0,0,0,0.2);border-radius:8px;border-left:3px solid ${i === d.length - 1 ? '#e74c3c' : 'var(--secondary)'};">
+                                    <span style="font-size:24px;">${etapa.split(' ')[0]}</span>
+                                    <span style="color:var(--text-light);font-size:13.5px;">${etapa.split(' ').slice(1).join(' ')}</span>
+                                </div>
+                            `).join('')}
+                        </div>
+                        <div class="predict-alerta" style="margin-top:14px;">
+                            <strong>⏱️ Decomposição:</strong> ${info.decomposicao || 'indeterminado'}
+                        </div>
+                    </div>
+                `;
+            });
+        }
+
+        const Assistente = {
+            historico: [], gravando: false, reconhecimento: null,
+            init() {
+                this.verificarTutorial();
+                const input = document.getElementById('chatInput');
+                const btnEnviar = document.getElementById('btnEnviarChat');
+                const btnVoz = document.getElementById('btnVoz');
+                if (btnEnviar) btnEnviar.addEventListener('click', () => { if (input) this.enviar(input.value); });
+                if (input) input.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); this.enviar(input.value); } });
+                if (btnVoz) btnVoz.addEventListener('click', () => this.iniciarVoz());
+                document.querySelectorAll('input[name="mascote"]').forEach(r => {
+                    r.addEventListener('change', () => { const b = document.getElementById('chatBody'); if (b) b.innerHTML = ''; this.mostrarBoasVindas(); });
+                });
+                const cc = document.getElementById('chat-aberto');
+                if (cc) cc.addEventListener('change', () => {
+                    if (cc.checked) setTimeout(() => { const b = document.getElementById('chatBody'); if (b && b.children.length === 0) this.mostrarBoasVindas(); }, 300);
+                });
+                this.renderSugestoes();
+            },
+            getNomeMascote() {
+                if (document.getElementById('mascote-medusa')?.checked) return 'Medusa';
+                if (document.getElementById('mascote-abigail')?.checked) return 'Abigail';
+                return 'Susie';
+            },
+            getSaudacao() {
+                const n = this.getNomeMascote();
+                const h = new Date().getHours();
+                let s = h < 12 ? 'Bom dia' : h < 18 ? 'Boa tarde' : 'Boa noite';
+                const sauds = {
+                    'Susie': `${s}! Sou a Susie 🐢 Vou te explicar tudo com cuidado!`,
+                    'Medusa': `${s}. Sou a Medusa 🐍 Direto ao ponto!`,
+                    'Abigail': `${s}. Sou a Abigail 🦉 Vamos entender o porquê das coisas!`
+                };
+                return sauds[n];
+            },
+            mostrarBoasVindas() { this.adicionarMensagem('bot', this.getSaudacao()); },
+            adicionarMensagem(tipo, texto) {
+                const b = document.getElementById('chatBody');
+                if (!b) return;
+                const m = document.createElement('div');
+                m.className = `chat-msg ${tipo}`;
+                m.innerHTML = texto;
+                b.appendChild(m);
+                b.scrollTop = b.scrollHeight;
+            },
+            mostrarDigitando() {
+                const b = document.getElementById('chatBody');
+                if (!b) return;
+                const m = document.createElement('div');
+                m.className = 'chat-msg bot digitando'; m.id = 'msgDigitando';
+                m.innerHTML = '<span></span><span></span><span></span>';
+                b.appendChild(m); b.scrollTop = b.scrollHeight;
+            },
+            removerDigitando() { document.getElementById('msgDigitando')?.remove(); },
+            enviar(texto) {
+                if (!texto || !texto.trim()) return;
+                this.adicionarMensagem('user', texto);
+                const i = document.getElementById('chatInput'); if (i) i.value = '';
+                this.mostrarDigitando();
+                setTimeout(() => {
+                    this.removerDigitando();
+                    const r = processarPergunta(texto);
+                    let resp = `<strong>${r.titulo}</strong><br><br>` + r.conteudo.replace(/\n/g, '<br>');
+                    this.adicionarMensagem('bot', resp);
+                }, 500 + Math.random() * 400);
+            },
+            renderSugestoes() {
+                const c = document.getElementById('chatSugestoes');
+                if (!c) return;
+                const s = [
+                    { l: "♻️ Plástico", t: "como reciclar plástico" },
+                    { l: "📄 Papel", t: "como reciclar papel" },
+                    { l: "🟢 Vidro", t: "como reciclar vidro" },
+                    { l: "🟡 Metal", t: "como reciclar metal" },
+                    { l: "📱 Eletrônicos", t: "onde descartar eletrônicos" },
+                    { l: "💡 Dica", t: "me dá uma dica" }
+                ].sort(() => Math.random() - 0.5).slice(0, 6);
+                c.innerHTML = s.map(x => `<button data-termo="${x.t}">${x.l}</button>`).join('');
+                c.querySelectorAll('button').forEach(b => b.addEventListener('click', () => this.enviar(b.dataset.termo)));
+            },
+            iniciarVoz() {
+                const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+                if (!SR) { this.adicionarMensagem('bot', '🎤 Sem suporte a voz.'); return; }
+                const b = document.getElementById('btnVoz');
+                if (this.gravando) { this.reconhecimento?.stop(); return; }
+                try {
+                    this.reconhecimento = new SR();
+                    this.reconhecimento.lang = 'pt-BR';
+                    this.reconhecimento.onstart = () => { this.gravando = true; b?.classList.add('gravando'); };
+                    this.reconhecimento.onresult = e => this.enviar(e.results[0][0].transcript);
+                    this.reconhecimento.onend = () => { this.gravando = false; b?.classList.remove('gravando'); };
+                    this.reconhecimento.start();
+                } catch (e) { this.gravando = false; }
+            },
+            verificarTutorial() {
+                const v = localStorage.getItem('ecolages_tutorial_visto');
+                if (!v) setTimeout(() => document.getElementById('tutorialOverlay')?.classList.add('show'), 1200);
+                const fechar = () => { localStorage.setItem('ecolages_tutorial_visto', '1'); document.getElementById('tutorialOverlay')?.classList.remove('show'); };
+                document.getElementById('btnComecar')?.addEventListener('click', () => { fechar(); setTimeout(() => { const c = document.getElementById('chat-aberto'); if (c) c.checked = true; }, 200); });
+                document.getElementById('btnPularTutorial')?.addEventListener('click', fechar);
+                document.querySelectorAll('.tutorial-mascotes .mascote-preview').forEach(l => l.addEventListener('click', fechar));
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function() {
+            renderEmpresas();
+            renderSalvos();
+            Assistente.init();
+            initPredictTabs();
+            Predict.init();
+            FotoIA.init();
+            initDNA();
+            LixeiraPensa.init();
+            initIncerteza();
+            initCidade();
+            initVisao();
+            Lab.init();
+            initShazam();
+            initEcossistema();
+            initCemiterio();
+
+            document.getElementById('menuToggle')?.addEventListener('click', toggleMenu);
+            document.getElementById('menuOverlay')?.addEventListener('click', fecharMenu);
+            document.querySelectorAll('.nav-btn').forEach(b => b.addEventListener('click', function() { switchTab(this.dataset.tab); }));
+
+            const sb = document.getElementById('searchBtn');
+            if (sb) sb.addEventListener('click', () => pesquisar(document.getElementById('searchInput').value));
+            const si = document.getElementById('searchInput');
+            if (si) si.addEventListener('keypress', e => { if (e.key === 'Enter') { e.preventDefault(); sb.click(); } });
+
+            document.querySelectorAll('.topic-tag').forEach(t => {
+                t.addEventListener('click', function() {
+                    document.getElementById('searchInput').value = this.dataset.term;
+                    pesquisar(this.dataset.term);
+                    switchTab('pesquisa');
+                });
+            });
+
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) fecharMenu();
+                if (map) map.invalidateSize();
+            });
+
+            function statusConexao() {
+                const b = document.querySelector('.offline-badge');
+                if (!b) return;
+                b.innerHTML = navigator.onLine
+                    ? '<i class="fas fa-circle" style="color:#FFFFFF;"></i><span>Online</span>'
+                    : '<i class="fas fa-circle" style="color:#E0E0E0;"></i><span>Offline</span>';
+            }
+            window.addEventListener('online', statusConexao);
+            window.addEventListener('offline', statusConexao);
+            statusConexao();
+        });
+
+        window.removerSalvo = removerSalvo;
+        window.switchTab = switchTab;
+    </script>
+</body>
+</html>

@@ -1,0 +1,5 @@
+const CACHE_NAME='econexa-v2';
+const CORE=['./','./index.html','./ia.html','./tamar.html','./descarte.html','./contato.html','./compostagem.html','./style.css','./tartarugas.css','./compostagem.css','./formulario.css','./decarte.css','./manifest.json','./icons/icon-192.png','./icons/icon-512.png','./img/susie.jpeg','./img/medusa.jpeg','./img/abigail.jpeg'];
+self.addEventListener('install',e=>e.waitUntil(caches.open(CACHE_NAME).then(c=>c.addAll(CORE)).then(()=>self.skipWaiting()).catch(()=>self.skipWaiting())));
+self.addEventListener('activate',e=>e.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k!==CACHE_NAME).map(k=>caches.delete(k)))).then(()=>self.clients.claim())));
+self.addEventListener('fetch',e=>{if(e.request.method!=='GET'||new URL(e.request.url).origin!==location.origin)return;e.respondWith(caches.match(e.request).then(cached=>cached||fetch(e.request).then(r=>{if(r.ok)caches.open(CACHE_NAME).then(c=>c.put(e.request,r.clone()));return r;}).catch(()=>cached)));});

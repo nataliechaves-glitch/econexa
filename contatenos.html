@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Entre em contato com o Econexa. Envie dúvidas, sugestões de melhoria, pedidos de vaga ou relate erros na plataforma.">
+    <meta name="author" content="Larissa Silva, Brenda Peixer">
+    <meta name="theme-color" content="#2d3a1f">
+
+    <title>Contato | Econexa</title>
+
+    <link rel="icon" type="image/png" href="img/Titulo.png">
+    <link rel="stylesheet" href="formulario.css">
+</head>
+
+<body>
+
+    <!-- ========================================
+         MENU LATERAL
+    ========================================= -->
+
+    <!-- Gatilho (checkbox invisível) -->
+    <input
+        type="checkbox"
+        id="sidebar-active"
+        class="sidebar-checkbox"
+        aria-hidden="true"
+    >
+
+    <!-- Botão para abrir o menu -->
+    <label
+        for="sidebar-active"
+        class="open-sidebar-button"
+        aria-label="Abrir menu de navegação"
+    >
+        <span class="burger-line" aria-hidden="true"></span>
+    </label>
+
+    <!-- Máscara de fundo -->
+    <label
+        for="sidebar-active"
+        id="sidebar-overlay"
+        aria-hidden="true"
+    ></label>
+
+    <!-- Menu Lateral -->
+    <nav class="sidebar" aria-label="Menu principal">
+        <div class="sidebar-header">
+            <span class="logo">Econexa</span>
+            <label
+                for="sidebar-active"
+                class="close-sidebar-button"
+                aria-label="Fechar menu"
+            >✕</label>
+        </div>
+
+        <ul class="sidebar-links">
+            <li><a href="index.html">Início</a></li>
+            <li><a href="compostagem.html">Compostagem</a></li>
+            <li><a href="descarte.html">Descarte Correto</a></li>
+            <li><a href="ia.html">IA</a></li>
+            <li><a href="tamar.html">Projeto Tamar</a></li>
+            <li><a href="contato.html" aria-current="page">Contato</a></li>
+        </ul>
+    </nav>
+
+
+    <main class="main-content">
+
+        <!-- ========================================
+             SEÇÃO — CONTATO (FORMULÁRIO)
+        ========================================= -->
+
+        <section
+            class="secao"
+            id="investigar"
+            aria-labelledby="titulo-contato"
+        >
+
+            <header class="secao-header">
+
+                <h1 id="titulo-contato" class="secao-titulo">
+                    Contate-nos
+                </h1>
+
+                <p class="secao-sub">
+                    Tem dúvidas ou sugestões? Entre em contato conosco!
+                </p>
+
+            </header>
+
+
+            <div class="investigacao-form">
+
+                <form
+                    class="form-grid"
+                    action="#"
+                    method="post"
+                    novalidate
+                >
+
+                    <!-- Nome -->
+                    <div class="input-group">
+                        <label for="invNome" class="sr-only">Seu nome</label>
+                        <input
+                            type="text"
+                            id="invNome"
+                            name="nome"
+                            placeholder="Seu nome"
+                            autocomplete="name"
+                            required
+                        >
+                    </div>
+
+
+                    <!-- E-mail -->
+                    <div class="input-group">
+                        <label for="invOrigem" class="sr-only">E-mail</label>
+                        <input
+                            type="email"
+                            id="invOrigem"
+                            name="email"
+                            placeholder="E-mail"
+                            autocomplete="email"
+                        >
+                    </div>
+
+
+                    <!-- Motivo do contato -->
+                    <div class="input-group">
+                        <label for="invStatus" class="sr-only">Motivo do contato</label>
+                        <select id="invStatus" name="status">
+                            <option value="" disabled selected hidden>
+                                Selecione o motivo
+                            </option>
+                            <option value="erro">Erro na plataforma</option>
+                            <option value="sugestao">Sugestão de melhoria</option>
+                            <option value="vaga">Pedido de vaga</option>
+                            <option value="outro">Outro</option>
+                        </select>
+                    </div>
+
+
+                    <!-- Setor comentado -->
+                    <div class="input-group">
+                        <label for="invTags" class="sr-only">Setor comentado</label>
+                        <input
+                            type="text"
+                            id="invTags"
+                            name="setor"
+                            placeholder="Setor comentado"
+                        >
+                    </div>
+
+
+                    <!-- Mensagem -->
+                    <div class="input-group full-width">
+                        <label for="invDescricao" class="sr-only">Mensagem</label>
+                        <textarea
+                            id="invDescricao"
+                            name="mensagem"
+                            placeholder="Mensagem"
+                            rows="3"
+                        ></textarea>
+                    </div>
+
+
+                    <!-- Detalhes -->
+                    <div class="input-group full-width">
+                        <label for="invConteudo" class="sr-only">Detalhes</label>
+                        <textarea
+                            id="invConteudo"
+                            name="detalhes"
+                            placeholder="Detalhes"
+                            rows="6"
+                        ></textarea>
+                    </div>
+
+
+                    <!-- Botão -->
+                    <div class="form-acoes full-width">
+                        <button
+                            type="submit"
+                            class="btn-enviar"
+                        >
+                            Enviar mensagem
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ========================================
+         RODAPÉ
+    ========================================= -->
+
+    <footer class="rodape">
+
+        <div class="rodape-conteudo">
+
+            <!-- Coluna 1: Marca -->
+            <div class="rodape-coluna rodape-marca">
+                <h2 class="rodape-logo">Econexa</h2>
+                <p class="rodape-slogan">
+                    Pequenas atitudes fazem grandes mudanças.
+                    Recicle hoje e cuide do futuro do planeta.
+                </p>
+            </div>
+
+
+            <!-- Coluna 2: Navegação -->
+            <nav class="rodape-coluna" aria-label="Links do rodapé">
+                <h3 class="rodape-titulo">Navegação</h3>
+                <ul class="rodape-links">
+                    <li><a href="index.html">Início</a></li>
+                    <li><a href="compostagem.html">Compostagem</a></li>
+                    <li><a href="descarte.html">Descarte Correto</a></li>
+                    <li><a href="ia.html">IA</a></li>
+                    <li><a href="tamar.html">Projeto Tamar</a></li>
+                    <li><a href="contato.html">Contato</a></li>
+                </ul>
+            </nav>
+
+
+            <!-- Coluna 3: Projeto -->
+            <div class="rodape-coluna">
+                <h3 class="rodape-titulo">O Projeto</h3>
+                <p class="rodape-texto">
+                    Plataforma criada para incentivar a sustentabilidade
+                    e conectar pessoas, empresas e instituições em ações
+                    ambientais.
+                </p>
+            </div>
+
+
+            <!-- Coluna 4: Instituição -->
+            <div class="rodape-coluna">
+                <h3 class="rodape-titulo">Instituição</h3>
+                <p class="rodape-texto">
+                    E.E.B. Godolfin Nunes de Souza<br>
+                    2ª série 02
+                </p>
+            </div>
+
+        </div>
+
+
+        <!-- Linha divisória -->
+        <div class="rodape-divisor" aria-hidden="true"></div>
+
+
+        <!-- Parte inferior -->
+        <div class="rodape-base">
+            <p class="rodape-copyright">
+                &copy; <time datetime="2026">2026</time> Econexa — Todos os direitos reservados.
+            </p>
+
+            <p class="rodape-creditos">
+                Desenvolvido por <strong>Larissa Silva</strong> e <strong>Brenda Peixer</strong>
+            </p>
+        </div>
+
+    </footer>
+
+</body>
+
+</html>
